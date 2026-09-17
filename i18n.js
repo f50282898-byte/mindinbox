@@ -221,3 +221,4 @@ class I18nEngine {
 
 // إنشاء الكائن العام
 window.MindI18n = new I18nEngine();
+

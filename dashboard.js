@@ -345,3 +345,4 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 window.MindDashboard = MindDashboard;
+

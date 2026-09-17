@@ -178,3 +178,4 @@ window.MindAuth = {
     signOut: signOutUser,
     provisionUserRecord
 };
+
