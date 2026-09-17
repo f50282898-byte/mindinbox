@@ -2251,3 +2251,125 @@ body.rtl-layout {
     direction: rtl;
     text-align: right;
 }
+
+/* ==========================================================================
+   19. EMERGENCY UI/UX OVERHAUL: TYPOGRAPHY, NAVBAR ALIGNMENT & GLASSMORPHISM
+   ========================================================================== */
+
+/* Typography Upgrade: Almarai / Cairo */
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Cairo:wght@300;400;600;700;800&display=swap');
+
+body, h1, h2, h3, h4, h5, h6, p, a, span, div, button, input, textarea {
+    font-family: 'Cairo', 'Almarai', sans-serif !important;
+}
+
+/* Navbar Alignment Fix */
+.dashboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 25px;
+    background: rgba(6, 6, 10, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+    z-index: 9999;
+}
+
+.user-widget {
+    display: flex !important;
+    align-items: center !important;
+    gap: 15px !important;
+    flex-direction: row !important;
+}
+
+.user-widget .btn-logout {
+    margin: 0 !important;
+    white-space: nowrap;
+}
+
+/* Premium SaaS Glassmorphism Buttons & Cards */
+button, .btn, .card-action-btn, .btn-primary, .btn-secondary, .btn-logout {
+    backdrop-filter: blur(10px);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+    border: 1px solid rgba(255, 215, 0, 0.2) !important;
+    transition: all 0.3s ease !important;
+}
+
+button:hover, .btn:hover, .card-action-btn:hover {
+    background: linear-gradient(135deg, rgba(197, 160, 89, 0.15) 0%, rgba(197, 160, 89, 0.05) 100%);
+    border-color: rgba(255, 215, 0, 0.4) !important;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.1) !important;
+    transform: translateY(-2px);
+}
+
+/* Enhancing dark cards to look like dark glass boxes with subtle glow */
+.portal-card, .metric-card, .glass-card, .ai-panel, .settings-panel, .dashboard-card {
+    background: linear-gradient(145deg, rgba(14, 15, 24, 0.6) 0%, rgba(8, 8, 14, 0.8) 100%) !important;
+    backdrop-filter: blur(24px) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    border: 1px solid rgba(255, 215, 0, 0.15) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+    transition: all 0.4s ease !important;
+}
+
+.portal-card:hover, .metric-card:hover, .glass-card:hover, .dashboard-card:hover {
+    border: 1px solid rgba(255, 215, 0, 0.35) !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.12) !important;
+    transform: translateY(-4px) !important;
+}
+
+/* Settings UI Layout Fixes */
+.settings-container, .settings-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.settings-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 215, 0, 0.1);
+}
+
+@media (max-width: 600px) {
+    .settings-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+
+/* Add Account Panel / Identity Row Responsive Flex Fixes */
+.account-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+.identity-row, .setting-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 215, 0, 0.1);
+    margin-bottom: 12px;
+}
+@media (max-width: 600px) {
+    .identity-row, .setting-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
