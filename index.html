@@ -1017,17 +1017,67 @@
             }
 
             /**
-             * Translates Firebase Auth error codes into professional Arabic
+             * Translates Auth error codes into diagnostic Arabic with exact solutions
              */
             function translateError(error) {
+                const currentDomain = window.location.hostname;
                 switch(error.code) {
-                    case 'auth/user-not-found': return "لم نجد عهداً مرتبطاً بهذا البريد. هل ترغب في إنشاء حساب؟";
-                    case 'auth/wrong-password': return "مفتاح التشفير (كلمة المرور) غير متطابق.";
-                    case 'auth/email-already-in-use': return "هذا البريد مسجل مسبقاً في الخزانة. قم بتسجيل الدخول.";
-                    case 'auth/weak-password': return "مفتاح التشفير ضعيف جداً. استخدم 6 رموز على الأقل.";
-                    case 'auth/invalid-email': return "صيغة البريد الإلكتروني غير مقبولة هندسياً.";
-                    case 'auth/network-request-failed': return "خلل في شبكة الاتصال، تأكد من جودة الإشارة الجدارية.";
-                    default: return "عذراً، حدث استعصاء غير متوقع. حاول مجدداً.";
+                    case 'auth/unauthorized-domain':
+                        return `النطاق الحالي (${currentDomain}) غير مصرح به في إعدادات Google Cloud / Firebase. يرجى الدخول إلى لوحة التحكم وإضافة "${currentDomain}" ضمن قائمة النطاقات المعتمدة (Authorized Domains).`;
+                    case 'auth/operation-not-allowed':
+                        return "تسجيل الدخول بواسطة Google غير مفعّل في لوحة تحكم المزود. يرجى تفعيله في قائمة Authentication -> Providers.";
+                    case 'auth/popup-blocked':
+                        return "قام المتصفح بحجب النافذة المنبثقة. تم تحويلك تلقائياً لصفحة الدخول المباشر...";
+                    case 'auth/popup-closed-by-user':
+                        return "تم إغلاق نافذة المصادقة قبل اكتمال التسجيل مع Google.";
+                    case 'auth/cancelled-popup-request':
+                        return "تم إلغاء الطلب لتكرار النقر، انتظر لحظة ثم حاول مجدداً.";
+                    case 'auth/account-exists-with-different-credential':
+                        return "يوجد حساب مسجل مسبقاً بهذا البريد الإلكتروني. يرجى تسجيل الدخول بكلمة المرور أولاً لربط الحسابين.";
+                    case 'auth/user-not-found':
+                        return "لم نجد عهداً مرتبطاً بهذا البريد. هل ترغب في إنشاء حساب؟";
+                    case 'auth/wrong-password':
+                        return "مفتاح التشفير (كلمة المرور) غير متطابق.";
+                    case 'auth/email-already-in-use':
+                        return "هذا البريد مسجل مسبقاً في الخزانة. قم بتسجيل الدخول.";
+                    case 'auth/weak-password':
+                        return "مفتاح التشفير ضعيف جداً. استخدم 6 رموز على الأقل.";
+                    case 'auth/invalid-email':
+                        return "صيغة البريد الإلكتروني غير مقبولة هندسياً.";
+                    case 'auth/network-request-failed':
+                        return "خلل في شبكة الاتصال؛ تأكد من اتصالك بالإنترنت أو إعدادات جدار الحماية (Firewall/Cloudflare).";
+                    default:
+                        return `تعذر استكمال تسجيل الدخول (${error.message || error.code}).`;
+                }
+            }
+
+            /**
+             * Safe User Provisioning Helper in Database
+             */
+            async function provisionUserRecord(user) {
+                if (!user) return;
+                try {
+                    const userRef = db.collection('users').doc(user.uid);
+                    const doc = await userRef.get();
+                    if (!doc.exists) {
+                        await userRef.set({
+                            email: user.email,
+                            displayName: user.displayName || "سالك جديد",
+                            photoURL: user.photoURL || "",
+                            isPremium: false,
+                            aiUsageCount: 0,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            trialStartedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            authProvider: user.providerData?.[0]?.providerId || "google",
+                            systemVersion: "4.5.0"
+                        });
+                    } else {
+                        await userRef.update({ 
+                            lastLoginAt: firebase.firestore.FieldValue.serverTimestamp() 
+                        });
+                    }
+                } catch (e) {
+                    console.warn("[Auth Provisioning Error]:", e);
                 }
             }
 
@@ -1058,17 +1108,8 @@
                         // 2. Update Profile Name
                         await cred.user.updateProfile({ displayName: name });
                         
-                        // 3. Provision Core Database Infrastructure for AI Engine
-                        // This exactly matches what ai.js expects (isPremium, aiUsageCount)
-                        await db.collection('users').doc(cred.user.uid).set({
-                            email: email,
-                            displayName: name,
-                            isPremium: false,
-                            aiUsageCount: 0,
-                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                            trialStartedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                            systemVersion: "4.0.0"
-                        });
+                        // 3. Provision Core Database Infrastructure
+                        await provisionUserRecord(cred.user);
                         
                     } else {
                         // Login User
@@ -1084,45 +1125,76 @@
             }
 
             /**
-             * Google OAuth Handler
+             * Resilient Google OAuth Handler (Popup + Smart Redirect Fallback)
              */
             async function handleGoogleAuth() {
                 clearFeedback();
                 setLoading(true);
                 
                 const provider = new firebase.auth.GoogleAuthProvider();
+                provider.addScope('profile');
+                provider.addScope('email');
+                provider.setCustomParameters({ prompt: 'select_account' });
+
+                // Detect mobile browsers or restricted webviews where popups are blocked
+                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+                if (isMobile) {
+                    console.info("[Google Auth] استخدام مسار التحويل المباشر (Redirect Flow) للأجهزة الذكية.");
+                    try {
+                        await auth.signInWithRedirect(provider);
+                        return;
+                    } catch (redirectErr) {
+                        setLoading(false);
+                        console.error("[Google Redirect Init Error]:", redirectErr);
+                        showFeedback(translateError(redirectErr));
+                        return;
+                    }
+                }
                 
+                // On Desktop: Try popup first, with automatic redirect fallback if blocked by Cloudflare/Browser
                 try {
                     const res = await auth.signInWithPopup(provider);
-                    
-                    // Check if new user via AdditionalUserInfo (optional, but robust approach)
-                    const userRef = db.collection('users').doc(res.user.uid);
-                    const doc = await userRef.get();
-                    
-                    if (!doc.exists) {
-                        // Provision new Google user
-                        await userRef.set({
-                            email: res.user.email,
-                            displayName: res.user.displayName || "عابر جديد",
-                            isPremium: false,
-                            aiUsageCount: 0,
-                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                            trialStartedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                            authProvider: "google"
-                        });
-                    } else {
-                        // Update last login
-                        await userRef.update({ lastLoginAt: firebase.firestore.FieldValue.serverTimestamp() });
-                    }
-                    
-                    // Redirection handled by observer
+                    await provisionUserRecord(res.user);
+                    // Redirection handled by onAuthStateChanged observer
                 } catch (error) {
-                    setLoading(false);
-                    if (error.code !== 'auth/popup-closed-by-user') {
-                        showFeedback(translateError(error));
+                    console.warn("[Google Auth Popup Attempt]:", error.code, error.message);
+
+                    // If popup blocked, closed unexpectedly, or COOP/Cloudflare header interference, fallback to Redirect
+                    if (error.code === 'auth/popup-blocked' || 
+                        error.code === 'auth/cancelled-popup-request' ||
+                        error.code === 'auth/internal-error') {
+                        
+                        console.info("[Google Auth] تحويل تلقائي إلى مسار signInWithRedirect لتجاوز حجب النوافذ المنبثقة...");
+                        showFeedback("جارٍ نقلك إلى صفحة مصادقة Google الآمنة...");
+                        try {
+                            await auth.signInWithRedirect(provider);
+                            return;
+                        } catch (fallbackErr) {
+                            setLoading(false);
+                            showFeedback(translateError(fallbackErr));
+                        }
+                    } else {
+                        setLoading(false);
+                        if (error.code !== 'auth/popup-closed-by-user') {
+                            showFeedback(translateError(error));
+                        }
                     }
                 }
             }
+
+            // Check for redirect result on page boot (Critical for Cloudflare & Mobile auth flows)
+            auth.getRedirectResult().then(async (result) => {
+                if (result && result.user) {
+                    setLoading(true);
+                    console.info("[Google Auth Redirect Return]: تم استلام المصادقة بنجاح للمستخدم:", result.user.email);
+                    await provisionUserRecord(result.user);
+                    window.location.replace("dashboard.html");
+                }
+            }).catch((error) => {
+                console.error("[Google Auth Redirect Result Error]:", error);
+                showFeedback(translateError(error));
+            });
 
             // Event Listeners
             tabBtns.forEach(btn => {
@@ -1132,7 +1204,7 @@
             btnGoogle.addEventListener('click', handleGoogleAuth);
             
             return {
-                init: () => console.info("[Auth Engine]: Ready.")
+                init: () => console.info("[Auth Engine]: Resilient Google & Enterprise Auth Ready.")
             };
         })();
 
@@ -1147,7 +1219,6 @@
         auth.onAuthStateChanged((user) => {
             if (user) {
                 // If token is valid, route immediately to dashboard
-                // We do not wait, UI feels instant.
                 window.location.replace("dashboard.html");
             }
         });
