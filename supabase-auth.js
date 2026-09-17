@@ -102,3 +102,4 @@ window.MindAuth = {
     client: supabaseClient,
     signInWithGoogle: signInWithGoogle
 };
+
