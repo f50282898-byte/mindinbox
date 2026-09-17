@@ -176,16 +176,23 @@ const MindDashboard = (() => {
     }
 
     function openLoginModal() {
-        if (loginModal) loginModal.classList.add('active');
+        if (loginModal) {
+            loginModal.classList.add('active');
+            loginModal.style.display = 'flex';
+        }
     }
 
     function closeLoginModal() {
-        if (loginModal) loginModal.classList.remove('active');
+        if (loginModal) {
+            loginModal.classList.remove('active');
+            loginModal.style.display = '';
+        }
     }
 
     function closeAllModals() {
-        if (loginModal) loginModal.classList.remove('active');
-        if (onboardingModal) onboardingModal.classList.remove('active');
+        [loginModal, onboardingModal].forEach(m => {
+            if (m) { m.classList.remove('active'); m.style.display = ''; }
+        });
     }
 
     /**
@@ -208,7 +215,44 @@ const MindDashboard = (() => {
             localStorage.setItem('mib_onboarded_' + window.currentUser.uid, 'trial_activated');
         }
         closeAllModals();
-        alert('تهانينا! تم تفعيل ١٤ يوماً من التجربة المطلقة لكافة محاريب الوعي والذكاء السيادي.');
+        _showToast('مرحباً في دائرة النخبة — تمّ تفعيل أربعةَ عشر يوماً من الوصول المطلق لمحاريب الوعي والحكمة السيادية.', 'success', 6000);
+    }
+
+    function _showToast(message, type = 'success', duration = 4000) {
+        const existing = document.getElementById('sovereign-toast');
+        if (existing) existing.remove();
+
+        const colors = {
+            success: { bg: 'rgba(46,180,100,0.12)', border: 'rgba(46,180,100,0.3)', text: '#2eb464' },
+            info:    { bg: 'rgba(197,160,89,0.12)', border: 'rgba(197,160,89,0.3)', text: '#c5a059' },
+            error:   { bg: 'rgba(220,60,60,0.12)',  border: 'rgba(220,60,60,0.3)',  text: '#e05050' },
+        };
+        const c = colors[type] || colors.info;
+
+        const toast = document.createElement('div');
+        toast.id = 'sovereign-toast';
+        toast.style.cssText = `
+            position:fixed; bottom:32px; left:50%; transform:translateX(-50%);
+            background:${c.bg}; border:1px solid ${c.border}; color:${c.text};
+            padding:16px 32px; border-radius:6px; z-index:9999;
+            font-family:'Cairo','Amiri',serif; font-size:0.95rem;
+            max-width:520px; text-align:center; line-height:1.6;
+            backdrop-filter:blur(20px);
+            box-shadow:0 20px 50px rgba(0,0,0,0.5);
+            animation: toastIn 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+            direction:rtl;
+        `;
+        toast.textContent = message;
+
+        const style = document.createElement('style');
+        style.textContent = `@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}`;
+        document.head.appendChild(style);
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.animation = 'toastIn 0.3s ease reverse forwards';
+            setTimeout(() => toast.remove(), 300);
+        }, duration);
     }
 
     /**

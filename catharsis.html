@@ -3,300 +3,332 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محراب التفريغ - Mind In Box</title>
-    <!-- Favicon -->
+    <title>محراب التفريغ — عقل في صندوق</title>
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Naskh+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
+
     <style>
+        /* ============================================================
+           CATHARSIS SANCTUARY — PAPYRUS MANUSCRIPT MODE
+           ============================================================ */
         :root {
-            /* Dark Mode (Default Space/Night) */
-            --bg-color: #050505;
-            --text-color: #e5b964; /* Antique Gold */
-            --text-shadow: 0 0 10px rgba(229, 185, 100, 0.3), 0 0 20px rgba(229, 185, 100, 0.1);
-            --marble-bg: url('https://images.unsplash.com/photo-1598514982205-f36b96d1e8d4?q=80&w=2000&auto=format&fit=crop'); /* Dark Charcoal Marble */
-            --glass-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.05);
-            --overlay-color: rgba(0, 0, 0, 0.6);
-            --transition-speed: 1.5s;
+            --bg: #050508;
+            --text: #d4a84b;
+            --text-shadow: 0 0 18px rgba(212,168,75,0.35), 0 2px 4px rgba(0,0,0,0.8);
+            --placeholder: rgba(212,168,75,0.3);
+            --canvas-bg: url('https://images.unsplash.com/photo-1614854262318-831574f15f1f?q=85&w=2000&auto=format&fit=crop');
+            --canvas-tint: rgba(15,10,5,0.55);
+            --shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 0 1px rgba(212,168,75,0.08), inset 0 0 60px rgba(212,168,75,0.03);
+            --overlay: rgba(0,0,0,0.65);
+            --speed: 1.4s;
+            --border: rgba(212,168,75,0.15);
+            --scroll-thumb: rgba(212,168,75,0.25);
         }
 
         [data-theme="light"] {
-            /* Light Mode (Clouds/Day) */
-            --bg-color: #f0f4f8;
-            --text-color: #3b2f1d; /* Dark Gold/Brown for contrast */
-            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            --marble-bg: url('https://images.unsplash.com/photo-1550684376-efcbd6e3f031?q=80&w=2000&auto=format&fit=crop'); /* White Carrara Marble */
-            --glass-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.05);
-            --overlay-color: rgba(255, 255, 255, 0.3);
+            --bg: #ede8d8;
+            --text: #1a0f05;
+            --text-shadow: 0 1px 3px rgba(0,0,0,0.15);
+            --placeholder: rgba(26,15,5,0.35);
+            --canvas-bg: url('https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=85&w=2000&auto=format&fit=crop');
+            --canvas-tint: rgba(240,232,210,0.3);
+            --shadow: 0 30px 80px rgba(80,50,10,0.4), 0 0 0 1px rgba(122,92,40,0.2);
+            --overlay: rgba(240,225,195,0.4);
+            --border: rgba(122,92,40,0.25);
+            --scroll-thumb: rgba(122,92,40,0.3);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body, html {
+        html, body {
             height: 100%;
-            font-family: 'Amiri', serif;
-            background-color: var(--bg-color);
+            background: var(--bg);
+            font-family: 'Amiri', 'Noto Naskh Arabic', serif;
             overflow: hidden;
-            transition: background-color var(--transition-speed) ease;
+            transition: background var(--speed) ease;
         }
 
-        /* Video Background */
-        .video-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            overflow: hidden;
+        /* ── VIDEO BACKGROUND ── */
+        .vid-wrap {
+            position: fixed; inset: 0; z-index: -2; overflow: hidden;
         }
-
-        .bg-video {
+        .bg-vid {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            transform: translateX(-50%) translateY(-50%);
+            top: 50%; left: 50%;
+            min-width: 100%; min-height: 100%;
+            width: auto; height: auto;
+            transform: translate(-50%, -50%);
             object-fit: cover;
-            transition: opacity var(--transition-speed) ease;
+            transition: opacity var(--speed) ease;
         }
-
-        /* Active/Inactive video states for crossfade */
-        .bg-video.active {
-            opacity: 1;
-        }
-        .bg-video.inactive {
-            opacity: 0;
-        }
+        .bg-vid.active  { opacity: 1; }
+        .bg-vid.hidden  { opacity: 0; }
 
         .overlay {
+            position: fixed; inset: 0; z-index: -1;
+            background: var(--overlay);
+            transition: background var(--speed) ease;
+        }
+
+        /* ── CONTROLS ── */
+        .ctrl-bar {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--overlay-color);
-            z-index: -1;
-            transition: background var(--transition-speed) ease;
-            backdrop-filter: blur(2px);
+            top: 20px; right: 20px;
+            z-index: 20;
+            display: flex; gap: 12px; align-items: center;
         }
 
-        /* Top Controls */
-        .controls {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 10;
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .back-btn, .theme-toggle {
-            background: rgba(20, 20, 20, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 30px;
-            cursor: pointer;
+        .ctrl-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 9px 22px;
+            background: rgba(10,8,5,0.7);
+            border: 1px solid var(--border);
+            color: var(--text);
             font-family: 'Amiri', serif;
-            font-size: 1.1rem;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
+            font-size: 1rem;
+            border-radius: 40px;
+            cursor: pointer;
             text-decoration: none;
+            backdrop-filter: blur(14px);
+            transition: all 0.25s ease;
+            letter-spacing: 0.03em;
         }
 
-        [data-theme="light"] .back-btn,
-        [data-theme="light"] .theme-toggle {
-            background: rgba(255, 255, 255, 0.6);
-            color: #000;
-            border-color: rgba(0, 0, 0, 0.1);
+        [data-theme="light"] .ctrl-btn {
+            background: rgba(240,230,205,0.75);
+            color: #1a0f05;
         }
 
-        .back-btn:hover, .theme-toggle:hover {
+        .ctrl-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-color: rgba(212,168,75,0.45);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
         }
 
-        /* Marble Text Canvas */
-        .catharsis-container {
+        /* ── MAIN CANVAS WRAPPER ── */
+        .sanctuary {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            padding: 80px 20px 40px; /* Space for top controls */
+            padding: 80px 24px 40px;
         }
 
-        .marble-wrapper {
+        /* The Papyrus Manuscript Card */
+        .manuscript-card {
             position: relative;
             width: 80%;
-            height: 85vh;
-            border-radius: 15px;
+            height: 86vh;
+            border-radius: 3px;
             overflow: hidden;
-            box-shadow: var(--glass-shadow);
-            transition: box-shadow var(--transition-speed) ease;
+            box-shadow: var(--shadow);
+            transition: box-shadow var(--speed) ease;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .marble-wrapper {
-                width: 95%;
-                height: 80vh;
-            }
-            .controls {
-                top: 15px;
-                right: 15px;
-            }
-            .back-btn, .theme-toggle {
-                padding: 8px 15px;
-                font-size: 1rem;
-            }
-        }
-
-        .marble-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: var(--marble-bg);
+        /* Papyrus/Marble texture layer */
+        .manuscript-card::before {
+            content: '';
+            position: absolute; inset: 0; z-index: 1;
+            background-image: var(--canvas-bg);
             background-size: cover;
             background-position: center;
-            transition: background-image var(--transition-speed) ease;
-            z-index: 1;
+            transition: background-image var(--speed) ease;
         }
 
-        textarea.catharsis-input {
+        /* Subtle tint/darkening layer over texture */
+        .manuscript-card::after {
+            content: '';
+            position: absolute; inset: 0; z-index: 2;
+            background: var(--canvas-tint);
+            transition: background var(--speed) ease;
+        }
+
+        /* Decorative border lines (manuscript feel) */
+        .ms-border {
+            position: absolute; z-index: 3;
+            pointer-events: none;
+        }
+        .ms-border-top, .ms-border-bottom {
+            top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(212,168,75,0.5), transparent);
+        }
+        .ms-border-bottom { top: auto; bottom: 0; }
+
+        /* Corner ornaments */
+        .ms-ornament {
+            position: absolute;
+            z-index: 4;
+            pointer-events: none;
+            font-size: 1.4rem;
+            color: rgba(212,168,75,0.35);
+            line-height: 1;
+        }
+        .ms-ornament.tl { top: 10px; right: 12px; }
+        .ms-ornament.tr { top: 10px; left: 12px; }
+        .ms-ornament.bl { bottom: 10px; right: 12px; }
+        .ms-ornament.br { bottom: 10px; left: 12px; }
+
+        /* ── THE WRITING TEXTAREA ── */
+        textarea.ms-input {
             position: relative;
-            z-index: 2;
-            width: 100%;
-            height: 100%;
+            z-index: 5;
+            width: 100%; height: 100%;
             background: transparent;
             border: none;
-            padding: 40px;
-            font-family: 'Amiri', serif;
-            font-size: 1.8rem;
-            line-height: 1.8;
-            color: var(--text-color);
-            text-shadow: var(--text-shadow);
-            resize: none;
             outline: none;
-            transition: color var(--transition-speed) ease, text-shadow var(--transition-speed) ease;
+            resize: none;
+            padding: 60px 55px 60px 55px;
+            font-family: 'Amiri', 'Noto Naskh Arabic', serif;
+            font-size: 1.75rem;
+            line-height: 2.1;
+            color: var(--text);
+            text-shadow: var(--text-shadow);
             direction: rtl;
+            transition: color var(--speed) ease, text-shadow var(--speed) ease;
+            letter-spacing: 0.01em;
+            word-spacing: 0.05em;
         }
 
-        textarea.catharsis-input::placeholder {
-            color: rgba(229, 185, 100, 0.4);
+        textarea.ms-input::placeholder {
+            color: var(--placeholder);
+            font-style: italic;
         }
 
-        [data-theme="light"] textarea.catharsis-input::placeholder {
-            color: rgba(59, 47, 29, 0.4);
+        textarea.ms-input::-webkit-scrollbar { width: 6px; }
+        textarea.ms-input::-webkit-scrollbar-track { background: transparent; }
+        textarea.ms-input::-webkit-scrollbar-thumb {
+            background: var(--scroll-thumb);
+            border-radius: 3px;
         }
 
-        /* Scrollbar styling for the textarea */
-        textarea.catharsis-input::-webkit-scrollbar {
-            width: 8px;
+        /* ── WORD COUNT ── */
+        .ms-wordcount {
+            position: absolute;
+            bottom: 18px; left: 28px;
+            z-index: 6;
+            font-size: 0.72rem;
+            color: rgba(212,168,75,0.35);
+            font-family: 'Amiri', serif;
+            letter-spacing: 0.04em;
+            pointer-events: none;
         }
-        textarea.catharsis-input::-webkit-scrollbar-track {
-            background: transparent;
+
+        [data-theme="light"] .ms-wordcount { color: rgba(26,15,5,0.3); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .manuscript-card { width: 95%; height: 82vh; }
+            textarea.ms-input { padding: 40px 30px; font-size: 1.4rem; }
+            .ctrl-bar { top: 14px; right: 14px; gap: 8px; }
+            .ctrl-btn { padding: 8px 16px; font-size: 0.9rem; }
         }
-        textarea.catharsis-input::-webkit-scrollbar-thumb {
-            background: rgba(229, 185, 100, 0.3);
-            border-radius: 4px;
-        }
-        [data-theme="light"] textarea.catharsis-input::-webkit-scrollbar-thumb {
-            background: rgba(59, 47, 29, 0.3);
+
+        @media (max-width: 480px) {
+            textarea.ms-input { font-size: 1.2rem; padding: 28px 20px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Video Backgrounds for Crossfade -->
-    <div class="video-container">
-        <!-- Mixkit Space Video / Night Nature as Dark Mode -->
-        <video id="video-dark" class="bg-video active" autoplay loop muted playsinline crossorigin="anonymous">
+    <!-- ── BACKGROUND VIDEOS ── -->
+    <div class="vid-wrap">
+        <video id="vid-night" class="bg-vid active" autoplay loop muted playsinline>
             <source src="https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-1610-large.mp4" type="video/mp4">
         </video>
-        <!-- Mixkit Clouds Video as Light Mode -->
-        <video id="video-light" class="bg-video inactive" autoplay loop muted playsinline crossorigin="anonymous">
+        <video id="vid-day" class="bg-vid hidden" autoplay loop muted playsinline>
             <source src="https://assets.mixkit.co/videos/preview/mixkit-clouds-and-blue-sky-2408-large.mp4" type="video/mp4">
         </video>
     </div>
 
     <div class="overlay"></div>
 
-    <div class="controls">
-        <a href="index.html" class="back-btn" id="btn-back">العودة</a>
-        <button class="theme-toggle" id="btn-theme">الوضع النهاري ☀️</button>
-    </div>
+    <!-- ── CONTROLS ── -->
+    <nav class="ctrl-bar">
+        <a href="index.html" class="ctrl-btn" id="btn-back">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+            العودة
+        </a>
+        <button class="ctrl-btn" id="btn-theme">النهار ☀️</button>
+    </nav>
 
-    <div class="catharsis-container">
-        <div class="marble-wrapper">
-            <div class="marble-bg"></div>
-            <textarea class="catharsis-input" placeholder="اكتب ما يثقل كاهلك هنا... لتتطهر..."></textarea>
+    <!-- ── THE MANUSCRIPT CANVAS ── -->
+    <div class="sanctuary">
+        <div class="manuscript-card">
+            <!-- Decorative borders -->
+            <div class="ms-border ms-border-top ms-ornament"></div>
+            <div class="ms-border ms-border-bottom ms-ornament"></div>
+            <!-- Corner ornaments -->
+            <span class="ms-ornament tl" aria-hidden="true">❧</span>
+            <span class="ms-ornament tr" aria-hidden="true">❧</span>
+            <span class="ms-ornament bl" aria-hidden="true">⁕</span>
+            <span class="ms-ornament br" aria-hidden="true">⁕</span>
+
+            <textarea class="ms-input" id="ms-textarea"
+                placeholder="اكتب هنا ما يثقل الروح... فهذه اللوحة تحتضن الكلمات قبل أن تحترق..."></textarea>
+
+            <div class="ms-wordcount" id="ms-wordcount">٠ كلمة</div>
         </div>
     </div>
 
     <script src="sound.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const themeBtn = document.getElementById('btn-theme');
-            const videoDark = document.getElementById('video-dark');
-            const videoLight = document.getElementById('video-light');
-            
-            let isDark = true; // Default is Dark Mode
+    (function() {
+        'use strict';
 
-            themeBtn.addEventListener('click', () => {
-                // Play sound if SovereignAudio exists
-                if (window.SovereignAudio) {
-                    window.SovereignAudio.playClick();
-                }
+        let isDark = true;
+        const root    = document.documentElement;
+        const themeBtn  = document.getElementById('btn-theme');
+        const vidNight  = document.getElementById('vid-night');
+        const vidDay    = document.getElementById('vid-day');
+        const textarea  = document.getElementById('ms-textarea');
+        const wordcount = document.getElementById('ms-wordcount');
 
-                isDark = !isDark;
-                
-                if (isDark) {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                    themeBtn.textContent = 'الوضع النهاري ☀️';
-                    
-                    // Crossfade Videos
-                    videoLight.classList.remove('active');
-                    videoLight.classList.add('inactive');
-                    videoDark.classList.remove('inactive');
-                    videoDark.classList.add('active');
-                    
-                } else {
-                    document.documentElement.setAttribute('data-theme', 'light');
-                    themeBtn.textContent = 'الوضع الليلي 🌙';
-                    
-                    // Crossfade Videos
-                    videoDark.classList.remove('active');
-                    videoDark.classList.add('inactive');
-                    videoLight.classList.remove('inactive');
-                    videoLight.classList.add('active');
-                }
-            });
-
-            // Back button sound
-            const backBtn = document.getElementById('btn-back');
-            if(backBtn) {
-                backBtn.addEventListener('click', (e) => {
-                    if (window.SovereignAudio) {
-                        window.SovereignAudio.playClick();
-                    }
-                });
+        // ── THEME TOGGLE ──
+        themeBtn.addEventListener('click', function() {
+            isDark = !isDark;
+            if (isDark) {
+                root.removeAttribute('data-theme');
+                themeBtn.textContent = 'النهار ☀️';
+                vidNight.classList.remove('hidden'); vidNight.classList.add('active');
+                vidDay.classList.remove('active');   vidDay.classList.add('hidden');
+            } else {
+                root.setAttribute('data-theme', 'light');
+                themeBtn.textContent = 'الليل 🌙';
+                vidDay.classList.remove('hidden');   vidDay.classList.add('active');
+                vidNight.classList.remove('active'); vidNight.classList.add('hidden');
             }
+            if (window.SovereignAudio) window.SovereignAudio.playClick();
         });
+
+        // ── WORD COUNT ──
+        textarea.addEventListener('input', function() {
+            const words = textarea.value.trim().split(/\s+/).filter(Boolean).length;
+            // Convert to Arabic-Indic numerals
+            const arabicNumerals = words.toString().replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+            wordcount.textContent = arabicNumerals + ' كلمة';
+        });
+
+        // ── PERSIST DRAFT ──
+        const DRAFT_KEY = 'mib_catharsis_draft';
+        const saved = localStorage.getItem(DRAFT_KEY);
+        if (saved) { textarea.value = saved; textarea.dispatchEvent(new Event('input')); }
+
+        textarea.addEventListener('input', function() {
+            localStorage.setItem(DRAFT_KEY, textarea.value);
+        });
+
+        // ── BACK BUTTON SOUND ──
+        document.getElementById('btn-back').addEventListener('click', function() {
+            if (window.SovereignAudio) window.SovereignAudio.playClick();
+        });
+    })();
     </script>
+
 </body>
 </html>
-

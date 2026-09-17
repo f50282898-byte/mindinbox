@@ -122,46 +122,57 @@ const SovereignAudio = (() => {
      * 5. الربط التلقائي بجميع أزرار المنصة
      */
     function autoBind() {
-        // فك تعليق AudioContext مع أول لمسة أو نقرة للمستخدم
-        const unlockAudio = () => {
-            getAudioContext();
-            document.removeEventListener('click', unlockAudio);
-            document.removeEventListener('touchstart', unlockAudio);
-        };
-        document.addEventListener('click', unlockAudio);
-        document.addEventListener('touchstart', unlockAudio);
-
-        // ربط أزرار المزاج بالترددات المخصصة
+        // ربط أزرار المزاج بالترددات المخصصة (مع فتح AudioContext مباشرةً)
         document.querySelectorAll('.mood-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                const mood = btn.getAttribute('data-mood');
-                if (mood === 'peace') playTone(432, 2.0, 'sine', 0.20);
-                else if (mood === 'dignity') playTone(528, 2.0, 'sine', 0.20);
-                else if (mood === 'focus') playTone(280, 1.5, 'sine', 0.16); // موجة بيتا مساعدة
-                else if (mood === 'restoration') playTone(136.1, 2.2, 'sine', 0.22); // OM / شومان
-                else if (mood === 'shock') playTone(880, 0.8, 'sawtooth', 0.08); // إيقاظ سريع
-                else playClick();
+                // استيقاظ AudioContext فوري مع الضغطة
+                const ctx = getAudioContext();
+                if (ctx && ctx.state === 'suspended') {
+                    ctx.resume().then(() => {
+                        _playMoodSound(btn.getAttribute('data-mood'));
+                    });
+                } else {
+                    _playMoodSound(btn.getAttribute('data-mood'));
+                }
             });
         });
 
         // ربط مربعات الاختيار في محاريب الجرد
         document.querySelectorAll('.habit-check').forEach(chk => {
             chk.addEventListener('change', () => {
-                if (chk.checked) playChime();
-                else playClick();
+                const ctx = getAudioContext();
+                if (ctx && ctx.state === 'suspended') {
+                    ctx.resume().then(() => { if (chk.checked) playChime(); else playClick(); });
+                } else {
+                    if (chk.checked) playChime(); else playClick();
+                }
             });
         });
 
         // ربط باقي الأزرار بالنقرة الفاخرة
         document.querySelectorAll('button:not(.mood-btn), .btn, .card-action-btn, .btn-logout, .modal-close-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                if (btn.id === 'sageSendBtn' || btn.id === 'btnSendChat') {
-                    playSageDrone();
+                const ctx = getAudioContext();
+                if (ctx && ctx.state === 'suspended') {
+                    ctx.resume().then(() => {
+                        if (btn.id === 'sageSendBtn' || btn.id === 'btnSendChat') playSageDrone();
+                        else playClick();
+                    });
                 } else {
-                    playClick();
+                    if (btn.id === 'sageSendBtn' || btn.id === 'btnSendChat') playSageDrone();
+                    else playClick();
                 }
             });
         });
+    }
+
+    function _playMoodSound(mood) {
+        if (mood === 'peace')       playTone(432,   2.0, 'sine',     0.20);
+        else if (mood === 'dignity')     playTone(528,   2.0, 'sine',     0.20);
+        else if (mood === 'focus')       playTone(280,   1.5, 'sine',     0.16);
+        else if (mood === 'restoration') playTone(136.1, 2.2, 'sine',     0.22);
+        else if (mood === 'shock')       playTone(880,   0.8, 'sawtooth', 0.08);
+        else playClick();
     }
 
     if (document.readyState === 'loading') {
