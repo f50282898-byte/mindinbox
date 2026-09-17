@@ -1,13 +1,13 @@
-/**
+﻿/**
  * ==============================================================================
- * MIND IN A BOX — CORE SANCTUARY ENGINE
- * الملف: core.js
- * المسؤولية: الأدوات المشتركة عبر كافة الصفحات:
- *   — وضع المخطوطة العتيقة
- *   — شريط التنقل السفلي (Bottom Bar)
- *   — زر الفزع الوجودي ودائرة التنفس
- *   — درع الحصانة (Security Shield)
- *   — انتقالات الصفحات (SPA-like Transitions)
+ * MIND IN A BOX â€” CORE SANCTUARY ENGINE
+ * Ø§Ù„Ù…Ù„Ù: core.js
+ * Ø§Ù„Ù…Ø³Ø¤ÙˆÙ„ÙŠØ©: Ø§Ù„Ø£Ø¯ÙˆØ§Øª Ø§Ù„Ù…Ø´ØªØ±ÙƒØ© Ø¹Ø¨Ø± ÙƒØ§ÙØ© Ø§Ù„ØµÙØ­Ø§Øª:
+ *   â€” ÙˆØ¶Ø¹ Ø§Ù„Ù…Ø®Ø·ÙˆØ·Ø© Ø§Ù„Ø¹ØªÙŠÙ‚Ø©
+ *   â€” Ø´Ø±ÙŠØ· Ø§Ù„ØªÙ†Ù‚Ù„ Ø§Ù„Ø³ÙÙ„ÙŠ (Bottom Bar)
+ *   â€” Ø²Ø± Ø§Ù„ÙØ²Ø¹ Ø§Ù„ÙˆØ¬ÙˆØ¯ÙŠ ÙˆØ¯Ø§Ø¦Ø±Ø© Ø§Ù„ØªÙ†ÙØ³
+ *   â€” Ø¯Ø±Ø¹ Ø§Ù„Ø­ØµØ§Ù†Ø© (Security Shield)
+ *   â€” Ø§Ù†ØªÙ‚Ø§Ù„Ø§Øª Ø§Ù„ØµÙØ­Ø§Øª (SPA-like Transitions)
  * ==============================================================================
  */
 
@@ -15,7 +15,7 @@
     'use strict';
 
     /* =========================================================================
-       MODULE 1: Security Shield — درع الحصانة الفلسفي
+       MODULE 1: Security Shield â€” Ø¯Ø±Ø¹ Ø§Ù„Ø­ØµØ§Ù†Ø© Ø§Ù„ÙÙ„Ø³ÙÙŠ
        ========================================================================= */
     const SecurityShield = (() => {
 
@@ -48,13 +48,13 @@
             ].join(';');
 
             console.clear();
-            console.log('%c⚔️ ميثاق حصانة الملاذ — عقل في صندوق', titleStyle);
+            console.log('%câš”ï¸ Ù…ÙŠØ«Ø§Ù‚ Ø­ØµØ§Ù†Ø© Ø§Ù„Ù…Ù„Ø§Ø° â€” Ø¹Ù‚Ù„ ÙÙŠ ØµÙ†Ø¯ÙˆÙ‚', titleStyle);
             console.log(
-                '%c[صواعق التحذير]\nأيها العابر في كواليس الشيفرة،\nهذا المكان ليس ساحة تطفل وفضول رخيص.\nالعقول الحرة تبني صروح السيادة بجهد متواصل،\nبينما النفوس المشتتة تتلصص على أحجار الأساس أملاً في اختصار الطريق.\n\nأغلق أدوات المطور الآن، وعُد إلى محراب انضباطك.\nلن تجد هنا سوى مرآة فنائك الرقمي!',
+                '%c[ØµÙˆØ§Ø¹Ù‚ Ø§Ù„ØªØ­Ø°ÙŠØ±]\nØ£ÙŠÙ‡Ø§ Ø§Ù„Ø¹Ø§Ø¨Ø± ÙÙŠ ÙƒÙˆØ§Ù„ÙŠØ³ Ø§Ù„Ø´ÙŠÙØ±Ø©ØŒ\nÙ‡Ø°Ø§ Ø§Ù„Ù…ÙƒØ§Ù† Ù„ÙŠØ³ Ø³Ø§Ø­Ø© ØªØ·ÙÙ„ ÙˆÙØ¶ÙˆÙ„ Ø±Ø®ÙŠØµ.\nØ§Ù„Ø¹Ù‚ÙˆÙ„ Ø§Ù„Ø­Ø±Ø© ØªØ¨Ù†ÙŠ ØµØ±ÙˆØ­ Ø§Ù„Ø³ÙŠØ§Ø¯Ø© Ø¨Ø¬Ù‡Ø¯ Ù…ØªÙˆØ§ØµÙ„ØŒ\nØ¨ÙŠÙ†Ù…Ø§ Ø§Ù„Ù†ÙÙˆØ³ Ø§Ù„Ù…Ø´ØªØªØ© ØªØªÙ„ØµØµ Ø¹Ù„Ù‰ Ø£Ø­Ø¬Ø§Ø± Ø§Ù„Ø£Ø³Ø§Ø³ Ø£Ù…Ù„Ø§Ù‹ ÙÙŠ Ø§Ø®ØªØµØ§Ø± Ø§Ù„Ø·Ø±ÙŠÙ‚.\n\nØ£ØºÙ„Ù‚ Ø£Ø¯ÙˆØ§Øª Ø§Ù„Ù…Ø·ÙˆØ± Ø§Ù„Ø¢Ù†ØŒ ÙˆØ¹ÙØ¯ Ø¥Ù„Ù‰ Ù…Ø­Ø±Ø§Ø¨ Ø§Ù†Ø¶Ø¨Ø§Ø·Ùƒ.\nÙ„Ù† ØªØ¬Ø¯ Ù‡Ù†Ø§ Ø³ÙˆÙ‰ Ù…Ø±Ø¢Ø© ÙÙ†Ø§Ø¦Ùƒ Ø§Ù„Ø±Ù‚Ù…ÙŠ!',
                 decreeTitleStyle
             );
             console.log(
-                '%c« المرء لا يتأذى مما يحدث، بل بما يظنه عما يحدث. » — إبيكتيتوس',
+                '%cÂ« Ø§Ù„Ù…Ø±Ø¡ Ù„Ø§ ÙŠØªØ£Ø°Ù‰ Ù…Ù…Ø§ ÙŠØ­Ø¯Ø«ØŒ Ø¨Ù„ Ø¨Ù…Ø§ ÙŠØ¸Ù†Ù‡ Ø¹Ù…Ø§ ÙŠØ­Ø¯Ø«. Â» â€” Ø¥Ø¨ÙŠÙƒØªÙŠØªÙˆØ³',
                 verseStyle
             );
         }
@@ -100,7 +100,7 @@
     })();
 
     /* =========================================================================
-       MODULE 2: Manuscript Mode — وضع المخطوطة العتيقة
+       MODULE 2: Manuscript Mode â€” ÙˆØ¶Ø¹ Ø§Ù„Ù…Ø®Ø·ÙˆØ·Ø© Ø§Ù„Ø¹ØªÙŠÙ‚Ø©
        ========================================================================= */
     const ManuscriptMode = (() => {
 
@@ -125,12 +125,12 @@
             const label = btn.querySelector('.ms-label');
             if (isActive) {
                 if (icon)  icon.innerHTML = _iconInk();
-                if (label) label.textContent = 'العودة للظلام';
-                btn.title = 'تفعيل وضع الظلام الفلسفي';
+                if (label) label.textContent = 'Ø§Ù„Ø¹ÙˆØ¯Ø© Ù„Ù„Ø¸Ù„Ø§Ù…';
+                btn.title = 'ØªÙØ¹ÙŠÙ„ ÙˆØ¶Ø¹ Ø§Ù„Ø¸Ù„Ø§Ù… Ø§Ù„ÙÙ„Ø³ÙÙŠ';
             } else {
                 if (icon)  icon.innerHTML = _iconScroll();
-                if (label) label.textContent = 'مخطوطة';
-                btn.title = 'تفعيل وضع المخطوطة العتيقة';
+                if (label) label.textContent = 'Ù…Ø®Ø·ÙˆØ·Ø©';
+                btn.title = 'ØªÙØ¹ÙŠÙ„ ÙˆØ¶Ø¹ Ø§Ù„Ù…Ø®Ø·ÙˆØ·Ø© Ø§Ù„Ø¹ØªÙŠÙ‚Ø©';
             }
         }
 
@@ -147,8 +147,8 @@
             const btn = document.createElement('button');
             btn.id = 'manuscriptToggle';
             btn.type = 'button';
-            btn.title = 'تفعيل وضع المخطوطة العتيقة';
-            btn.setAttribute('aria-label', 'تبديل وضع المخطوطة');
+            btn.title = 'ØªÙØ¹ÙŠÙ„ ÙˆØ¶Ø¹ Ø§Ù„Ù…Ø®Ø·ÙˆØ·Ø© Ø§Ù„Ø¹ØªÙŠÙ‚Ø©';
+            btn.setAttribute('aria-label', 'ØªØ¨Ø¯ÙŠÙ„ ÙˆØ¶Ø¹ Ø§Ù„Ù…Ø®Ø·ÙˆØ·Ø©');
             btn.innerHTML = `
                 <span class="ms-icon">
                     <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round">
@@ -158,7 +158,7 @@
                         <line x1="16" y1="17" x2="8" y2="17"/>
                     </svg>
                 </span>
-                <span class="ms-label">مخطوطة</span>`;
+                <span class="ms-label">Ù…Ø®Ø·ÙˆØ·Ø©</span>`;
             btn.addEventListener('click', toggle);
             document.body.appendChild(btn);
         }
@@ -179,7 +179,7 @@
     })();
 
     /* =========================================================================
-       MODULE 3: Bottom Bar — شريط التنقل السفلي الأصلاني
+       MODULE 3: Bottom Bar â€” Ø´Ø±ÙŠØ· Ø§Ù„ØªÙ†Ù‚Ù„ Ø§Ù„Ø³ÙÙ„ÙŠ Ø§Ù„Ø£ØµÙ„Ø§Ù†ÙŠ
        ========================================================================= */
     const BottomBar = (() => {
 
@@ -187,27 +187,27 @@
         const NAV_ITEMS = [
             {
                 href: 'dashboard.html',
-                label: 'المحراب',
+                label: 'Ø§Ù„Ù…Ø­Ø±Ø§Ø¨',
                 icon: `<svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>`
             },
             {
                 href: 'reflection.html',
-                label: 'التفريغ',
+                label: 'Ø§Ù„ØªÙØ±ÙŠØº',
                 icon: `<svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`
             },
             {
                 href: 'meditation.html',
-                label: 'التأمل',
+                label: 'Ø§Ù„ØªØ£Ù…Ù„',
                 icon: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>`
             },
             {
                 href: 'schedule.html',
-                label: 'الميثاق',
+                label: 'Ø§Ù„Ù…ÙŠØ«Ø§Ù‚',
                 icon: `<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`
             },
             {
                 href: 'vault.html',
-                label: 'الخزينة',
+                label: 'Ø§Ù„Ø®Ø²ÙŠÙ†Ø©',
                 icon: `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/></svg>`
             }
         ];
@@ -224,7 +224,7 @@
             const currentPage = getCurrentPage();
             const bar = document.createElement('nav');
             bar.id = 'bottomBar';
-            bar.setAttribute('aria-label', 'التنقل الرئيسي');
+            bar.setAttribute('aria-label', 'Ø§Ù„ØªÙ†Ù‚Ù„ Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠ');
             bar.setAttribute('role', 'navigation');
 
             bar.innerHTML = NAV_ITEMS.map(item => {
@@ -280,47 +280,47 @@
     })();
 
     /* =========================================================================
-       MODULE 4.1: Combinatorial Wisdom Engine — بنك الحكم العضوي
+       MODULE 4.1: Combinatorial Wisdom Engine â€” Ø¨Ù†Ùƒ Ø§Ù„Ø­ÙƒÙ… Ø§Ù„Ø¹Ø¶ÙˆÙŠ
        ========================================================================= */
     const QuotesEngine = (() => {
         const intros = [
-            "في خضم الفوضى،", "عندما يضيق بك الحال،", "أمام عواصف القدر،", 
-            "حين تتشابك عليك الأفكار،", "في لحظات الضعف البشري،", "إذا فقدت السيطرة،"
+            "ÙÙŠ Ø®Ø¶Ù… Ø§Ù„ÙÙˆØ¶Ù‰ØŒ", "Ø¹Ù†Ø¯Ù…Ø§ ÙŠØ¶ÙŠÙ‚ Ø¨Ùƒ Ø§Ù„Ø­Ø§Ù„ØŒ", "Ø£Ù…Ø§Ù… Ø¹ÙˆØ§ØµÙ Ø§Ù„Ù‚Ø¯Ø±ØŒ", 
+            "Ø­ÙŠÙ† ØªØªØ´Ø§Ø¨Ùƒ Ø¹Ù„ÙŠÙƒ Ø§Ù„Ø£ÙÙƒØ§Ø±ØŒ", "ÙÙŠ Ù„Ø­Ø¸Ø§Øª Ø§Ù„Ø¶Ø¹Ù Ø§Ù„Ø¨Ø´Ø±ÙŠØŒ", "Ø¥Ø°Ø§ ÙÙ‚Ø¯Øª Ø§Ù„Ø³ÙŠØ·Ø±Ø©ØŒ"
         ];
         const cores = [
-            "تذكر أن معاناتك تنبع من حكمك على الأشياء،", 
-            "اعلم أن لا شيء يكسرك إلا استسلامك الداخلي،", 
-            "راقب أفكارك فهي جذور القلق،", 
-            "تجرّد من توقعاتك الزائفة،", 
-            "أدرك أن الزمن يلتهم كل قلقك،"
+            "ØªØ°ÙƒØ± Ø£Ù† Ù…Ø¹Ø§Ù†Ø§ØªÙƒ ØªÙ†Ø¨Ø¹ Ù…Ù† Ø­ÙƒÙ…Ùƒ Ø¹Ù„Ù‰ Ø§Ù„Ø£Ø´ÙŠØ§Ø¡ØŒ", 
+            "Ø§Ø¹Ù„Ù… Ø£Ù† Ù„Ø§ Ø´ÙŠØ¡ ÙŠÙƒØ³Ø±Ùƒ Ø¥Ù„Ø§ Ø§Ø³ØªØ³Ù„Ø§Ù…Ùƒ Ø§Ù„Ø¯Ø§Ø®Ù„ÙŠØŒ", 
+            "Ø±Ø§Ù‚Ø¨ Ø£ÙÙƒØ§Ø±Ùƒ ÙÙ‡ÙŠ Ø¬Ø°ÙˆØ± Ø§Ù„Ù‚Ù„Ù‚ØŒ", 
+            "ØªØ¬Ø±Ù‘Ø¯ Ù…Ù† ØªÙˆÙ‚Ø¹Ø§ØªÙƒ Ø§Ù„Ø²Ø§Ø¦ÙØ©ØŒ", 
+            "Ø£Ø¯Ø±Ùƒ Ø£Ù† Ø§Ù„Ø²Ù…Ù† ÙŠÙ„ØªÙ‡Ù… ÙƒÙ„ Ù‚Ù„Ù‚ÙƒØŒ"
         ];
         const exits = [
-            "فامضِ شامخاً.", "وتقبل ما لا تملك السيطرة عليه.", 
-            "واسترد سيادتك على عقلك.", "فالخوف وهم تصنعه أنت.", 
-            "ولا تكن عبداً لما هو خارج عن إرادتك."
+            "ÙØ§Ù…Ø¶Ù Ø´Ø§Ù…Ø®Ø§Ù‹.", "ÙˆØªÙ‚Ø¨Ù„ Ù…Ø§ Ù„Ø§ ØªÙ…Ù„Ùƒ Ø§Ù„Ø³ÙŠØ·Ø±Ø© Ø¹Ù„ÙŠÙ‡.", 
+            "ÙˆØ§Ø³ØªØ±Ø¯ Ø³ÙŠØ§Ø¯ØªÙƒ Ø¹Ù„Ù‰ Ø¹Ù‚Ù„Ùƒ.", "ÙØ§Ù„Ø®ÙˆÙ ÙˆÙ‡Ù… ØªØµÙ†Ø¹Ù‡ Ø£Ù†Øª.", 
+            "ÙˆÙ„Ø§ ØªÙƒÙ† Ø¹Ø¨Ø¯Ø§Ù‹ Ù„Ù…Ø§ Ù‡Ùˆ Ø®Ø§Ø±Ø¬ Ø¹Ù† Ø¥Ø±Ø§Ø¯ØªÙƒ."
         ];
         
         const famousQuotes = [
-            "لا تتوقع أن يصير العالم كما تتمنى... — إبيكتيتوس",
-            "السعادة تعتمد على نوعية أفكارك. — ماركوس أوريليوس",
-            "نحن نعاني في الخيال أكثر بكثير من الواقع. — سينيكا",
-            "من لديه سبب ليعيش، يمكنه أن يتحمل أي طريقة للعيش. — نيتشه",
-            "الجرح هو المكان الذي يدخل منه النور إليك. — جلال الدين الرومي",
-            "تعب كلها الحياة فما أعجب إلا من راغب في ازدياد. — أبو العلاء المعري"
+            "Ù„Ø§ ØªØªÙˆÙ‚Ø¹ Ø£Ù† ÙŠØµÙŠØ± Ø§Ù„Ø¹Ø§Ù„Ù… ÙƒÙ…Ø§ ØªØªÙ…Ù†Ù‰... â€” Ø¥Ø¨ÙŠÙƒØªÙŠØªÙˆØ³",
+            "Ø§Ù„Ø³Ø¹Ø§Ø¯Ø© ØªØ¹ØªÙ…Ø¯ Ø¹Ù„Ù‰ Ù†ÙˆØ¹ÙŠØ© Ø£ÙÙƒØ§Ø±Ùƒ. â€” Ù…Ø§Ø±ÙƒÙˆØ³ Ø£ÙˆØ±ÙŠÙ„ÙŠÙˆØ³",
+            "Ù†Ø­Ù† Ù†Ø¹Ø§Ù†ÙŠ ÙÙŠ Ø§Ù„Ø®ÙŠØ§Ù„ Ø£ÙƒØ«Ø± Ø¨ÙƒØ«ÙŠØ± Ù…Ù† Ø§Ù„ÙˆØ§Ù‚Ø¹. â€” Ø³ÙŠÙ†ÙŠÙƒØ§",
+            "Ù…Ù† Ù„Ø¯ÙŠÙ‡ Ø³Ø¨Ø¨ Ù„ÙŠØ¹ÙŠØ´ØŒ ÙŠÙ…ÙƒÙ†Ù‡ Ø£Ù† ÙŠØªØ­Ù…Ù„ Ø£ÙŠ Ø·Ø±ÙŠÙ‚Ø© Ù„Ù„Ø¹ÙŠØ´. â€” Ù†ÙŠØªØ´Ù‡",
+            "Ø§Ù„Ø¬Ø±Ø­ Ù‡Ùˆ Ø§Ù„Ù…ÙƒØ§Ù† Ø§Ù„Ø°ÙŠ ÙŠØ¯Ø®Ù„ Ù…Ù†Ù‡ Ø§Ù„Ù†ÙˆØ± Ø¥Ù„ÙŠÙƒ. â€” Ø¬Ù„Ø§Ù„ Ø§Ù„Ø¯ÙŠÙ† Ø§Ù„Ø±ÙˆÙ…ÙŠ",
+            "ØªØ¹Ø¨ ÙƒÙ„Ù‡Ø§ Ø§Ù„Ø­ÙŠØ§Ø© ÙÙ…Ø§ Ø£Ø¹Ø¬Ø¨ Ø¥Ù„Ø§ Ù…Ù† Ø±Ø§ØºØ¨ ÙÙŠ Ø§Ø²Ø¯ÙŠØ§Ø¯. â€” Ø£Ø¨Ùˆ Ø§Ù„Ø¹Ù„Ø§Ø¡ Ø§Ù„Ù…Ø¹Ø±ÙŠ"
         ];
 
         function getRandomWisdom() {
             if (Math.random() > 0.5) {
-                return `« ${famousQuotes[Math.floor(Math.random() * famousQuotes.length)]} »`;
+                return `Â« ${famousQuotes[Math.floor(Math.random() * famousQuotes.length)]} Â»`;
             } else {
-                return `« ${intros[Math.floor(Math.random() * intros.length)]} ${cores[Math.floor(Math.random() * cores.length)]} ${exits[Math.floor(Math.random() * exits.length)]} »`;
+                return `Â« ${intros[Math.floor(Math.random() * intros.length)]} ${cores[Math.floor(Math.random() * cores.length)]} ${exits[Math.floor(Math.random() * exits.length)]} Â»`;
             }
         }
         return { getRandomWisdom };
     })();
 
     /* =========================================================================
-       MODULE 4: Panic Button & Breathing Circle — زر الفزع الوجودي
+       MODULE 4: Panic Button & Breathing Circle â€” Ø²Ø± Ø§Ù„ÙØ²Ø¹ Ø§Ù„ÙˆØ¬ÙˆØ¯ÙŠ
        ========================================================================= */
     const PanicButton = (() => {
 
@@ -328,10 +328,10 @@
 
         // 4 seconds inhale, 6 seconds exhale (Biometric calming)
         const BREATHING_PHASES = [
-            { label: 'تنفّس ببطء... شهيق عميق', duration: 4000 },
-            { label: 'احتبس اللحظة...', duration: 1500 },
-            { label: 'ازفر الضيق ببطء متأنٍّ...', duration: 6000 },
-            { label: 'توقف... عُد لذاتك.', duration: 1500 },
+            { label: 'ØªÙ†ÙÙ‘Ø³ Ø¨Ø¨Ø·Ø¡... Ø´Ù‡ÙŠÙ‚ Ø¹Ù…ÙŠÙ‚', duration: 4000 },
+            { label: 'Ø§Ø­ØªØ¨Ø³ Ø§Ù„Ù„Ø­Ø¸Ø©...', duration: 1500 },
+            { label: 'Ø§Ø²ÙØ± Ø§Ù„Ø¶ÙŠÙ‚ Ø¨Ø¨Ø·Ø¡ Ù…ØªØ£Ù†ÙÙ‘...', duration: 6000 },
+            { label: 'ØªÙˆÙ‚Ù... Ø¹ÙØ¯ Ù„Ø°Ø§ØªÙƒ.', duration: 1500 },
         ];
 
         function injectPanicBtn() {
@@ -341,8 +341,8 @@
             const btn = document.createElement('button');
             btn.id = 'panicBtn';
             btn.type = 'button';
-            btn.title = 'الفزع الوجودي — بروتوكول التهدئة الفورية';
-            btn.setAttribute('aria-label', 'تفعيل دائرة التنفس');
+            btn.title = 'Ø§Ù„ÙØ²Ø¹ Ø§Ù„ÙˆØ¬ÙˆØ¯ÙŠ â€” Ø¨Ø±ÙˆØªÙˆÙƒÙˆÙ„ Ø§Ù„ØªÙ‡Ø¯Ø¦Ø© Ø§Ù„ÙÙˆØ±ÙŠØ©';
+            btn.setAttribute('aria-label', 'ØªÙØ¹ÙŠÙ„ Ø¯Ø§Ø¦Ø±Ø© Ø§Ù„ØªÙ†ÙØ³');
             btn.innerHTML = `
                 <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke:rgba(231,76,60,0.80);stroke-width:1.8;stroke-linecap:round">
                     <path d="M12 22C12 22 3 17 3 10a9 9 0 0 1 18 0c0 7-9 12-9 12z"/>
@@ -356,18 +356,18 @@
             modal.id = 'breathingModal';
             modal.setAttribute('role', 'dialog');
             modal.setAttribute('aria-modal', 'true');
-            modal.setAttribute('aria-label', 'دائرة التنفس الوجودي');
+            modal.setAttribute('aria-label', 'Ø¯Ø§Ø¦Ø±Ø© Ø§Ù„ØªÙ†ÙØ³ Ø§Ù„ÙˆØ¬ÙˆØ¯ÙŠ');
             modal.innerHTML = `
                 <p style="font-family:'Amiri',serif;font-size:0.9rem;color:var(--text-tertiary);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px">
-                    بروتوكول إيقاف الهلع
+                    Ø¨Ø±ÙˆØªÙˆÙƒÙˆÙ„ Ø¥ÙŠÙ‚Ø§Ù Ø§Ù„Ù‡Ù„Ø¹
                 </p>
-                <div id="breathingCircle" role="img" aria-label="دائرة التنفس"></div>
+                <div id="breathingCircle" role="img" aria-label="Ø¯Ø§Ø¦Ø±Ø© Ø§Ù„ØªÙ†ÙØ³"></div>
                 <p id="breathingLabel" style="font-family:'Amiri',serif;font-size:1.25rem;color:var(--gold-light);letter-spacing:0.06em">
-                    تنفّس ببطء... شهيق عميق
+                    ØªÙ†ÙÙ‘Ø³ Ø¨Ø¨Ø·Ø¡... Ø´Ù‡ÙŠÙ‚ Ø¹Ù…ÙŠÙ‚
                 </p>
                 <p id="breathingWisdom" style="font-size:0.95rem;color:var(--text-tertiary);max-width:320px;line-height:1.6;margin:15px auto;">
                 </p>
-                <button id="closeBreathing" type="button">إغلاق الدائرة والعودة</button>
+                <button id="closeBreathing" type="button">Ø¥ØºÙ„Ø§Ù‚ Ø§Ù„Ø¯Ø§Ø¦Ø±Ø© ÙˆØ§Ù„Ø¹ÙˆØ¯Ø©</button>
             `;
             document.body.appendChild(modal);
 
@@ -429,7 +429,7 @@
     })();
 
     /* =========================================================================
-       MODULE 5: Page Transitions — انتقالات الصفحات السلسة
+       MODULE 5: Page Transitions â€” Ø§Ù†ØªÙ‚Ø§Ù„Ø§Øª Ø§Ù„ØµÙØ­Ø§Øª Ø§Ù„Ø³Ù„Ø³Ø©
        ========================================================================= */
     const PageTransitions = (() => {
 
@@ -466,7 +466,7 @@
     })();
 
     /* =========================================================================
-       MODULE 6: Biometric Sync — نبض الصفحة العضوي
+       MODULE 6: Biometric Sync â€” Ù†Ø¨Ø¶ Ø§Ù„ØµÙØ­Ø© Ø§Ù„Ø¹Ø¶ÙˆÙŠ
        ========================================================================= */
     const BiometricSync = (() => {
         function injectBreath() {
@@ -485,7 +485,7 @@
     })();
 
     /* =========================================================================
-       MODULE 7: MasterUI Injector — التذييل السيادي والشعار
+       MODULE 7: MasterUI Injector â€” Ø§Ù„ØªØ°ÙŠÙŠÙ„ Ø§Ù„Ø³ÙŠØ§Ø¯ÙŠ ÙˆØ§Ù„Ø´Ø¹Ø§Ø±
        ========================================================================= */
     const MasterUI = (() => {
         function injectFooter() {
@@ -499,16 +499,16 @@
                                     <circle cx="12" cy="12" r="10"></circle>
                                     <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
                                 </svg>
-                                عقل في صندوق
+                                Ø¹Ù‚Ù„ ÙÙŠ ØµÙ†Ø¯ÙˆÙ‚
                             </a>
                         </div>
                         <div class="master-footer-links">
-                            <a href="#">الميثاق الأخلاقي</a>
-                            <a href="#">سياسة العهد</a>
-                            <a href="#">تواصل مع المجلس (الدعم)</a>
+                            <a href="#">Ø§Ù„Ù…ÙŠØ«Ø§Ù‚ Ø§Ù„Ø£Ø®Ù„Ø§Ù‚ÙŠ</a>
+                            <a href="#">Ø³ÙŠØ§Ø³Ø© Ø§Ù„Ø¹Ù‡Ø¯</a>
+                            <a href="#">ØªÙˆØ§ØµÙ„ Ù…Ø¹ Ø§Ù„Ù…Ø¬Ù„Ø³ (Ø§Ù„Ø¯Ø¹Ù…)</a>
                         </div>
                         <div class="master-footer-credo">
-                            هذا الملاذ لا يبيع الوهم، بل يبني الصمود. &copy; 2026 جميع حقوق الهندسة المعرفية محفوظة.
+                            Ù‡Ø°Ø§ Ø§Ù„Ù…Ù„Ø§Ø° Ù„Ø§ ÙŠØ¨ÙŠØ¹ Ø§Ù„ÙˆÙ‡Ù…ØŒ Ø¨Ù„ ÙŠØ¨Ù†ÙŠ Ø§Ù„ØµÙ…ÙˆØ¯. &copy; 2026 Ø¬Ù…ÙŠØ¹ Ø­Ù‚ÙˆÙ‚ Ø§Ù„Ù‡Ù†Ø¯Ø³Ø© Ø§Ù„Ù…Ø¹Ø±ÙÙŠØ© Ù…Ø­ÙÙˆØ¸Ø©.
                         </div>
                     </div>
                 </footer>
@@ -532,7 +532,7 @@
     })();
 
     /* =========================================================================
-       MODULE 8: Global Shock Engine — صدمة الإيقاظ المباشرة
+       MODULE 8: Global Shock Engine â€” ØµØ¯Ù…Ø© Ø§Ù„Ø¥ÙŠÙ‚Ø§Ø¸ Ø§Ù„Ù…Ø¨Ø§Ø´Ø±Ø©
        ========================================================================= */
     const GlobalShock = (() => {
         function checkShock() {
@@ -552,9 +552,9 @@
                 
                 shockModal.innerHTML = `
                     <div class="anti-ai-border" style="background: #0a0a0f; padding: 50px; max-width: 600px; text-align: center; border-color: rgba(231,76,60,0.3) !important;">
-                        <h2 style="font-family: var(--font-serif); color: #e74c3c; font-size: 2.5rem; margin-bottom: 20px;">استيقظ</h2>
+                        <h2 style="font-family: var(--font-serif); color: #e74c3c; font-size: 2.5rem; margin-bottom: 20px;">Ø§Ø³ØªÙŠÙ‚Ø¸</h2>
                         <p style="font-size: 1.2rem; line-height: 1.8; color: var(--text-primary); margin-bottom: 40px;">"${msg}"</p>
-                        <button class="btn btn-ghost" style="border: 1px solid rgba(231,76,60,0.5); color: #e74c3c;" onclick="this.parentElement.parentElement.remove()">تلقيت الرسالة</button>
+                        <button class="btn btn-ghost" style="border: 1px solid rgba(231,76,60,0.5); color: #e74c3c;" onclick="this.parentElement.parentElement.remove()">ØªÙ„Ù‚ÙŠØª Ø§Ù„Ø±Ø³Ø§Ù„Ø©</button>
                     </div>
                 `;
                 
@@ -568,7 +568,7 @@
     })();
 
     /* =========================================================================
-       BOOTSTRAP — Initialize All Modules on DOMContentLoaded
+       BOOTSTRAP â€” Initialize All Modules on DOMContentLoaded
        ========================================================================= */
     function boot() {
         SecurityShield.init();
@@ -596,7 +596,7 @@
 })();
 
     /* =========================================================================
-       MODULE 9: Dopamine Retreat � ???? ?????????
+       MODULE 9: Dopamine Retreat — ???? ?????????
        ========================================================================= */
     const DopamineRetreat = (() => {
         function init() {
@@ -626,9 +626,5 @@
         }
         return { init, activate, promptBreak };
     })();
-    // Append to boot function dynamically since we can't edit it directly easily via append
-    const oldBoot = boot;
-    boot = function() {
-        oldBoot();
-        DopamineRetreat.init();
-    };
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', DopamineRetreat.init); } else { DopamineRetreat.init(); }
+
