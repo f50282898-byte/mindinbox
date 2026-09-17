@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="عقل في صندوق - صك الالتزام وبناء العهد المعرفي.">
+    <meta name="theme-color" content="#07070a">
+    
+    <title>عقل في صندوق | صك الالتزام</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <script src="cloud.js"></script>
+    <script src="ai.js"></script>
+    <script src="brand.js" defer></script>
+    <script src="core.js" defer></script>
+
+    <style>
+        .pricing-container {
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 20px;
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .pricing-header h1 {
+            font-size: 2.5rem;
+            color: var(--gold-light);
+            margin-bottom: 16px;
+        }
+
+        .pricing-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Compass Covenant Background Card */
+        .covenant-card {
+            background: linear-gradient(180deg, rgba(10, 10, 15, 0.85) 0%, rgba(3, 3, 4, 0.95) 100%), url('https://images.unsplash.com/photo-1508614589041-895b88991e3e?w=1200') center/cover;
+            border: 1px solid var(--gold-border);
+            border-radius: 4px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        /* Slider Engine */
+        .slider-container {
+            margin: 40px 0;
+            padding: 0 20px;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            appearance: none;
+            background: transparent;
+            outline: none;
+            height: 6px;
+            border-radius: 3px;
+        }
+        input[type="range"]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: var(--gold-primary);
+            border: 2px solid var(--bg-base);
+            border-radius: 50%;
+            cursor: pointer;
+            margin-top: -9px;
+            box-shadow: 0 0 15px var(--gold-glow-medium);
+            transition: transform var(--trans-fast);
+        }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .price-display {
+            margin: 30px 0;
+        }
+        .price-display h2 {
+            font-size: 3.5rem;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-weight: 800;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        .price-display h2 span {
+            font-size: 1.2rem;
+            color: var(--text-tertiary);
+            font-weight: 400;
+        }
+        
+        .savings-badge {
+            display: inline-block;
+            background: rgba(39, 174, 96, 0.15);
+            color: #2ecc71;
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-top: 12px;
+            border: 1px solid rgba(39, 174, 96, 0.3);
+            opacity: 0;
+            transition: opacity var(--trans-medium);
+        }
+        .savings-badge.visible {
+            opacity: 1;
+        }
+
+        .commitment-text {
+            font-family: 'Amiri', serif;
+            font-size: 1.2rem;
+            color: var(--gold-light);
+            margin: 20px 0;
+        }
+
+        /* Order Bump Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--trans-medium);
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .bump-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--gold-primary);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            max-width: 450px;
+            width: 90%;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform var(--trans-medium);
+            box-shadow: 0 20px 60px rgba(197, 160, 89, 0.15);
+        }
+        .modal-overlay.active .bump-card {
+            transform: translateY(0);
+        }
+
+        .bump-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 15px;
+        }
+        
+        .bump-header h3 {
+            color: #e74c3c;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bump-checkbox-wrapper {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            background: rgba(255,255,255,0.03);
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            border: 1px dashed var(--gold-border);
+            cursor: pointer;
+            margin: 24px 0;
+            transition: background var(--trans-fast);
+        }
+        .bump-checkbox-wrapper:hover {
+            background: rgba(197, 160, 89, 0.05);
+        }
+        
+        .bump-checkbox-wrapper input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            accent-color: var(--gold-primary);
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .bump-desc h4 {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        .bump-desc p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* ==========================================================================
+           Swipe to Commit (صك الالتزام)
+           ========================================================================== */
+        .swipe-container {
+            width: 100%;
+            height: 64px;
+            background: rgba(4,4,6,0.9);
+            border: 1px solid var(--gold-border);
+            border-radius: 32px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 24px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+        }
+        .swipe-text {
+            color: var(--gold-light);
+            font-family: 'Amiri', serif;
+            font-weight: 700;
+            font-size: 1.3rem;
+            z-index: 1;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .swipe-handle {
+            position: absolute;
+            right: 6px; /* Right to Left for Arabic */
+            top: 6px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            z-index: 2;
+            box-shadow: 0 0 15px rgba(197, 160, 89, 0.4);
+            transition: transform 0.1s;
+        }
+        .swipe-handle:active { cursor: grabbing; }
+        .swipe-handle svg {
+            stroke: var(--bg-base);
+            width: 24px;
+            height: 24px;
+        }
+        .swipe-success-bg {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: rgba(197, 160, 89, 0.15);
+            z-index: 0;
+        }
+
+        /* المخطوطة العتيقة للخوف من الفقد */
+        .exit-modal .bump-card {
+            background-blend-mode: multiply;
+            border: 1px solid rgba(181, 149, 81, 0.4);
+            box-shadow: 0 20px 80px rgba(0,0,0,0.9);
+            text-align: center;
+        }
+
+    </style>
+    <!-- FOUC Theme Preventer -->
+    <script>
+        (function() {
+            try {
+                if (localStorage.getItem('mind_theme_preference') === 'manuscript') {
+                    document.documentElement.setAttribute('data-mode', 'manuscript');
+                }
+            } catch(e) {}
+        })();
+    </script>
+</head>
+<body class="page-content">
+
+    <div class="pricing-container">
+        
+        <div class="pricing-header">
+            <h1>ختم الميثاق</h1>
+            <p>الانضباط لا يوهب، بل يُنتزع بعهدٍ صادق. حدد مدة التزامك بتطويع ذاتك؛ كلما زادت مدة العهد، قلّ الثمن المادي ليكون الاستثمار الحقيقي هو "وقتك وإرادتك".</p>
+        </div>
+
+        <div class="covenant-card compass-bg">
+            
+            <div class="commitment-text" id="commitmentLabel">
+                عهد العابر — شهر واحد من المواجهة
+            </div>
+
+            <div class="slider-container">
+                <input type="range" id="monthsSlider" min="1" max="12" value="1" step="1" aria-label="مدة العهد">
+                <div style="display: flex; justify-content: space-between; margin-top: 12px; color: var(--text-tertiary); font-size: 0.85rem;">
+                    <span>شهر واحد</span>
+                    <span>6 أشهر</span>
+                    <span>12 شهراً</span>
+                </div>
+            </div>
+
+            <div class="price-display">
+                <h2>$<span id="priceValue">29</span> <span>/ شهرياً</span></h2>
+                <div class="savings-badge" id="savingsBadge">وفرت 0%</div>
+            </div>
+
+            <button class="btn btn-primary" style="width: 100%; max-width: 300px; font-size: 1.1rem; padding: 16px;" id="btnProceed">
+                صياغة الميثاق والمضي قدماً
+            </button>
+
+            <p style="margin-top: 20px; font-size: 0.85rem; color: var(--text-tertiary);">
+                دفع آمن. يمكنك نقض العهد في أي لحظة.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Exit Intent Modal (نافذة التردد - الخوف من الفقد) -->
+    <div class="modal-overlay exit-modal" id="exitIntentModal">
+        <div class="bump-card papyrus-surface" style="padding: 50px 30px;">
+            <h2 style="font-family:'Amiri',serif; color:#33291f; font-size:2.8rem; margin-bottom:16px;">التردد هو لص الوقت</h2>
+            <p style="color:#5c4d3c; font-size:1.15rem; line-height:1.8; margin-bottom:40px; font-weight: 600;">
+                كل ثانية تقضيها في التفاوض مع ذاتك هي انتصار صغير للمشتتات.<br>هل ستدير ظهرك للعهد قبل أن يبدأ؟
+            </p>
+            <div style="display:flex; gap:15px; justify-content:center; flex-wrap: wrap;">
+                <button class="btn" id="btnStay" style="background:#33291f; color:#eaecef; padding:12px 30px; font-size: 1.1rem;">البقاء للمواجهة</button>
+                <button class="btn" id="btnLeave" style="background:transparent; border: 1px solid #8b4513; color:#8b4513; padding:12px 30px; font-size: 1.1rem;">الفرار بضعف (مغادرة)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Bump Modal (عرض اللحظة الأخيرة) -->
+    <div class="modal-overlay" id="bumpModal">
+        <div class="bump-card">
+            
+            <div class="bump-header">
+                <h3><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> انتظر، قبل أن تختم العهد</h3>
+                
+                <!-- Handwritten Close Button SVG -->
+                <button class="btn-handwritten-close" id="btnCloseBump" aria-label="إغلاق">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M4 5L19 20M20 4L5 19" />
+                    </svg>
+                </button>
+            </div>
+
+            <p style="color: var(--text-secondary); line-height: 1.6;">الالتزام العاري قد يكون قاسياً. هل ترغب في تسليح نفسك بـ "مخطوطة النجاة الطارئة"؟</p>
+
+            <label class="bump-checkbox-wrapper">
+                <input type="checkbox" id="bumpCheckbox">
+                <div class="bump-desc">
+                    <h4>نعم، أضف "مخطوطة النجاة" (+7$)</h4>
+                    <p>ملف صوتي سري (ديب فيك للحكيم أوريليوس) لتهدئة نوبات الهلع الوجودي الفورية متى ما عصفت بك.</p>
+                </div>
+            </label>
+
+            <div class="total-summary">
+                <span>استثمار الالتزام:</span>
+                <span id="totalToPay" style="color: var(--gold-light);">$29.00</span>
+            </div>
+
+            <!-- Swipe to Commit UI instead of a normal button -->
+            <div class="swipe-container" id="swipeContainer">
+                <div class="swipe-success-bg" id="swipeBg"></div>
+                <div class="swipe-text" id="swipeText">اسحب لختم الميثاق</div>
+                <div class="swipe-handle" id="swipeHandle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 15px;">
+                <button class="btn btn-ghost" id="btnSkipBump" style="font-size: 0.9rem;">
+                    لا، سأمضي أعزل (تخطي العرض)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upsell Modal -->
+    <div id="upsellModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:99999; flex-direction:column; justify-content:center; align-items:center; backdrop-filter:blur(10px);">
+        <div class="anti-ai-border" style="background:var(--bg-surface); padding:40px; border:1px solid var(--gold-primary); border-radius:4px; text-align:center; max-width:500px;">
+            <h2 style="color:var(--gold-light); font-family:var(--font-serif); font-size:2rem; margin-bottom:15px;">قبل ختم الميثاق...</h2>
+            <p style="color:var(--text-secondary); margin-bottom:30px; line-height:1.8; font-size:1.1rem;">هل ترغب في ضم "كراسة الانضباط الرواقية" لعهدك؟ منهج مكتوب بدم السالكين يرافقك خطوة بخطوة. (بـ 7$ فقط)</p>
+            <div style="display:flex; gap:15px; justify-content:center;">
+                <button onclick="finalizeCommit(true)" style="background:var(--gold-primary); color:#000; font-family:var(--font-sans); font-weight:bold; border:none; padding:12px 24px; cursor:pointer; border-radius:4px;">ضم الكراسة والمتابعة</button>
+                <button onclick="finalizeCommit(false)" style="background:transparent; color:var(--text-tertiary); font-family:var(--font-sans); border:1px solid rgba(255,255,255,0.2); padding:12px 24px; cursor:pointer; border-radius:4px;">لا، سأمضي وحدي</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const slider = document.getElementById('monthsSlider');
+        const priceValue = document.getElementById('priceValue');
+        const savingsBadge = document.getElementById('savingsBadge');
+        const commitmentLabel = document.getElementById('commitmentLabel');
+        const totalToPay = document.getElementById('totalToPay');
+        
+        const btnProceed = document.getElementById('btnProceed');
+        const bumpModal = document.getElementById('bumpModal');
+        const btnCloseBump = document.getElementById('btnCloseBump');
+        const btnSkipBump = document.getElementById('btnSkipBump');
+        const bumpCheckbox = document.getElementById('bumpCheckbox');
+
+        // Dynamic Pricing Logic (Mathematical algorithm as requested)
+        const BASE_PRICE = parseFloat(localStorage.getItem('admin_base_price')) || 29;
+        
+        function updatePricing() {
+            const months = parseInt(slider.value);
+            
+            // Formula: discountRate = months === 1 ? 0 : 0.12 + (months - 2) * (0.40 / 10)
+            let discountRate = 0;
+            if (months > 1) {
+                discountRate = 0.12 + ((months - 2) * (0.40 / 10)); // Max 52% at 12 months
+            }
+
+            const currentPrice = BASE_PRICE * (1 - discountRate);
+            priceValue.textContent = currentPrice.toFixed(2);
+            
+            // Update Savings Badge
+            if (months === 1) {
+                savingsBadge.classList.remove('visible');
+                commitmentLabel.textContent = "عهد العابر — شهر واحد من المواجهة";
+            } else {
+                savingsBadge.classList.add('visible');
+                savingsBadge.textContent = `وفرت ${Math.round(discountRate * 100)}%`;
+                
+                if (months < 6) {
+                    commitmentLabel.textContent = `عهد السالك — التزام ${months} أشهر`;
+                } else if (months < 12) {
+                    commitmentLabel.textContent = `عهد المحارب — التزام ${months} أشهر`;
+                } else {
+                    commitmentLabel.textContent = `عهد الحكيم — سنة كاملة من التجرد`;
+                }
+            }
+
+            updateTotalSummary();
+        }
+
+        function updateTotalSummary() {
+            const months = parseInt(slider.value);
+            const currentMonthlyPrice = parseFloat(priceValue.textContent);
+            let total = currentMonthlyPrice * months; 
+            
+            if (bumpCheckbox.checked) {
+                total += 7;
+            }
+            
+            totalToPay.textContent = `$${total.toFixed(2)}`;
+        }
+
+        // Event Listeners
+        slider.addEventListener('input', updatePricing);
+        bumpCheckbox.addEventListener('change', updateTotalSummary);
+
+        btnProceed.addEventListener('click', () => {
+            bumpCheckbox.checked = false;
+            updateTotalSummary();
+            bumpModal.classList.add('active');
+        });
+
+        const closeBump = () => {
+            bumpModal.classList.remove('active');
+            resetSwipe();
+        };
+        btnCloseBump.addEventListener('click', closeBump);
+        btnSkipBump.addEventListener('click', () => {
+            bumpCheckbox.checked = false;
+            // Initiate final checkout logic here (skip bump)
+            alert("تم إرسال الطلب بدون المخطوطة الإضافية.");
+            closeBump();
+        });
+        
+        // Initial setup
+        updatePricing();
+
+        /* ==========================================================================
+           1. Exit Intent (الخوف من الفقد - سيكولوجيا التردد)
+           ========================================================================== */
+        let exitTriggered = false;
+        const exitIntentModal = document.getElementById('exitIntentModal');
+        const btnStay = document.getElementById('btnStay');
+        const btnLeave = document.getElementById('btnLeave');
+
+        document.addEventListener('mouseout', (e) => {
+            // إذا تحرك الماوس لأعلى الشاشة (نحو التبويبات أو الإغلاق)
+            if (e.clientY < 15 && !exitTriggered && !bumpModal.classList.contains('active')) {
+                exitTriggered = true;
+                exitIntentModal.classList.add('active');
+            }
+        });
+
+        btnStay.addEventListener('click', () => exitIntentModal.classList.remove('active'));
+        btnLeave.addEventListener('click', () => window.location.href = 'dashboard.html');
+
+        /* ==========================================================================
+           2. Swipe to Commit (صك الالتزام بالسحب اليدوي)
+           ========================================================================== */
+        const handle = document.getElementById('swipeHandle');
+        const swipeContainer = document.getElementById('swipeContainer');
+        const swipeBg = document.getElementById('swipeBg');
+        const swipeText = document.getElementById('swipeText');
+        
+        let isDragging = false;
+        let startX = 0;
+        let maxDrag = 0;
+
+        function initDrag(e) {
+            isDragging = true;
+            // RTL means we start from Right, dragging to Left.
+            // ClientX measures from Left.
+            startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+            // Max drag distance is container width minus handle width minus padding
+            maxDrag = swipeContainer.offsetWidth - handle.offsetWidth - 12;
+            handle.style.transition = 'none';
+            swipeBg.style.transition = 'none';
+        }
+
+        function onDrag(e) {
+            if (!isDragging) return;
+            const currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+            // Since it's RTL (right to left movement), currentX will be LESS than startX.
+            let moveX = startX - currentX;
+
+            if (moveX < 0) moveX = 0;
+            if (moveX > maxDrag) moveX = maxDrag;
+
+            // In RTL, translateX negative moves it left
+            handle.style.transform = `translateX(${-moveX}px)`;
+            swipeBg.style.width = (moveX + 40) + 'px';
+            swipeText.style.opacity = 1 - (moveX / maxDrag);
+
+            // Commit threshold
+            if (moveX >= maxDrag * 0.95) {
+                isDragging = false;
+                executeCommit(moveX);
+            }
+        }
+
+        function endDrag() {
+            if (!isDragging) return;
+            isDragging = false;
+            resetSwipe();
+        }
+
+        function resetSwipe() {
+            handle.style.transition = 'transform 0.3s ease';
+            swipeBg.style.transition = 'width 0.3s ease';
+            handle.style.transform = `translateX(0px)`;
+            swipeBg.style.width = '0px';
+            swipeText.style.opacity = 1;
+            swipeText.textContent = 'اسحب لختم الميثاق';
+        }
+
+        function executeCommit(finalMoveX) {
+            handle.style.transform = `translateX(${-finalMoveX}px)`;
+            swipeText.textContent = 'تم توثيق العهد';
+            swipeText.style.opacity = 1;
+            
+            setTimeout(() => {
+                document.getElementById('upsellModal').style.display = 'flex';
+            }, 800);
+        }
+
+        handle.addEventListener('mousedown', initDrag);
+        handle.addEventListener('touchstart', initDrag, {passive: true});
+        document.addEventListener('mousemove', onDrag);
+        document.addEventListener('touchmove', onDrag, {passive: true});
+        document.addEventListener('mouseup', endDrag);
+        document.addEventListener('touchend', endDrag);
+
+        function finalizeCommit(withUpsell) {
+            localStorage.setItem('sys_premium', 'true');
+            if(withUpsell) alert('تم ضم الكراسة للعهد بنجاح. مرحباً بك في طبقة السالكين.');
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+</body>
+</html>

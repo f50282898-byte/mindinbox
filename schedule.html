@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="ميثاق اليوم - منصة إدارة الأولويات، التركيز العميق، وقهر التسويف وفق فلسفة الإنتاجية الرواقية الصارمة.">
+    <meta name="theme-color" content="#040406">
+    
+    <title>عقل في صندوق | ميثاق اليوم والانضباط</title>
+
+    <!-- اتصالات مسبقة لتسريع جلب الموارد السحابية -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- خطوط مؤسسية للواجهة -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- نظام التصميم المعماري الفلسفي -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- الحزم البرمجية السحابية من Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <!-- المحرك العصبي للذكاء الاصطناعي -->
+    <script src="ai.js"></script>
+
+    <!-- النواة المشتركة: المخطوطة، الشريط، الفزع، الحصانة -->
+    <script src="brand.js" defer></script>
+    <script src="core.js" defer></script>
+
+    <style>
+        /* ==========================================================================
+           1. التصميم المعماري والمتغيرات الشاملة (Design System Variables)
+           ========================================================================== */
+        :root {
+            --bg-base: #040406;
+            --bg-surface: #0a0a0f;
+            --bg-surface-elevated: rgba(18, 18, 26, 0.75);
+            --bg-glass-heavy: rgba(12, 12, 18, 0.9);
+            
+            --gold-primary: #c5a059;
+            --gold-light: #e5b964;
+            --gold-dark: #8b6d36;
+            --gold-glow-soft: rgba(197, 160, 89, 0.15);
+            --gold-glow-strong: rgba(197, 160, 89, 0.45);
+            --gold-border: rgba(197, 160, 89, 0.25);
+            
+            --text-primary: #f8f8fa;
+            --text-secondary: #a1a5b0;
+            --text-tertiary: #6b6f7a;
+            
+            --color-success: #2ecc71;
+            --color-error: #e74c3c;
+            --color-warning: #f39c12;
+            
+            --priority-high: #e74c3c;
+            --priority-med: #f39c12;
+            --priority-low: #3498db;
+            
+            --shadow-md: 0 15px 35px rgba(0, 0, 0, 0.6);
+            --shadow-lg: 0 25px 60px rgba(0, 0, 0, 0.85);
+            --blur-md: blur(16px);
+            --blur-lg: blur(24px);
+            
+            --trans-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --trans-medium: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* ==========================================================================
+           2. إعادة الضبط والبنية الأساسية (Base & Reset)
+           ========================================================================== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: 'Cairo', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            background-image: 
+                radial-gradient(circle at 85% 10%, rgba(197, 160, 89, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 15% 90%, rgba(18, 18, 28, 0.95) 0%, transparent 60%);
+            background-attachment: fixed;
+        }
+
+        /* ==========================================================================
+           3. الترويسة الرئيسية (Header Architecture)
+           ========================================================================== */
+        .sanctuary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 4%;
+            background: rgba(6, 6, 8, 0.85);
+            backdrop-filter: var(--blur-md);
+            border-bottom: 1px solid var(--gold-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: var(--trans-fast);
+        }
+
+        .back-link:hover {
+            color: var(--gold-light);
+            transform: translateX(4px);
+        }
+
+        .brand-title {
+            font-family: 'Amiri', serif;
+            color: var(--gold-primary);
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .quota-indicator {
+            background: rgba(197, 160, 89, 0.1);
+            border: 1px solid var(--gold-border);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--gold-light);
+            font-weight: 700;
+            display: none; 
+            box-shadow: 0 0 10px var(--gold-glow-soft);
+        }
+
+        /* ==========================================================================
+           4. المساحة الإعلانية المخصصة (Exclusive Ad Banner)
+           ========================================================================== */
+        .exclusive-ad-banner {
+            width: 92%;
+            max-width: 1200px;
+            margin: 24px auto 0 auto;
+            background: linear-gradient(90deg, rgba(20, 20, 28, 0.6), rgba(12, 12, 18, 0.8), rgba(20, 20, 28, 0.6));
+            border: 1px dashed rgba(197, 160, 89, 0.2);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .exclusive-ad-banner::before {
+            content: "مساحة إعلانية مخصصة";
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            letter-spacing: 1px;
+        }
+
+        /* ==========================================================================
+           5. الشبكة الرئيسية لواجهة المستخدم (Workspace Grid Layout)
+           ========================================================================== */
+        .workspace-container {
+            max-width: 1250px;
+            width: 92%;
+            margin: 32px auto 60px auto;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 32px;
+            flex: 1;
+        }
+
+        /* ==========================================================================
+           6. هندسة سجل المهام (Task Ledger Engine)
+           ========================================================================== */
+        .tasks-panel {
+            background: var(--bg-surface-elevated);
+            backdrop-filter: var(--blur-md);
+            border: 1px solid var(--gold-border);
+            border-radius: 24px;
+            padding: 36px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tasks-panel::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+            opacity: 0.5;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 16px;
+        }
+
+        .panel-header h2 {
+            font-family: 'Amiri', serif;
+            color: var(--gold-light);
+            font-size: 1.85rem;
+        }
+
+        .task-progress-tracker {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .progress-bar-bg {
+            width: 140px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold-primary), var(--gold-light));
+            width: 0%;
+            transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            border-radius: 10px;
+            box-shadow: 0 0 12px var(--gold-glow-strong);
+        }
+
+        /* نموذج إدخال المهمة الشامل */
+        .task-input-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 16px;
+        }
+
+        .input-row-main {
+            display: flex;
+            gap: 12px;
+        }
+
+        .task-input {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 16px 20px;
+            color: var(--text-primary);
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.05rem;
+            outline: none;
+            transition: var(--trans-fast);
+        }
+
+        .task-input:focus {
+            border-color: var(--gold-primary);
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 15px var(--gold-glow-soft);
+        }
+
+        .btn-add-task {
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+            color: var(--bg-base);
+            border: none;
+            padding: 0 28px;
+            border-radius: 12px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: var(--trans-fast);
+            box-shadow: 0 5px 15px var(--gold-glow-soft);
+            white-space: nowrap;
+        }
+
+        .btn-add-task:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--gold-glow-strong);
+        }
+
+        /* تصنيف الأولويات (Priority Selector) */
+        .priority-selector {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .priority-label {
+            font-size: 0.9rem;
+            color: var(--text-tertiary);
+            margin-left: 8px;
+        }
+
+        .priority-radio {
+            display: none;
+        }
+
+        .priority-btn {
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.02);
+            transition: var(--trans-fast);
+        }
+
+        .priority-radio:checked + .priority-btn.high { background: rgba(231, 76, 60, 0.15); border-color: var(--priority-high); color: var(--priority-high); }
+        .priority-radio:checked + .priority-btn.med { background: rgba(243, 156, 18, 0.15); border-color: var(--priority-med); color: var(--priority-med); }
+        .priority-radio:checked + .priority-btn.low { background: rgba(52, 152, 219, 0.15); border-color: var(--priority-low); color: var(--priority-low); }
+
+        /* القائمة وتنسيق العناصر */
+        .tasks-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            max-height: 55vh;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+
+        .tasks-list::-webkit-scrollbar { width: 6px; }
+        .tasks-list::-webkit-scrollbar-thumb { background: var(--gold-border); border-radius: 10px; }
+
+        .task-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 18px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            transition: var(--trans-medium);
+            animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .task-item::before {
+            content: '';
+            position: absolute;
+            right: 0; top: 0; bottom: 0; width: 4px;
+        }
+
+        .task-item[data-priority="high"]::before { background: var(--priority-high); }
+        .task-item[data-priority="med"]::before { background: var(--priority-med); }
+        .task-item[data-priority="low"]::before { background: var(--priority-low); }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .task-item:hover {
+            border-color: var(--gold-border);
+            background: rgba(255, 255, 255, 0.04);
+            transform: translateX(-4px);
+        }
+
+        .task-item.completed {
+            opacity: 0.55;
+            background: rgba(46, 204, 113, 0.05);
+            border-color: rgba(46, 204, 113, 0.15);
+        }
+
+        .task-item.completed::before {
+            background: var(--color-success);
+        }
+
+        .task-item.completed .task-text {
+            text-decoration: line-through;
+            color: var(--text-tertiary);
+        }
+
+        .task-content {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .custom-checkbox {
+            width: 26px;
+            height: 26px;
+            border: 2px solid var(--text-tertiary);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--trans-fast);
+            background: rgba(0,0,0,0.2);
+        }
+
+        .task-item.completed .custom-checkbox {
+            background: var(--color-success);
+            border-color: var(--color-success);
+            box-shadow: 0 0 10px rgba(46, 204, 113, 0.4);
+        }
+
+        .custom-checkbox svg {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: var(--bg-base);
+            stroke-width: 3.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: var(--trans-fast);
+        }
+
+        .task-item.completed .custom-checkbox svg {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .task-text {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            transition: var(--trans-fast);
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .btn-delete-task {
+            background: transparent;
+            border: none;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 8px;
+            transition: var(--trans-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-delete-task:hover {
+            color: var(--color-error);
+            background: rgba(231, 76, 60, 0.1);
+        }
+
+        .btn-delete-task svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* ==========================================================================
+           7. العمود الجانبي (Focus Timer & AI Analysis)
+           ========================================================================== */
+        .side-column {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        /* ناقوس العزلة (Focus Timer) */
+        .focus-timer-panel {
+            background: linear-gradient(180deg, var(--bg-surface-elevated), rgba(10, 10, 15, 0.95));
+            border: 1px solid var(--gold-border);
+            border-radius: 24px;
+            padding: 36px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .focus-timer-panel::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            left: -60px;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, var(--gold-glow-strong) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: var(--blur-lg);
+        }
+
+        .timer-header {
+            font-family: 'Amiri', serif;
+            color: var(--gold-light);
+            font-size: 1.55rem;
+            margin-bottom: 28px;
+        }
+
+        .timer-circle-wrap {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timer-svg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .timer-track {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.04);
+            stroke-width: 6;
+        }
+
+        .timer-progress {
+            fill: none;
+            stroke: var(--gold-primary);
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-dasharray: 628; /* 2 * PI * R (R=100) */
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 1s linear, stroke 0.3s ease;
+            filter: drop-shadow(0 0 10px rgba(197, 160, 89, 0.5));
+        }
+
+        .timer-progress.break-mode {
+            stroke: var(--color-success);
+            filter: drop-shadow(0 0 10px rgba(46, 204, 113, 0.5));
+        }
+
+        .timer-display {
+            font-family: 'Amiri', serif;
+            font-size: 4rem;
+            color: var(--text-primary);
+            font-weight: 700;
+            line-height: 1;
+            z-index: 2;
+        }
+
+        .timer-mode-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .mode-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-tertiary);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--trans-fast);
+        }
+
+        .mode-btn.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 16px;
+            width: 100%;
+        }
+
+        .btn-timer {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--gold-border);
+            color: var(--text-primary);
+            padding: 14px;
+            border-radius: 14px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: var(--trans-fast);
+        }
+
+        .btn-timer.primary {
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+            color: var(--bg-base);
+            border: none;
+            box-shadow: 0 5px 15px var(--gold-glow-soft);
+        }
+
+        .btn-timer:hover {
+            transform: translateY(-2px);
+            border-color: var(--gold-light);
+        }
+
+        .btn-timer.primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px var(--gold-glow-strong);
+        }
+
+        /* لوحة توجيه الأولويات (AI Priorities) */
+        .ai-priority-panel {
+            background: rgba(10, 10, 15, 0.85);
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            border-radius: 24px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .ai-priority-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ai-priority-header svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--gold-primary);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .ai-priority-header h3 {
+            font-family: 'Amiri', serif;
+            color: var(--gold-light);
+            font-size: 1.45rem;
+        }
+
+        .ai-priority-content {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-primary);
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 14px;
+            border-right: 4px solid var(--gold-primary);
+            min-height: 100px;
+            font-family: 'Amiri', serif;
+        }
+
+        .btn-ai-consult {
+            background: transparent;
+            border: 1px dashed var(--gold-primary);
+            color: var(--gold-light);
+            padding: 12px;
+            border-radius: 12px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: var(--trans-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-ai-consult:hover:not(:disabled) {
+            background: rgba(197, 160, 89, 0.1);
+            transform: scale(1.02);
+        }
+
+        .btn-ai-consult:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        .spinner-small {
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top-color: var(--gold-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        .btn-ai-consult.loading .spinner-small { display: block; }
+        .btn-ai-consult.loading .btn-text { display: none; }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ==========================================================================
+           8. التذييل والتوافقية (Footer & Responsive)
+           ========================================================================== */
+        .site-footer {
+            text-align: center;
+            padding: 24px;
+            color: var(--text-tertiary);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(4, 4, 6, 0.8);
+            margin-top: auto;
+        }
+
+        @media (max-width: 1100px) {
+            .workspace-container { grid-template-columns: 1fr; }
+            .side-column { flex-direction: row; }
+            .focus-timer-panel, .ai-priority-panel { flex: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .sanctuary-header { padding: 16px 20px; }
+            .side-column { flex-direction: column; }
+            .input-row-main { flex-direction: column; }
+            .btn-add-task { padding: 16px; }
+            .exclusive-ad-banner { margin-top: 16px; padding: 12px; }
+        }
+    </style>
+    <!-- FOUC Theme Preventer -->
+    <script>
+        (function() {
+            try {
+                if (localStorage.getItem('mind_theme_preference') === 'manuscript') {
+                    document.documentElement.setAttribute('data-mode', 'manuscript');
+                }
+            } catch(e) {}
+        })();
+    </script>
+</head>
+<body>
+
+    <header class="sanctuary-header">
+        <a href="dashboard.html" class="back-link">
+            <span>&rarr;</span> العودة للملاذ
+        </a>
+        <div class="brand-title">ميثاق اليوم</div>
+        <div class="quota-indicator" id="quotaDisplay">جاري الاتصال...</div>
+    </header>
+
+    <!-- المساحة الإعلانية الوحيدة والمخصصة بأعلى الصفحة -->
+    <div class="exclusive-ad-banner">
+        <!-- مساحة مخصصة للإعلانات (Google AdSense وغيرها) توضع هنا -->
+    </div>
+
+    <main class="workspace-container">
+
+        <!-- العمود الأول: محرك الأولويات (Task Engine) -->
+        <section class="tasks-panel">
+            <div class="panel-header">
+                <h2>أولويات الفعل</h2>
+                <div class="task-progress-tracker">
+                    <span id="taskCounterText">0/0 منجز</span>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="taskProgressBar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- نموذج هندسة المهام المتقدم -->
+            <form class="task-input-form" id="taskForm">
+                <div class="input-row-main">
+                    <input type="text" class="task-input" id="taskInput" placeholder="اكتب أولوية لا تقبل التأجيل..." autocomplete="off">
+                    <button type="submit" class="btn-add-task">إبرام العهد</button>
+                </div>
+                <div class="priority-selector">
+                    <span class="priority-label">الوزن:</span>
+                    <label>
+                        <input type="radio" name="taskPriority" value="high" class="priority-radio" checked>
+                        <span class="priority-btn high">قصوى</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="taskPriority" value="med" class="priority-radio">
+                        <span class="priority-btn med">متوسطة</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="taskPriority" value="low" class="priority-radio">
+                        <span class="priority-btn low">ثانوية</span>
+                    </label>
+                </div>
+            </form>
+
+            <ul class="tasks-list" id="tasksList">
+                <!-- يتم الحقن ديناميكياً هنا -->
+            </ul>
+        </section>
+
+        <!-- العمود الثاني: أدوات التركيز والفلسفة (Focus & AI Engine) -->
+        <section class="side-column">
+            
+            <!-- ناقوس التركيز العميق -->
+            <div class="focus-timer-panel">
+                <div class="timer-header">ناقوس العزلة والتركيز</div>
+                
+                <div class="timer-mode-selector">
+                    <button class="mode-btn active" data-mode="focus">التركيز (25د)</button>
+                    <button class="mode-btn" data-mode="shortBreak">استراحة (5د)</button>
+                    <button class="mode-btn" data-mode="longBreak">عزلة أعمق (50د)</button>
+                </div>
+
+                <div class="timer-circle-wrap">
+                    <svg class="timer-svg" viewBox="0 0 220 220">
+                        <circle class="timer-track" cx="110" cy="110" r="100"></circle>
+                        <circle class="timer-progress" id="timerProgressCircle" cx="110" cy="110" r="100"></circle>
+                    </svg>
+                    <div class="timer-display" id="timerDisplay">25:00</div>
+                </div>
+
+                <div class="timer-controls">
+                    <button class="btn-timer primary" id="btnToggleTimer">بدء العزلة</button>
+                    <button class="btn-timer" id="btnResetTimer">تصفير</button>
+                </div>
+            </div>
+
+            <!-- لوحة التوجيه بالذكاء الاصطناعي (أكل الضفدع) -->
+            <div class="ai-priority-panel">
+                <div class="ai-priority-header">
+                    <svg viewBox="0 0 24 24"><path d="M12 2L2 22M2 12h20M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2z"></path></svg>
+                    <h3>توجيه الحكيم (هندسة القرار)</h3>
+                </div>
+                <div class="ai-priority-content" id="aiAdviceContent">
+                    أدرج مهامك أولاً، ثم اطلب من المستشار تحديد المهمة الأثقل والأشد قسوة لتبدأ بها وتقهر وهم التسويف من ضربة واحدة.
+                </div>
+                <button class="btn-ai-consult" id="btnAiConsult">
+                    <span class="btn-text">استنطاق أولويات الفعل</span>
+                    <div class="spinner-small"></div>
+                </button>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        جميع حقوق الهندسة المعرفية محفوظة &copy; 2026 - عقل في صندوق
+    </footer>
+
+    <!-- ==========================================================================
+         الهندسة البرمجية (JavaScript Core Architecture)
+         ========================================================================== -->
+    <script>
+        /**
+         * 1. التهيئة السحابية
+         */
+        const firebaseConfig = {
+            apiKey: "AIzaSyDGgTDrDJsRvulhzK1p59AbuhJwQYSUufI",
+            authDomain: "mindinbox-50d84.firebaseapp.com",
+            projectId: "mindinbox-50d84"
+        };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        /**
+         * 2. محرك إدارة المهام (Task Ledger Engine)
+         */
+        const TaskEngine = (() => {
+            const form = document.getElementById('taskForm');
+            const input = document.getElementById('taskInput');
+            const list = document.getElementById('tasksList');
+            const counterText = document.getElementById('taskCounterText');
+            const progressBar = document.getElementById('taskProgressBar');
+            const priorityRadios = document.getElementsByName('taskPriority');
+            
+            let tasks = [];
+            const STORAGE_KEY = 'mind_daily_tasks_v4'; // تحديث الإصدار لدعم الأوزان
+
+            function loadTasks() {
+                const stored = localStorage.getItem(STORAGE_KEY);
+                if (stored) {
+                    tasks = JSON.parse(stored);
+                }
+                renderTasks();
+            }
+
+            function saveTasks() {
+                // الفرز التلقائي: المهام غير المنجزة أولاً، ثم حسب الأولوية القصوى
+                tasks.sort((a, b) => {
+                    if (a.done !== b.done) return a.done ? 1 : -1;
+                    const weight = { high: 3, med: 2, low: 1 };
+                    return (weight[b.priority] || 0) - (weight[a.priority] || 0);
+                });
+                
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+                renderTasks();
+                syncToCloud();
+            }
+
+            async function syncToCloud() {
+                const user = auth.currentUser;
+                if (!user) return;
+                try {
+                    await db.collection('users').doc(user.uid).collection('protocol').doc('daily_tasks').set({
+                        tasks: tasks,
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    }, { merge: true });
+                } catch (error) { console.error("Sync failed:", error); }
+            }
+
+            function renderTasks() {
+                list.innerHTML = '';
+                
+                const total = tasks.length;
+                const doneCount = tasks.filter(t => t.done).length;
+                const percent = total === 0 ? 0 : Math.round((doneCount / total) * 100);
+                
+                counterText.textContent = `${doneCount}/${total} إنجاز مطلق`;
+                progressBar.style.width = `${percent}%`;
+
+                tasks.forEach((task, index) => {
+                    const li = document.createElement('li');
+                    li.className = `task-item ${task.done ? 'completed' : ''}`;
+                    li.setAttribute('data-priority', task.priority || 'med');
+                    
+                    li.innerHTML = `
+                        <div class="task-content" onclick="TaskEngine.toggle(${index})">
+                            <div class="custom-checkbox">
+                                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <span class="task-text">${escapeHTML(task.text)}</span>
+                        </div>
+                        <button class="btn-delete-task" onclick="TaskEngine.remove(${index})" title="إلغاء العهد">
+                            <svg viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6"/></svg>
+                        </button>
+                    `;
+                    list.appendChild(li);
+                });
+            }
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const text = input.value.trim();
+                if (!text) return;
+                
+                let selectedPriority = 'med';
+                priorityRadios.forEach(radio => { if(radio.checked) selectedPriority = radio.value; });
+
+                tasks.unshift({ text: text, priority: selectedPriority, done: false, id: Date.now() });
+                
+                input.value = '';
+                priorityRadios[0].checked = true; // إعادة لـ high افتراضياً للتشجيع على الأهم
+                saveTasks();
+            });
+
+            function escapeHTML(str) {
+                const div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+            }
+
+            return {
+                init: loadTasks,
+                toggle: (index) => { tasks[index].done = !tasks[index].done; saveTasks(); },
+                remove: (index) => { tasks.splice(index, 1); saveTasks(); },
+                getPendingSummary: () => {
+                    return tasks.filter(t => !t.done).map(t => {
+                        const w = t.priority === 'high' ? 'قصوى' : (t.priority === 'med' ? 'متوسطة' : 'ثانوية');
+                        return `${t.text} (أهمية ${w})`;
+                    });
+                }
+            };
+        })();
+
+        window.TaskEngine = TaskEngine;
+
+        /**
+         * 3. محرك التركيز والانعزال (Deep Focus Timer Engine)
+         */
+        const TimerEngine = (() => {
+            const display = document.getElementById('timerDisplay');
+            const progressCircle = document.getElementById('timerProgressCircle');
+            const btnToggle = document.getElementById('btnToggleTimer');
+            const btnReset = document.getElementById('btnResetTimer');
+            const modeBtns = document.querySelectorAll('.mode-btn');
+            
+            const MODES = {
+                focus: 25 * 60,
+                shortBreak: 5 * 60,
+                longBreak: 50 * 60
+            };
+            
+            const DASH_ARRAY = 628; // محيط دائرة r=100
+            
+            let currentMode = 'focus';
+            let timeLeft = MODES[currentMode];
+            let timerId = null;
+            let isRunning = false;
+
+            function updateDisplay() {
+                const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+                const s = (timeLeft % 60).toString().padStart(2, '0');
+                display.textContent = `${m}:${s}`;
+                
+                const total = MODES[currentMode];
+                const offset = DASH_ARRAY - (timeLeft / total) * DASH_ARRAY;
+                progressCircle.style.strokeDashoffset = offset;
+            }
+
+            function setMode(mode) {
+                clearInterval(timerId);
+                isRunning = false;
+                currentMode = mode;
+                timeLeft = MODES[mode];
+                
+                modeBtns.forEach(btn => btn.classList.remove('active'));
+                document.querySelector(`.mode-btn[data-mode="${mode}"]`).classList.add('active');
+                
+                btnToggle.textContent = mode.includes('Break') ? "بدء الاستراحة" : "بدء العزلة";
+                btnToggle.style.background = mode.includes('Break') ? "var(--color-success)" : "linear-gradient(135deg, var(--gold-primary), var(--gold-light))";
+                
+                if(mode.includes('Break')) progressCircle.classList.add('break-mode');
+                else progressCircle.classList.remove('break-mode');
+
+                updateDisplay();
+            }
+
+            function toggleTimer() {
+                if (isRunning) {
+                    clearInterval(timerId);
+                    btnToggle.textContent = "استئناف";
+                    btnToggle.style.background = "var(--color-warning)";
+                    isRunning = false;
+                } else {
+                    if (timeLeft === 0) timeLeft = MODES[currentMode];
+                    btnToggle.textContent = "إيقاف مؤقت";
+                    btnToggle.style.background = "var(--color-error)";
+                    isRunning = true;
+                    
+                    timerId = setInterval(() => {
+                        timeLeft--;
+                        updateDisplay();
+                        
+                        if (timeLeft <= 0) {
+                            clearInterval(timerId);
+                            isRunning = false;
+                            btnToggle.textContent = "انتهى الوقت";
+                            playChime();
+                        }
+                    }, 1000);
+                }
+            }
+
+            modeBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => setMode(e.target.dataset.mode));
+            });
+
+            btnToggle.addEventListener('click', toggleTimer);
+            btnReset.addEventListener('click', () => setMode(currentMode));
+
+            function playChime() {
+                try {
+                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(432, ctx.currentTime); // تردد هادئ
+                    gain.gain.setValueAtTime(0.5, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 3);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 3);
+                } catch (e) { console.log("Audio not supported"); }
+            }
+
+            return { init: updateDisplay };
+        })();
+
+        /**
+         * 4. هندسة التوجيه بالذكاء الاصطناعي (AI Prioritization Engine)
+         */
+        const AIPriorityEngine = (() => {
+            const btnConsult = document.getElementById('btnAiConsult');
+            const adviceContent = document.getElementById('aiAdviceContent');
+            const quotaDisplay = document.getElementById('quotaDisplay');
+
+            function updateQuotaUI() {
+                if (!window.AIAdvisor) return;
+                const status = window.AIAdvisor.getStatus();
+                if (status.isPremium) {
+                    quotaDisplay.style.display = 'none';
+                } else {
+                    quotaDisplay.style.display = 'inline-block';
+                    quotaDisplay.textContent = `طاقة المستشار: ${status.limit - status.used}/${status.limit}`;
+                }
+            }
+
+            async function consultAI() {
+                const pendingTasks = TaskEngine.getPendingSummary();
+                
+                if (pendingTasks.length === 0) {
+                    adviceContent.textContent = "لا يوجد مهام معلقة في ميثاقك الآن. العقل المنظم هو أقوى أدوات النجاح.";
+                    return;
+                }
+
+                if (!window.AIAdvisor) return;
+
+                btnConsult.classList.add('loading');
+                btnConsult.disabled = true;
+                adviceContent.innerHTML = "<span style='color: var(--gold-dark);'>يقوم الحكيم بوزن أثقال مهامك وتحديد ضربتك القاضية الأولى...</span>";
+
+                const prompt = `المهام الحالية في ميثاق المستخدم وأوزانها: [${pendingTasks.join(' | ')}]. 
+                المطلوب: بناءً على فلسفة الإنتاجية الصارمة، حلل هذه المهام واختر مهمة واحدة فقط ليتم البدء بها فوراً. اكتب خطة هجومية في سطرين لكسر شوكة التسويف. لا تستخدم الإيموجيات.`;
+                
+                try {
+                    const response = await window.AIAdvisor.ask(prompt, "أنت مستشار إنتاجية رواقي، تخاطب المستخدم بحزم، وتوجهه للفعل المباشر دون مقدمات طويلة.");
+                    adviceContent.textContent = response;
+                    updateQuotaUI();
+                } catch (error) {
+                    adviceContent.textContent = "التركيز البشري يتفوق حينما تعجز الآلة. حدد أثقل مهامك وابدأ بها فوراً بقرار إرادي لا رجعة فيه.";
+                } finally {
+                    btnConsult.classList.remove('loading');
+                    btnConsult.disabled = false;
+                }
+            }
+
+            btnConsult.addEventListener('click', consultAI);
+            return { updateUI: updateQuotaUI };
+        })();
+
+        // ==========================================================================
+        // الإقلاع الرئيسي للمنظومة (Boot Sequence)
+        // ==========================================================================
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) {
+                window.location.replace("index.html");
+            } else {
+                TaskEngine.init();
+                TimerEngine.init();
+                
+                if (window.AIAdvisor) {
+                    await window.AIAdvisor.init(user, db);
+                    AIPriorityEngine.updateUI();
+                }
+                
+                try {
+                    const doc = await db.collection('users').doc(user.uid).collection('protocol').doc('daily_tasks').get();
+                    if (doc.exists && doc.data().tasks) {
+                        const cloudTasks = doc.data().tasks;
+                        const localTasks = JSON.parse(localStorage.getItem('mind_daily_tasks_v4')) || [];
+                        if (localTasks.length === 0 && cloudTasks.length > 0) {
+                            localStorage.setItem('mind_daily_tasks_v4', JSON.stringify(cloudTasks));
+                            TaskEngine.init(); 
+                        }
+                    }
+                } catch (e) { console.error("Cloud Sync Failed", e); }
+            }
+        });
+
+    </script>
+</body>
+</html>

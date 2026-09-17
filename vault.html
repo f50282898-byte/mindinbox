@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="خزانة العهد - الملاذ الحصري للمشتركين، أرشيف الخلوات المرئية، وإدارة التزامك.">
+    <meta name="theme-color" content="#040406">
+    
+    <title>عقل في صندوق | خزانة العهد</title>
+
+    <!-- تحسين أداء الاتصال -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- الخطوط المؤسسية -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- نظام التصميم المعماري الفلسفي -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- حزم Firebase السحابية للتشغيل المؤسسي -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <!-- محرك الذكاء الاصطناعي المركزي -->
+    <script src="ai.js"></script>
+
+    <!-- النواة المشتركة: المخطوطة، الشريط، الفزع، الحصانة -->
+    <script src="brand.js" defer></script>
+    <script src="core.js" defer></script>
+
+    <style>
+        /* ==========================================================================
+           1. المتغيرات المعمارية والهوية البصرية (Design System)
+           ========================================================================== */
+        :root {
+            --bg-base: #040406;
+            --bg-surface: #0a0a0f;
+            --bg-surface-elevated: rgba(18, 18, 26, 0.75);
+            --bg-glass-heavy: rgba(12, 12, 18, 0.9);
+            
+            --gold-primary: #c5a059;
+            --gold-light: #e5b964;
+            --gold-dark: #8b6d36;
+            --gold-glow-soft: rgba(197, 160, 89, 0.15);
+            --gold-glow-strong: rgba(197, 160, 89, 0.45);
+            --gold-border: rgba(197, 160, 89, 0.25);
+            
+            --text-primary: #f8f8fa;
+            --text-secondary: #a1a5b0;
+            --text-tertiary: #6b6f7a;
+            
+            --color-success: #2ecc71;
+            --color-error: #e74c3c;
+            
+            --shadow-md: 0 15px 35px rgba(0, 0, 0, 0.6);
+            --shadow-lg: 0 25px 60px rgba(0, 0, 0, 0.85);
+            --blur-md: blur(16px);
+            --blur-lg: blur(24px);
+            
+            --trans-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --trans-medium: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            --trans-slow: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* ==========================================================================
+           2. إعادة ضبط العناصر (CSS Reset)
+           ========================================================================== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: 'Cairo', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(197, 160, 89, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 10% 90%, rgba(18, 18, 28, 0.95) 0%, transparent 60%);
+            background-attachment: fixed;
+        }
+
+        /* ==========================================================================
+           3. الترويسة والملاحة (Header)
+           ========================================================================== */
+        .sanctuary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 4%;
+            background: rgba(6, 6, 8, 0.85);
+            backdrop-filter: var(--blur-md);
+            border-bottom: 1px solid var(--gold-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: var(--trans-fast);
+        }
+
+        .back-link:hover {
+            color: var(--gold-light);
+            transform: translateX(4px);
+        }
+
+        .brand-title {
+            font-family: 'Amiri', serif;
+            color: var(--gold-primary);
+            font-size: 1.7rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .quota-indicator {
+            background: rgba(197, 160, 89, 0.1);
+            border: 1px solid var(--gold-border);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--gold-light);
+            font-weight: 700;
+            display: none; 
+            box-shadow: 0 0 10px var(--gold-glow-soft);
+            transition: var(--trans-medium);
+        }
+
+        .quota-indicator.premium {
+            background: rgba(46, 204, 113, 0.1);
+            border-color: rgba(46, 204, 113, 0.3);
+            color: var(--color-success);
+            box-shadow: 0 0 10px rgba(46, 204, 113, 0.2);
+        }
+
+        /* ==========================================================================
+           4. المساحة الإعلانية الحصرية العلوية
+           ========================================================================== */
+        .exclusive-ad-banner {
+            width: 92%;
+            max-width: 1200px;
+            margin: 24px auto 0 auto;
+            background: linear-gradient(90deg, rgba(20, 20, 28, 0.6), rgba(12, 12, 18, 0.8), rgba(20, 20, 28, 0.6));
+            border: 1px dashed rgba(197, 160, 89, 0.2);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            z-index: 10;
+        }
+
+        .exclusive-ad-banner::before {
+            content: "مساحة إعلانية مخصصة";
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            letter-spacing: 1px;
+        }
+
+        /* ==========================================================================
+           5. منطقة البطل (Hero Section)
+           ========================================================================== */
+        .vault-wrapper {
+            max-width: 1200px;
+            width: 92%;
+            margin: 40px auto 80px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+            flex: 1;
+        }
+
+        .hero-section {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-section h1 {
+            font-family: 'Amiri', serif;
+            color: var(--gold-light);
+            font-size: 3rem;
+            line-height: 1.2;
+        }
+
+        .hero-section p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* ==========================================================================
+           6. بوابات الترقية والاشتراك (Pricing Grid)
+           ========================================================================== */
+        .pricing-section {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* Organic Fade for old memories */
+        .memory-entry.faded {
+            filter: blur(5px);
+            opacity: 0.6;
+            cursor: pointer;
+            transition: all 1s ease;
+        }
+        .memory-entry.faded.revealed {
+            filter: blur(0);
+            opacity: 1;
+        }
+
+        /* Secret Council */
+        .secret-council {
+            position: relative;
+            border: 1px solid var(--gold-border);
+            background: var(--bg-surface-elevated);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 40px;
+            padding: 40px;
+            text-align: center;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .premium-lock {
+            position: absolute; inset: 0; z-index: 10;
+            background: url('https://images.unsplash.com/photo-1533158307587-828f0a76ef46?auto=format&fit=crop&w=800&q=80') center/cover;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .premium-lock::before {
+            content: ''; position: absolute; inset: 0; background: rgba(5,5,5,0.85);
+        }
+        .lock-content {
+            position: relative; z-index: 11; text-align: center;
+        }
+        .lock-content svg { width: 64px; height: 64px; stroke: var(--gold-primary); margin-bottom: 20px; filter: drop-shadow(0 0 10px rgba(181,149,81,0.5)); }
+        
+        .history-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            align-items: center;
+        }
+
+        .pricing-card {
+            background: var(--bg-surface-elevated);
+            backdrop-filter: var(--blur-md);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 40px 32px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: var(--shadow-md);
+            transition: var(--trans-medium);
+            overflow: hidden;
+        }
+
+        .pricing-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            opacity: 0;
+            transition: var(--trans-medium);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--gold-border);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .pricing-card:hover::after {
+            opacity: 1;
+            background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+        }
+
+        .pricing-card.featured {
+            background: linear-gradient(160deg, rgba(25, 22, 16, 0.9), var(--bg-glass-heavy));
+            border: 2px solid var(--gold-primary);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 30px var(--gold-glow-soft);
+            transform: scale(1.05);
+            z-index: 2;
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-8px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.9), 0 0 45px var(--gold-glow-strong);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gold-primary);
+            color: var(--bg-base);
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            box-shadow: 0 5px 15px var(--gold-glow-strong);
+        }
+
+        .plan-name {
+            font-family: 'Amiri', serif;
+            color: var(--gold-light);
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .plan-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            min-height: 45px;
+        }
+
+        .plan-price {
+            font-family: 'Amiri', serif;
+            font-size: 3rem;
+            color: var(--text-primary);
+            font-weight: 700;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .plan-price span {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1rem;
+            color: var(--text-tertiary);
+            font-weight: 500;
+        }
+
+        .plan-features {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 36px;
+            flex: 1;
+        }
+
+        .plan-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: #d1d5db;
+            line-height: 1.5;
+        }
+
+        .plan-features li svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: var(--gold-primary);
+            stroke-width: 2.5;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .btn-subscribe {
+            width: 100%;
+            background: var(--gold-primary);
+            color: var(--bg-base);
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: var(--trans-fast);
+            text-align: center;
+            text-decoration: none;
+            box-shadow: 0 8px 20px var(--gold-glow-soft);
+        }
+
+        .btn-subscribe:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px var(--gold-glow-strong);
+        }
+
+        .btn-subscribe.outline {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-gold-subtle);
+            color: var(--text-primary);
+            box-shadow: none;
+        }
+
+        .btn-subscribe.outline:hover {
+            background: rgba(197, 160, 89, 0.1);
+            border-color: var(--gold-primary);
+            color: var(--gold-light);
+        }
+
+        /* ==========================================================================
+           7. أرشيف المرئيات المحمي (Gated Video Archive)
+           ========================================================================== */
+        .archive-section {
+            background: var(--bg-surface-elevated);
+            border: 1px solid var(--dark-border);
+            border-radius: 24px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .archive-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 16px;
+        }
+
+        .archive-header h2 {
+            font-family: 'Amiri', serif;
+            color: var(--gold-primary);
+            font-size: 2rem;
+        }
+
+        /* غطاء الحماية للمستخدمين المجانيين */
+        .archive-gatekeeper {
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px;
+            gap: 20px;
+            transition: opacity var(--trans-slow);
+        }
+
+        .archive-gatekeeper.unlocked {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .gate-icon {
+            width: 60px;
+            height: 60px;
+            stroke: var(--gold-primary);
+            fill: none;
+            stroke-width: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .gate-title {
+            font-family: 'Amiri', serif;
+            color: var(--text-primary);
+            font-size: 2rem;
+        }
+
+        .gate-desc {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            max-width: 500px;
+            line-height: 1.7;
+        }
+
+        .archive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .video-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            transition: var(--trans-fast);
+            cursor: pointer;
+        }
+
+        .video-card:hover {
+            border-color: var(--gold-primary);
+            background: rgba(197, 160, 89, 0.05);
+            transform: translateY(-4px);
+        }
+
+        .video-thumbnail-placeholder {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #111;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .video-thumbnail-placeholder svg {
+            width: 40px;
+            height: 40px;
+            fill: var(--text-tertiary);
+            transition: var(--trans-fast);
+        }
+
+        .video-card:hover .video-thumbnail-placeholder svg {
+            fill: var(--gold-light);
+            transform: scale(1.1);
+        }
+
+        .video-card h4 {
+            font-family: 'Amiri', serif;
+            color: var(--text-primary);
+            font-size: 1.25rem;
+        }
+
+        .video-card p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        /* ==========================================================================
+           8. مركز المساندة والأسئلة الشائعة (Support & FAQ)
+           ========================================================================== */
+        .support-faq-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+
+        .support-desk {
+            background: linear-gradient(135deg, rgba(20, 20, 28, 0.8), var(--bg-surface-elevated));
+            border: 1px solid var(--gold-border);
+            border-radius: 24px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .support-desk h3 {
+            font-family: 'Amiri', serif;
+            color: var(--gold-light);
+            font-size: 1.8rem;
+        }
+
+        .support-desk p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .btn-support {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(197, 160, 89, 0.1);
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-light);
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: var(--trans-fast);
+            align-self: flex-start;
+        }
+
+        .btn-support:hover {
+            background: var(--gold-primary);
+            color: var(--bg-base);
+        }
+
+        .faq-accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .faq-item {
+            background: var(--bg-surface-elevated);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: var(--trans-medium);
+        }
+
+        .faq-question {
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-family: 'Amiri', serif;
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            user-select: none;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .faq-question svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--gold-primary);
+            transition: transform var(--trans-medium);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            padding: 0 24px;
+            opacity: 0;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            transition: all var(--trans-medium);
+        }
+
+        .faq-item.active {
+            border-color: var(--gold-border);
+            background: rgba(197, 160, 89, 0.05);
+        }
+
+        .faq-item.active .faq-question svg {
+            transform: rotate(180deg);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px; /* تقدير لارتفاع النص */
+            padding: 0 24px 20px 24px;
+            opacity: 1;
+        }
+
+        /* ==========================================================================
+           9. التذييل (Footer)
+           ========================================================================== */
+        .site-footer {
+            text-align: center;
+            padding: 28px;
+            color: var(--text-tertiary);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(4, 4, 6, 0.8);
+            margin-top: auto;
+        }
+
+        /* ==========================================================================
+           10. التصميم المتجاوب (Responsive)
+           ========================================================================== */
+        @media (max-width: 1000px) {
+            .pricing-card.featured { transform: none; z-index: 1; }
+            .pricing-card.featured:hover { transform: translateY(-8px); }
+            .support-faq-container { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .sanctuary-header { padding: 16px 20px; }
+            .hero-section h1 { font-size: 2.2rem; }
+            .archive-section { padding: 24px; }
+            .support-desk { padding: 24px; }
+            .exclusive-ad-banner { margin-top: 16px; padding: 12px; }
+        }
+    </style>
+    <!-- FOUC Theme Preventer -->
+    <script>
+        (function() {
+            try {
+                if (localStorage.getItem('mind_theme_preference') === 'manuscript') {
+                    document.documentElement.setAttribute('data-mode', 'manuscript');
+                }
+            } catch(e) {}
+        })();
+    </script>
+</head>
+<body>
+
+    <header class="sanctuary-header">
+        <a href="dashboard.html" class="back-link">
+            <span>&rarr;</span> العودة للملاذ
+        </a>
+        <div class="brand-title">خزانة العهد</div>
+        <div class="quota-indicator" id="quotaDisplay">جاري الاتصال...</div>
+    </header>
+
+    <!-- المساحة الإعلانية المخصصة -->
+    <div class="exclusive-ad-banner">
+        <!-- مساحة مخصصة لإعلانات Google AdSense في أعلى الصفحة حصراً -->
+    </div>
+
+    <main class="vault-wrapper">
+
+        <!-- القسم الأول: الرؤية والتوجيه -->
+        <section class="hero-section">
+            <h1>أحكم إغلاق الصندوق على وعيك</h1>
+            <p>الالتزام المجاني جيد للبدايات، لكن التحول الجذري يتطلب عهداً موثقاً. ارتقِ بوعيك، افتح أرشيف الخلوات المرئية، وحرر المستشار الذكي من كل القيود.</p>
+        </section>
+
+        <!-- القسم الثاني: بوابات الترقية (هندسة المبيعات) -->
+        <section class="pricing-section">
+            <div class="pricing-grid">
+                
+                <!-- الخيار المرن -->
+                <div class="pricing-card">
+                    <div class="plan-name">العهد المرن</div>
+                    <div class="plan-desc">وصول كامل لكافة أدوات الصندوق والمرئيات الحصرية مع مرونة الإلغاء في أي شهر.</div>
+                    <div class="plan-price">$19 <span>/ شهرياً</span></div>
+                    
+                    <ul class="plan-features">
+                        <li>
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            وصول مفتوح لأرشيف الخلوات المرئية
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            طاقة لا محدودة للمستشار الذكي (بدون سقف 20 طلب)
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            حفظ سحابي فوري وتشفير عالي
+                        </li>
+                    </ul>
+
+                    <!-- هنا تضع رابط بوابة الدفع الخاصة بك (Stripe Checkout مثلاً) -->
+                    <a href="https://your-payment-gateway.com/monthly" class="btn-subscribe outline" target="_blank" onclick="simulatePayment(event, 'monthly')">ختم الميثاق المرن</a>
+                </div>
+
+                <!-- الخيار الموصى به (تأثير الإرساء - Anchoring Effect) -->
+                <div class="pricing-card featured">
+                    <div class="featured-badge">مسار الالتزام الأعمق</div>
+                    <div class="plan-name">العهد السنوي الشامل</div>
+                    <div class="plan-desc">الخيار الأمثل لمن يسعون لتحول حقيقي في هندسة الانضباط وإدارة الذات على المدى الطويل.</div>
+                    <div class="plan-price">$149 <span>/ سنوياً</span></div>
+                    
+                    <ul class="plan-features">
+                        <li>
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            كافة امتيازات العهد المرن بلا استثناء
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            أولوية الخوادم لمعالجة الذكاء الاصطناعي الفورية
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            توفير مالي يعادل 35% مقارنة بالدفع الشهري
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            دعم تقني وفلسفي مخصص ومباشر
+                        </li>
+                    </ul>
+
+                    <!-- هنا تضع رابط بوابة الدفع السنوية -->
+                    <a href="https://your-payment-gateway.com/yearly" class="btn-subscribe" target="_blank" onclick="simulatePayment(event, 'yearly')">ختم الميثاق الشامل</a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- القسم الثالث: ذكريات الرماد (Organic Memory Fade) -->
+        <section class="archive-section" style="margin-top: 40px; margin-bottom: 40px;">
+            <div class="archive-header">
+                <h2>ذكريات الرماد (أرشيف التفريغ)</h2>
+                <p>الذكريات العتيقة تتلاشى عضوياً. المذكرات التي مر عليها أسبوع ستغلف بالضباب. اضغط مطولاً عليها لثانيتين كأنك تستدعي الذاكرة بجهدك العقلي لتقرأها.</p>
+            </div>
+            
+            <div class="archive-grid" id="organicMemoryGrid">
+                <!-- Static Demo Items for the Biometric Sync -->
+                <div class="video-card organic-memory" data-old="true">
+                    <div style="padding: 20px; text-align: right;">
+                        <h4 style="color:var(--gold-light);">تفريغ الليلة العاصفة</h4>
+                        <p>كتبت قبل 12 يوماً. "كنت أشعر بالضياع التام، وكأن الجدران تضيق..."</p>
+                    </div>
+                </div>
+                <div class="video-card organic-memory" data-old="true">
+                    <div style="padding: 20px; text-align: right;">
+                        <h4 style="color:var(--gold-light);">وهم الإنجاز</h4>
+                        <p>كتبت قبل 8 أيام. "ركضت طوال اليوم لكني لم أتحرك خطوة للأمام..."</p>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div style="padding: 20px; text-align: right;">
+                        <h4 style="color:var(--gold-light);">عهد العودة</h4>
+                        <p>كتبت قبل يومين. "اليوم أقف ثابتاً، لن أسمح للتشتت باختطاف وعيي..."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- القسم الرابع: أرشيف الخلوات المرئية (Gatekept Content) -->
+        <section class="archive-section">
+            
+            <div class="archive-header">
+                <h2>أرشيف الخلوات المرئية (Premium)</h2>
+            </div>
+
+            <!-- غطاء الحماية يختفي للمشتركين -->
+            <div class="archive-gatekeeper relic-bg" id="archiveGatekeeper">
+                <img src="https://images.unsplash.com/photo-1533158307587-828f0a76ef46?auto=format&fit=crop&w=800&q=80" alt="الختم النحاسي" class="gate-icon stoic-img" style="width:80px;height:80px;border-radius:50%;margin-bottom:15px;border:1px solid var(--gold-primary);">
+                <h3 class="gate-title">الأرشيف مغلق للعموم</h3>
+                <p class="gate-desc">هذه المساحة مخصصة لأصحاب العهد والالتزام. قم بالترقية لفتح مكتبة متكاملة من الجلسات الفلسفية والتحليلات النفسية العميقة التي تفكك أعطاب العقل المعاصر.</p>
+                <button class="btn-subscribe" style="max-width: 250px;" onclick="window.scrollTo(0,0)">طلب العهد والميثاق</button>
+            </div>
+
+            <div class="archive-grid">
+                <!-- Video 1 -->
+                <div class="video-card">
+                    <div class="video-thumbnail-placeholder">
+                        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </div>
+                    <div>
+                        <h4>هندسة الانضباط الصباحي</h4>
+                        <p>بروتوكول عملي لقهر التسويف في الساعات الأولى وبناء زخم لا يمكن إيقافه.</p>
+                    </div>
+                </div>
+
+                <!-- Video 2 -->
+                <div class="video-card">
+                    <div class="video-thumbnail-placeholder">
+                        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </div>
+                    <div>
+                        <h4>وهم السيطرة والمقارنات</h4>
+                        <p>دراسة تحليلية لاستنزاف الطاقة النفسية وكيفية استرداد المركزية الذاتية.</p>
+                    </div>
+                </div>
+
+                <!-- Video 3 -->
+                <div class="video-card">
+                    <div class="video-thumbnail-placeholder">
+                        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </div>
+                    <div>
+                        <h4>فلسفة التسليم وإدارة الأزمات</h4>
+                        <p>كيف تحول الضغوط الخارجية المفاجئة إلى وقود للصلابة العقلية والذهنية.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- القسم الرابع: المساندة والأسئلة الشائعة -->
+        <section class="support-faq-container">
+            
+            <div class="support-desk">
+                <h3>مكتب المساندة والإرشاد</h3>
+                <p>هل تواجه صعوبة في الربط؟ هل لديك استفسار حول إدارة اشتراكك أو آلية عمل المستشار الذكي؟ فريق الدعم الفني والفلسفي متواجد لضمان سير تجربتك بلا انقطاع.</p>
+                <a href="mailto:support@mindinbox.com" class="btn-support">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    مراسلة فريق العناية
+                </a>
+            </div>
+
+            <div class="faq-accordion" id="faqAccordion">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        هل الدفع آمن ومحمي؟
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="faq-answer">
+                        نعم بامتياز. نحن لا نحتفظ بأي بيانات لبطاقاتك. جميع المعاملات تمر عبر بوابات دفع عالمية مشفرة بالكامل تضمن حماية خصوصيتك وأموالك بنسبة مئة بالمئة.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        ماذا يحدث إذا استنفدت حصة الذكاء المجانية؟
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="faq-answer">
+                        ستتوقف استشارات الذكاء الاصطناعي العميقة وسيعمل النظام الرواقي الاحتياطي فقط. لفتح المجال اللامحدود واستمرار التحليل النفسي الدقيق، يجب ترقية الحساب لإحدى الباقات.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        هل يمكنني إلغاء عهدي (اشتراكي) لاحقاً؟
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="faq-answer">
+                        بكل تأكيد. التزامنا مبني على الإرادة الحرة. يمكنك إدارة اشتراكك، إيقافه، أو إلغاء التجديد التلقائي في أي لحظة عبر لوحة تحكم حسابك دون أي تعقيدات.
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- المجلس السري (Secret Council) -->
+        <section class="secret-council anti-ai-border">
+            <audio id="fireAudio" loop src="https://assets.mixkit.co/active_storage/sfx/212/212-preview.mp3"></audio>
+            
+            <div id="premiumLock" class="premium-lock">
+                <div class="lock-content">
+                    <svg viewBox='0 0 24 24' fill='none' stroke-width='1.5'><rect x='3' y='11' width='18' height='11' rx='2' ry='2'/><path d='M7 11V7a5 5 0 0 1 10 0v4'/></svg>
+                    <h2 style="font-family: var(--font-serif); color: var(--gold-light); font-size: 2rem;">المجلس السري</h2>
+                    <p style="color: var(--text-tertiary); margin-top: 10px; font-size: 1.1rem;">هذا الفضاء مغلق. يتطلب الارتقاء بعهدك والانضمام لطبقة السالكين.</p>
+                </div>
+            </div>
+
+            <div id="councilContent" style="display: none; position: relative; z-index: 5;">
+                <h2 style="font-family: var(--font-serif); color: #e74c3c; font-size: 2.5rem; text-shadow: 0 0 20px rgba(231,76,60,0.5);">المجلس السري</h2>
+                <p style="color: var(--text-secondary); margin-top: 20px; font-size: 1.2rem; line-height: 1.8;">مرحباً بك أيها السالك.<br>هنا تحترق الأنا، وتتلاقى الأرواح في صمت. استمع لصوت النار.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        جميع حقوق الهندسة المعرفية محفوظة &copy; 2026 - عقل في صندوق
+    </footer>
+
+    <!-- ==========================================================================
+         الهندسة البرمجية (JavaScript Core Logic)
+         ========================================================================== -->
+    <script>
+        /**
+         * 1. التهيئة السحابية (Firebase Config)
+         */
+        const firebaseConfig = {
+            apiKey: "AIzaSyDGgTDrDJsRvulhzK1p59AbuhJwQYSUufI",
+            authDomain: "mindinbox-50d84.firebaseapp.com",
+            projectId: "mindinbox-50d84"
+        };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        /**
+         * 2. متحكم خزانة العهد (Vault & Subscription Engine)
+         */
+        const VaultController = (() => {
+            const quotaDisplay = document.getElementById('quotaDisplay');
+            const archiveGatekeeper = document.getElementById('archiveGatekeeper');
+            
+            // تحديث واجهة المستخدم بناءً على حالة الاشتراك (Premium/Free)
+            function updateVaultAccess() {
+                if (!window.AIAdvisor) return;
+                
+                const status = window.AIAdvisor.getStatus();
+                
+                if (status.isPremium) {
+                    // المستخدم مدفوع: تحويل الشارات وفتح الأرشيف
+                    quotaDisplay.style.display = 'inline-block';
+                    quotaDisplay.className = 'quota-indicator premium';
+                    quotaDisplay.textContent = 'العهد مفعل (طاقة لا محدودة)';
+                    
+                    // فتح أرشيف الفيديوهات
+                    archiveGatekeeper.classList.add('unlocked');
+                    
+                    // يمكن إخفاء باقات التسعير أو تغيير نصوصها هنا
+                    document.querySelector('.pricing-section').style.opacity = '0.5';
+                    document.querySelector('.pricing-section').style.pointerEvents = 'none';
+                    document.querySelector('.hero-section p').textContent = "أهلاً بك في خزانة العهد. أرشيفك مفتوح ومستشارك حاضر في كل وقت.";
+
+                } else {
+                    // المستخدم مجاني
+                    quotaDisplay.style.display = 'inline-block';
+                    quotaDisplay.className = 'quota-indicator';
+                    quotaDisplay.textContent = `طاقة المستشار المتبقية: ${status.limit - status.used}/${status.limit}`;
+                    
+                    // الأرشيف مغلق
+                    archiveGatekeeper.classList.remove('unlocked');
+                }
+            }
+
+            // تشغيل الأسئلة الشائعة (FAQ Accordion Logic)
+            function initFAQ() {
+                const faqItems = document.querySelectorAll('.faq-item');
+                faqItems.forEach(item => {
+                    const question = item.querySelector('.faq-question');
+                    question.addEventListener('click', () => {
+                        const isActive = item.classList.contains('active');
+                        // إغلاق الجميع
+                        faqItems.forEach(i => i.classList.remove('active'));
+                        // فتح العنصر المضغوط إذا لم يكن مفتوحاً
+                        if (!isActive) item.classList.add('active');
+                    });
+                });
+            }
+
+            return {
+                updateUI: updateVaultAccess,
+                initAccordion: initFAQ
+            };
+        })();
+
+        // تهيئة الأسئلة الشائعة فوراً
+        VaultController.initAccordion();
+
+        /**
+         * محاكاة مؤقتة لعملية الدفع (لأغراض الاختبار فقط)
+         * بمجرد إرسال المستخدم لبوابة الدفع (Stripe) وعودته، يتم تغيير الـ isPremium في قاعدة البيانات
+         */
+        async function simulatePayment(e, planType) {
+            // قم بحذف هذا الكود عند ربط بوابات الدفع الحقيقية
+            e.preventDefault();
+            const user = auth.currentUser;
+            if (!user) {
+                alert("يجب تسجيل الدخول أولاً لإتمام العهد.");
+                return;
+            }
+
+            const confirmMsg = `هذه محاكاة للدفع (Simulation).\nهل ترغب في ترقية حسابك وهمياً لاختبار فتح الأرشيف والذكاء اللامحدود؟`;
+            if (confirm(confirmMsg)) {
+                try {
+                    // تحديث حالة المستخدم في السحابة إلى Premium
+                    await db.collection('users').doc(user.uid).set({
+                        isPremium: true,
+                        plan: planType,
+                        upgradedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    }, { merge: true });
+                    
+                    alert("تم تأكيد العهد بنجاح. سيتم تحديث صلاحياتك الآن.");
+                    window.location.reload();
+                } catch (err) {
+                    console.error("Simulation failed", err);
+                }
+            } else {
+                // إذا رفض المحاكاة، يتم تحويله للرابط الفعلي
+                window.open(e.target.href, '_blank');
+            }
+        }
+
+        // ==========================================================================
+        // منطق الذاكرة العضوية (Organic Memory Logic)
+        // ==========================================================================
+        function initOrganicMemories() {
+            // Secret Council Logic
+            const isPremium = localStorage.getItem('sys_premium') === 'true';
+            if (isPremium) {
+                const pLock = document.getElementById('premiumLock');
+                const cContent = document.getElementById('councilContent');
+                if(pLock) pLock.style.display = 'none';
+                if(cContent) cContent.style.display = 'block';
+                const fire = document.getElementById('fireAudio');
+                if(fire) {
+                    fire.volume = 0.3;
+                    document.body.addEventListener('click', () => { fire.play().catch(()=>{}); }, {once: true});
+                }
+            }
+
+            // Organic fade simulation for memory cards
+            document.querySelectorAll('.memory-entry, .organic-memory').forEach((entry, idx) => {
+                // Apply to all except the very first one for demonstration
+                if (idx > 0) { 
+                    entry.classList.add('faded');
+                    let holdTimer;
+                    const startFocus = (e) => {
+                        if (e.cancelable) e.preventDefault();
+                        if (holdTimer) clearTimeout(holdTimer);
+                        holdTimer = setTimeout(() => { entry.classList.add('revealed'); if(navigator.vibrate) navigator.vibrate(10); }, 2000);
+                    };
+                    const stopFocus = () => {
+                        if (holdTimer) clearTimeout(holdTimer);
+                        entry.classList.remove('revealed'); // Fades back immediately on let go
+                    };
+
+                    entry.addEventListener('mousedown', startFocus);
+                    entry.addEventListener('touchstart', startFocus, {passive: false});
+                    entry.addEventListener('mouseup', stopFocus);
+                    entry.addEventListener('mouseleave', stopFocus);
+                    entry.addEventListener('touchend', stopFocus);
+                }
+            });
+        }
+        
+        initOrganicMemories();
+
+        // ==========================================================================
+        // تهيئة النظام الكلي وتأمين الوصول (Boot Sequence)
+        // ==========================================================================
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) {
+                window.location.replace("index.html");
+            } else {
+                if (window.AIAdvisor) {
+                    // تهيئة محرك الذكاء وقراءة حالة Premium من فايربيس
+                    await window.AIAdvisor.init(user, db);
+                    // تحديث الأقفال والواجهة بناءً على صلاحياته
+                    VaultController.updateUI();
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>

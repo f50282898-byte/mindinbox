@@ -1,0 +1,53 @@
+{
+  "updatedAt": "2026-09-17T04:56:14.646Z",
+  "blocks": [
+    {
+      "id": "block_hero_stoic",
+      "type": "stoic_quote",
+      "order": 1,
+      "content": {
+        "quote": "أنت تملك سلطاناً مطلقاً على عقلك، لا على مجريات الأحداث الخارجية. تشرّب هذا اليقين، وستنال قلعتك الحصينة.",
+        "author": "— الإمبراطور الفيلسوف ماركوس أوريليوس",
+        "marginalia": "منقوش على حجر المعبد السيادي"
+      }
+    },
+    {
+      "id": "block_sage_main",
+      "type": "sage_canvas",
+      "order": 2,
+      "content": {
+        "title": "محراب التفريغ واستنطاق الحكيم",
+        "subtitle": "ألقِ بفوضى أفكارك دون تجميل. هنا تحترق الشحنات وتولد البصيرة الرواقية الصارمة.",
+        "placeholder": "اكتب كل ما يزحم عقلك ويثقل صدرك... هذا المحراب لا يحتفظ بالأحكام، بل يفككها."
+      }
+    },
+    {
+      "id": "block_discipline_pulse",
+      "type": "discipline_metric",
+      "order": 3,
+      "content": {
+        "streak": "٤٢",
+        "streakLabel": "يوماً من اليقظة المتصلة",
+        "retention": "٩٨.٤٪",
+        "retentionLabel": "معدل الثبات على العهد",
+        "purgedWords": "١٨,٤٥٠",
+        "purgedLabel": "كلمة تفريغ تم حرقها"
+      }
+    },
+    {
+      "id": "block_covenant_plans",
+      "type": "pricing_tiers",
+      "order": 4,
+      "content": {
+        "title": "مواثيق العهد والانتماء السيادي",
+        "subtitle": "اختر عمق ارتباطك بالقلعة. الميثاق عهد مع ذاتك قبل أن يكون اشتراكاً.",
+        "plan1Title": "السالك العابر",
+        "plan1Price": "مجاني",
+        "plan2Title": "ميثاق السالك الملتزم (Pro)",
+        "plan2Price": "$29 / شهرياً",
+        "plan3Title": "حلف الحكماء المطلق (Ultra)",
+        "plan3Price": "$89 / فصلياً"
+      }
+    }
+  ]
+}
