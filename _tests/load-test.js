@@ -120,3 +120,4 @@ export function setup() {
 export function teardown(data) {
     console.log('[MindInBox LoadTest] Test completed. Check results above.');
 }
+

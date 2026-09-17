@@ -324,3 +324,4 @@ const EliteChat = (() => {
 
 // Auto-initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => EliteChat.init());
+

@@ -235,3 +235,4 @@ const SovereignPayment = (() => {
 })();
 
 document.addEventListener('DOMContentLoaded', () => SovereignPayment.init());
+
