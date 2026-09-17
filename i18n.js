@@ -61,7 +61,7 @@ const translations = {
         card3InputPlaceholder: "اطرح معضلتك الفكرية أو النفسية هنا على الحكيم...",
         card3Send: "استشارة الحكيم",
         card3Waiting: "ينظر الحكيم في الأزل...",
-        card3SageDefault: "«ما يقلقك ليس الأمور بذاتها، بل نظرتك إليها. تخلص من الحكم المسبق تسترد سيادتك.»",
+        card3SageDefault: "\"Your philosophical mentor is ready to dissect any mental friction and engineer your cognitive sovereignty.\"",
 
         // Login Modal
         loginModalTitle: "بوابة العبور السيادي",
@@ -132,7 +132,7 @@ const translations = {
         card3InputPlaceholder: "Present your existential dilemma to the Sage...",
         card3Send: "Consult the Sage",
         card3Waiting: "The Sage contemplates eternity...",
-        card3SageDefault: "“You have power over your mind - not outside events. Realize this, and you will find strength.”",
+        card3SageDefault: "\"Your philosophical mentor is ready to dissect any mental friction and engineer your cognitive sovereignty.\"",
 
         // Login Modal
         loginModalTitle: "Sovereign Access Portal",

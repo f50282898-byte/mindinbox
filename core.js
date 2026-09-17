@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ==============================================================================
  * MIND IN A BOX â€” CORE SANCTUARY ENGINE
  * Ø§Ù„Ù…Ù„Ù: core.js
@@ -63,10 +63,8 @@
             printWarning();
 
             // Intercept right-click
-            window.addEventListener('contextmenu', e => {
-                e.preventDefault();
-                return false;
-            });
+            /* window.addEventListener('contextmenu', e => {
+                e.preventDefault(); return false; }); */
 
             // Intercept DevTools shortcuts
             window.addEventListener('keydown', e => {
@@ -294,7 +292,7 @@
             { label: 'ØªÙˆÙ‚Ù... Ø¹ÙØ¯ Ù„Ø°Ø§ØªÙƒ.', duration: 1500 },
         ];
 
-        function injectPanicBtn() {
+        function injectPanicBtn() { return;
             if (document.getElementById('panicBtn')) return;
 
             // Panic Button
@@ -534,8 +532,8 @@
         SecurityShield.init();
         ManuscriptMode.init();
         PageTransitions.init();
-        BottomBar.init();
-        PanicButton.init();
+        // BottomBar.init();
+        // PanicButton.init();
         BiometricSync.init();
         MasterUI.init();
         GlobalShock.init();
@@ -556,36 +554,17 @@
 })();
 
     /* =========================================================================
-       MODULE 9: Dopamine Retreat — ???? ?????????
-       ========================================================================= */
-    const DopamineRetreat = (() => {
-        function init() {
-            if (localStorage.getItem('sys_dopamine_retreat') === 'true') {
-                activate();
-            }
-        }
-        function activate() {
-            document.documentElement.setAttribute('data-dopamine-retreat', 'true');
-            if(!document.getElementById('retreatBreakBtn')) {
-                const btn = document.createElement('button');
-                btn.id = 'retreatBreakBtn';
-                btn.textContent = '??? ??????';
-                btn.onclick = promptBreak;
-                document.body.appendChild(btn);
-            }
-        }
-        function promptBreak() {
-            const answer = prompt('???? ?????? ???????? ????????? ????: "??? ???? ?? ????"');
-            if (answer === '??? ???? ?? ????') {
-                localStorage.setItem('sys_dopamine_retreat', 'false');
-                document.documentElement.removeAttribute('data-dopamine-retreat');
-                document.getElementById('retreatBreakBtn').remove();
-            } else if (answer !== null) {
-                alert('??????? ?????. ?????? ??????? ???? ?????.');
-            }
-        }
-        return { init, activate, promptBreak };
-    })();
-    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', DopamineRetreat.init); } else { DopamineRetreat.init(); }
-
-
+   CLEANUP & PURGE: Remove legacy intrusive elements and reset storage
+   ========================================================================= */
+(function() {
+    try {
+        localStorage.removeItem('sys_dopamine_retreat');
+        document.documentElement.removeAttribute('data-dopamine-retreat');
+        const rBtn = document.getElementById('retreatBreakBtn');
+        if (rBtn) rBtn.remove();
+        const pBtn = document.getElementById('panicBtn');
+        if (pBtn) pBtn.remove();
+        const bModal = document.getElementById('breathingModal');
+        if (bModal) bModal.remove();
+    } catch(e) {}
+})();
