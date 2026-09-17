@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محراب التفريغ - Mind In Box</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Dark Mode (Default Space/Night) */
+            --bg-color: #050505;
+            --text-color: #e5b964; /* Antique Gold */
+            --text-shadow: 0 0 10px rgba(229, 185, 100, 0.3), 0 0 20px rgba(229, 185, 100, 0.1);
+            --marble-bg: url('https://images.unsplash.com/photo-1598514982205-f36b96d1e8d4?q=80&w=2000&auto=format&fit=crop'); /* Dark Charcoal Marble */
+            --glass-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            --overlay-color: rgba(0, 0, 0, 0.6);
+            --transition-speed: 1.5s;
+        }
+
+        [data-theme="light"] {
+            /* Light Mode (Clouds/Day) */
+            --bg-color: #f0f4f8;
+            --text-color: #3b2f1d; /* Dark Gold/Brown for contrast */
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            --marble-bg: url('https://images.unsplash.com/photo-1550684376-efcbd6e3f031?q=80&w=2000&auto=format&fit=crop'); /* White Carrara Marble */
+            --glass-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.05);
+            --overlay-color: rgba(255, 255, 255, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Amiri', serif;
+            background-color: var(--bg-color);
+            overflow: hidden;
+            transition: background-color var(--transition-speed) ease;
+        }
+
+        /* Video Background */
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .bg-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translateX(-50%) translateY(-50%);
+            object-fit: cover;
+            transition: opacity var(--transition-speed) ease;
+        }
+
+        /* Active/Inactive video states for crossfade */
+        .bg-video.active {
+            opacity: 1;
+        }
+        .bg-video.inactive {
+            opacity: 0;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--overlay-color);
+            z-index: -1;
+            transition: background var(--transition-speed) ease;
+            backdrop-filter: blur(2px);
+        }
+
+        /* Top Controls */
+        .controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .back-btn, .theme-toggle {
+            background: rgba(20, 20, 20, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Amiri', serif;
+            font-size: 1.1rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        [data-theme="light"] .back-btn,
+        [data-theme="light"] .theme-toggle {
+            background: rgba(255, 255, 255, 0.6);
+            color: #000;
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .back-btn:hover, .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Marble Text Canvas */
+        .catharsis-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 80px 20px 40px; /* Space for top controls */
+        }
+
+        .marble-wrapper {
+            position: relative;
+            width: 80%;
+            height: 85vh;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--glass-shadow);
+            transition: box-shadow var(--transition-speed) ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .marble-wrapper {
+                width: 95%;
+                height: 80vh;
+            }
+            .controls {
+                top: 15px;
+                right: 15px;
+            }
+            .back-btn, .theme-toggle {
+                padding: 8px 15px;
+                font-size: 1rem;
+            }
+        }
+
+        .marble-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: var(--marble-bg);
+            background-size: cover;
+            background-position: center;
+            transition: background-image var(--transition-speed) ease;
+            z-index: 1;
+        }
+
+        textarea.catharsis-input {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            padding: 40px;
+            font-family: 'Amiri', serif;
+            font-size: 1.8rem;
+            line-height: 1.8;
+            color: var(--text-color);
+            text-shadow: var(--text-shadow);
+            resize: none;
+            outline: none;
+            transition: color var(--transition-speed) ease, text-shadow var(--transition-speed) ease;
+            direction: rtl;
+        }
+
+        textarea.catharsis-input::placeholder {
+            color: rgba(229, 185, 100, 0.4);
+        }
+
+        [data-theme="light"] textarea.catharsis-input::placeholder {
+            color: rgba(59, 47, 29, 0.4);
+        }
+
+        /* Scrollbar styling for the textarea */
+        textarea.catharsis-input::-webkit-scrollbar {
+            width: 8px;
+        }
+        textarea.catharsis-input::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        textarea.catharsis-input::-webkit-scrollbar-thumb {
+            background: rgba(229, 185, 100, 0.3);
+            border-radius: 4px;
+        }
+        [data-theme="light"] textarea.catharsis-input::-webkit-scrollbar-thumb {
+            background: rgba(59, 47, 29, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Video Backgrounds for Crossfade -->
+    <div class="video-container">
+        <!-- Mixkit Space Video / Night Nature as Dark Mode -->
+        <video id="video-dark" class="bg-video active" autoplay loop muted playsinline crossorigin="anonymous">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-1610-large.mp4" type="video/mp4">
+        </video>
+        <!-- Mixkit Clouds Video as Light Mode -->
+        <video id="video-light" class="bg-video inactive" autoplay loop muted playsinline crossorigin="anonymous">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-clouds-and-blue-sky-2408-large.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div class="overlay"></div>
+
+    <div class="controls">
+        <a href="index.html" class="back-btn" id="btn-back">العودة</a>
+        <button class="theme-toggle" id="btn-theme">الوضع النهاري ☀️</button>
+    </div>
+
+    <div class="catharsis-container">
+        <div class="marble-wrapper">
+            <div class="marble-bg"></div>
+            <textarea class="catharsis-input" placeholder="اكتب ما يثقل كاهلك هنا... لتتطهر..."></textarea>
+        </div>
+    </div>
+
+    <script src="sound.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeBtn = document.getElementById('btn-theme');
+            const videoDark = document.getElementById('video-dark');
+            const videoLight = document.getElementById('video-light');
+            
+            let isDark = true; // Default is Dark Mode
+
+            themeBtn.addEventListener('click', () => {
+                // Play sound if SovereignAudio exists
+                if (window.SovereignAudio) {
+                    window.SovereignAudio.playClick();
+                }
+
+                isDark = !isDark;
+                
+                if (isDark) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    themeBtn.textContent = 'الوضع النهاري ☀️';
+                    
+                    // Crossfade Videos
+                    videoLight.classList.remove('active');
+                    videoLight.classList.add('inactive');
+                    videoDark.classList.remove('inactive');
+                    videoDark.classList.add('active');
+                    
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    themeBtn.textContent = 'الوضع الليلي 🌙';
+                    
+                    // Crossfade Videos
+                    videoDark.classList.remove('active');
+                    videoDark.classList.add('inactive');
+                    videoLight.classList.remove('inactive');
+                    videoLight.classList.add('active');
+                }
+            });
+
+            // Back button sound
+            const backBtn = document.getElementById('btn-back');
+            if(backBtn) {
+                backBtn.addEventListener('click', (e) => {
+                    if (window.SovereignAudio) {
+                        window.SovereignAudio.playClick();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
