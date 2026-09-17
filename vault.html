@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -730,17 +730,204 @@
         })();
     </script>
 
+            border-color: var(--gold-primary);
+            background: rgba(197, 160, 89, 0.05);
+            transform: translateY(-4px);
+        }
+
+        .video-thumbnail-placeholder {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #111;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .video-thumbnail-placeholder svg {
+            width: 40px;
+            height: 40px;
+            fill: var(--text-tertiary);
+            transition: var(--trans-fast);
+        }
+
+        .video-card:hover .video-thumbnail-placeholder svg {
+            fill: var(--gold-light);
+            transform: scale(1.1);
+        }
+
+        .video-card h4 {
+            font-family: 'Amiri', serif;
+            color: var(--text-primary);
+            font-size: 1.25rem;
+        }
+
+        .video-card p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        /* ==========================================================================
+           8. مركز المساندة والأسئلة الشائعة (Support & FAQ)
+           ========================================================================== */
+        .support-faq-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+
+        .support-desk {
+            background: linear-gradient(135deg, rgba(20, 20, 28, 0.8), var(--bg-surface-elevated));
+            border: 1px solid var(--gold-border);
+            border-radius: 24px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .support-desk h3 {
+            font-family: 'Amiri', serif;
+            color: var(--gold-light);
+            font-size: 1.8rem;
+        }
+
+        .support-desk p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .btn-support {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(197, 160, 89, 0.1);
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-light);
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: var(--trans-fast);
+            align-self: flex-start;
+        }
+
+        .btn-support:hover {
+            background: var(--gold-primary);
+            color: var(--bg-base);
+        }
+
+        .faq-accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .faq-item {
+            background: var(--bg-surface-elevated);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: var(--trans-medium);
+        }
+
+        .faq-question {
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-family: 'Amiri', serif;
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            user-select: none;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .faq-question svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--gold-primary);
+            transition: transform var(--trans-medium);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            padding: 0 24px;
+            opacity: 0;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            transition: all var(--trans-medium);
+        }
+
+        .faq-item.active {
+            border-color: var(--gold-border);
+            background: rgba(197, 160, 89, 0.05);
+        }
+
+        .faq-item.active .faq-question svg {
+            transform: rotate(180deg);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px; /* تقدير لارتفاع النص */
+            padding: 0 24px 20px 24px;
+            opacity: 1;
+        }
+
+        /* ==========================================================================
+           9. التذييل (Footer)
+           ========================================================================== */
+        .site-footer {
+            text-align: center;
+            padding: 28px;
+            color: var(--text-tertiary);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(4, 4, 6, 0.8);
+            margin-top: auto;
+        }
+
+        /* ==========================================================================
+           10. التصميم المتجاوب (Responsive)
+           ========================================================================== */
+        @media (max-width: 1000px) {
+            .pricing-card.featured { transform: none; z-index: 1; }
+            .pricing-card.featured:hover { transform: translateY(-8px); }
+            .support-faq-container { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .sanctuary-header { padding: 16px 20px; }
+            .hero-section h1 { font-size: 2.2rem; }
+            .archive-section { padding: 24px; }
+            .support-desk { padding: 24px; }
+            .exclusive-ad-banner { margin-top: 16px; padding: 12px; }
+        }
+    </style>
+    <!-- FOUC Theme Preventer -->
+    <script>
+        (function() {
+            try {
+                if (localStorage.getItem('mind_theme_preference') === 'manuscript') {
+                    document.documentElement.setAttribute('data-mode', 'manuscript');
+                }
+            } catch(e) {}
+        })();
+    </script>
+
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="shortcut icon" href="favicon.ico">
-</head>
-<body>
-
-    <header class="sanctuary-header">
-        <a href="dashboard.html" class="back-link">
-            <span>&rarr;</span> العودة للملاذ
-        </a>
         <div class="brand-title">خزانة العهد</div>
         <div class="quota-indicator" id="quotaDisplay">جاري الاتصال...</div>
     </header>
