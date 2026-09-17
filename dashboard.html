@@ -3,1321 +3,318 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="عقل في صندوق - لوحة القيادة والملاذ المعرفي.">
-    <meta name="theme-color" content="#040406">
+    <meta name="description" content="عقل في صندوق - لوحة التحكم السيادية للمعبد المعرفي. ترويض الدوبامين، جرد العادات، وهندسة السكينة واستشارة الحكمة.">
+    <meta name="theme-color" content="#06060a">
     
     <title>عقل في صندوق | Mind In Box</title>
 
-    <!-- تحسين أداء الاتصال بالخطوط والخدمات السحابية -->
+    <!-- Preconnections -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://apis.google.com">
+    <link rel="preconnect" href="https://www.gstatic.com">
     
-    <!-- منظومة الخطوط المؤسسية -->
+    <!-- Typography -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- نظام التصميم المعماري الفلسفي -->
+    <!-- Design System Core -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- حزم Firebase السحابية -->
+    <!-- Firebase Enterprise SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     
-    <!-- محرك الذكاء الاصطناعي المركزي -->
+    <!-- AI Core Engine -->
     <script src="ai.js"></script>
 
-    <!-- النواة المشتركة: المخطوطة، الشريط، الفزع، الحصانة -->
+    <!-- Sanctuary Core Modules -->
     <script src="brand.js" defer></script>
     <script src="core.js" defer></script>
 
-    <style>
-        /* ==========================================================================
-           1. التصميم المعماري والمتغيرات الشاملة (Design System Variables)
-           ========================================================================== */
-        :root {
-            /* الألوان الأساسية للخلفيات */
-            --bg-base: #040406;
-            --bg-surface: #0a0a0f;
-            --bg-surface-elevated: rgba(18, 18, 26, 0.65);
-            --bg-glass-heavy: rgba(12, 12, 18, 0.85);
-            
-            /* تدرجات الذهب الرواقي */
-            --gold-primary: #c5a059;
-            --gold-light: #e5b964;
-            --gold-dark: #8b6d36;
-            --gold-glow-soft: rgba(197, 160, 89, 0.15);
-            --gold-glow-strong: rgba(197, 160, 89, 0.45);
-            --gold-border: rgba(197, 160, 89, 0.25);
-            
-            /* ألوان النصوص */
-            --text-primary: #f8f8fa;
-            --text-secondary: #a1a5b0;
-            --text-tertiary: #6b6f7a;
-            
-            /* ألوان الحالات (Status Colors) */
-            --color-success: #2ecc71;
-            --color-error: #e74c3c;
-            --color-warning: #f39c12;
-            
-            /* الظلال والتأثيرات الزجاجية */
-            --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.4);
-            --shadow-md: 0 15px 35px rgba(0, 0, 0, 0.6);
-            --shadow-lg: 0 25px 60px rgba(0, 0, 0, 0.85);
-            --blur-sm: blur(8px);
-            --blur-md: blur(16px);
-            --blur-lg: blur(24px);
-            
-            /* الحركة والانتقالات */
-            --trans-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            --trans-medium: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            --trans-slow: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-
-        /* ==========================================================================
-           2. إعادة ضبط العناصر (CSS Reset)
-           ========================================================================== */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            font-size: 16px;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--bg-base);
-            color: var(--text-primary);
-            font-family: 'Cairo', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            background-image: 
-                radial-gradient(circle at 50% 5%, rgba(197, 160, 89, 0.08) 0%, transparent 60%),
-                radial-gradient(circle at 85% 90%, rgba(18, 18, 28, 0.95) 0%, transparent 70%);
-            background-attachment: fixed;
-        }
-
-        /* ==========================================================================
-           3. الهيكل الأساسي للوحة القيادة
-           ========================================================================== */
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 18px 4%;
-            background: rgba(6, 6, 8, 0.85);
-            backdrop-filter: var(--blur-md);
-            border-bottom: 1px solid var(--gold-border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .brand-logo {
-            font-family: 'Amiri', serif;
-            color: var(--gold-primary);
-            font-size: 1.8rem;
-            font-weight: 700;
-            text-decoration: none;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .user-widget {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .account-badge {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid var(--gold-border);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: var(--trans-fast);
-        }
-
-        .account-badge.premium {
-            background: var(--gold-glow-soft);
-            border-color: var(--gold-primary);
-            color: var(--gold-light);
-            box-shadow: 0 0 15px var(--gold-glow-soft);
-        }
-
-        .account-badge.free {
-            color: var(--text-secondary);
-        }
-
-        .quota-indicator {
-            font-family: 'Cairo', sans-serif;
-            font-size: 0.8rem;
-            background: rgba(197, 160, 89, 0.15);
-            padding: 2px 8px;
-            border-radius: 12px;
-            color: var(--gold-light);
-        }
-
-        .btn-logout {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-primary);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 8px 18px;
-            border-radius: 10px;
-            font-family: 'Cairo', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--trans-fast);
-        }
-
-        .btn-logout:hover {
-            background: rgba(231, 76, 60, 0.15);
-            border-color: var(--color-error);
-            color: #ff7675;
-        }
-
-        /* ==========================================================================
-           4. المساحة الإعلانية الحصرية (أعلى الصفحة فقط)
-           ========================================================================== */
-        .exclusive-ad-banner {
-            width: 92%;
-            max-width: 1280px;
-            margin: 24px auto 0 auto;
-            background: linear-gradient(90deg, rgba(20, 20, 28, 0.6), rgba(12, 12, 18, 0.8), rgba(20, 20, 28, 0.6));
-            border: 1px solid rgba(197, 160, 89, 0.15);
-            border-radius: 16px;
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .exclusive-ad-banner::before {
-            content: "مساحة إعلانية مخصصة";
-            font-family: 'Cairo', sans-serif;
-            font-size: 0.85rem;
-            color: var(--text-tertiary);
-            letter-spacing: 1px;
-        }
-
-        .dashboard-container {
-            max-width: 1280px;
-            width: 92%;
-            margin: 32px auto 60px auto;
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-            flex: 1;
-        }
-
-        /* ==========================================================================
-           5. مؤشرات الأداء والقياس (Metrics Grid)
-           ========================================================================== */
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-        }
-
-        .metric-card {
-            background: var(--bg-surface-elevated);
-            backdrop-filter: var(--blur-md);
-            border: 1px solid var(--gold-border);
-            border-radius: 20px;
-            padding: 28px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: var(--shadow-md);
-            transition: var(--trans-medium);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .metric-card::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gold-glow-strong), transparent);
-            opacity: 0;
-            transition: var(--trans-medium);
-        }
-
-        .metric-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(197, 160, 89, 0.4);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 20px var(--gold-glow-soft);
-        }
-
-        .metric-card:hover::after {
-            opacity: 1;
-        }
-
-        .metric-header {
-            margin-bottom: 20px;
-        }
-
-        .metric-title {
-            font-family: 'Amiri', serif;
-            color: var(--gold-primary);
-            font-size: 1.55rem;
-            margin-bottom: 6px;
-        }
-
-        .metric-desc {
-            color: var(--text-secondary);
-            font-size: 0.88rem;
-            line-height: 1.5;
-        }
-
-        .chart-canvas-wrapper {
-            width: 100%;
-            height: 100px;
-            position: relative;
-        }
-
-        .discipline-progress {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 14px;
-            padding: 16px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .discipline-value {
-            font-family: 'Amiri', serif;
-            font-size: 2.6rem;
-            color: var(--gold-light);
-            font-weight: 700;
-            line-height: 1;
-        }
-
-        .reward-state {
-            background: linear-gradient(145deg, rgba(20, 26, 22, 0.8), rgba(10, 15, 12, 0.9));
-            border: 1px solid rgba(46, 204, 113, 0.2);
-        }
-
-        .reward-badge {
-            display: inline-flex;
-            background: rgba(46, 204, 113, 0.15);
-            color: var(--color-success);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-bottom: 14px;
-            border: 1px solid rgba(46, 204, 113, 0.3);
-        }
-
-        .reward-text {
-            font-size: 1.05rem;
-            color: var(--text-primary);
-            line-height: 1.7;
-        }
-
-        /* ==========================================================================
-           6. شبكة أركان الصندوق (Portals)
-           ========================================================================== */
-        .portals-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-        }
-
-        .portal-card {
-            background: var(--bg-surface-elevated);
-            backdrop-filter: var(--blur-sm);
-            border: 1px solid var(--dark-border);
-            border-radius: 18px;
-            padding: 30px 24px;
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            transition: var(--trans-medium);
-        }
-
-        .portal-card:hover {
-            background: rgba(22, 22, 32, 0.85);
-            border-color: var(--gold-primary);
-            transform: translateY(-6px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 0 20px var(--gold-glow-soft);
-        }
-
-        .portal-card h3 {
-            font-family: 'Amiri', serif;
-            color: var(--gold-light);
-            font-size: 1.45rem;
-        }
-
-        .portal-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        /* ==========================================================================
-           7. المستشار الشامل (AI Comprehensive Panel)
-           ========================================================================== */
-        .ai-panel {
-            background: linear-gradient(135deg, rgba(20, 20, 30, 0.8), var(--bg-surface-elevated));
-            border: 1px solid var(--gold-primary);
-            border-radius: 24px;
-            padding: 40px;
-            box-shadow: var(--shadow-lg);
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            position: relative;
-        }
-
-        .ai-panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .ai-panel-title h2 {
-            font-family: 'Amiri', serif;
-            color: var(--gold-light);
-            font-size: 2rem;
-            margin-bottom: 6px;
-        }
-
-        .ai-panel-title p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        .btn-analyze {
-            background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
-            color: var(--bg-base);
-            border: none;
-            padding: 14px 32px;
-            border-radius: 12px;
-            font-family: 'Cairo', sans-serif;
-            font-size: 1rem;
-            font-weight: 800;
-            cursor: pointer;
-            box-shadow: 0 0 20px var(--gold-glow-strong);
-            transition: var(--trans-fast);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-analyze:hover:not(:disabled) {
-            transform: scale(1.03);
-            box-shadow: 0 0 30px rgba(197, 160, 89, 0.6);
-        }
-
-        .btn-analyze:disabled {
-            opacity: 0.7;
-            cursor: wait;
-            filter: grayscale(0.5);
-        }
-
-        .ai-insight-box {
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--gold-border);
-            border-radius: 16px;
-            padding: 30px;
-            font-family: 'Amiri', serif;
-            font-size: 1.35rem;
-            line-height: 2.2;
-            color: #eaecef;
-            min-height: 140px;
-            white-space: pre-line;
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
-        }
-
-        /* ==========================================================================
-           8. خلوة الفيديو المرئية (Responsive 16:9 Cinema)
-           ========================================================================== */
-        .cinema-section {
-            background: var(--bg-surface-elevated);
-            border: 1px solid var(--dark-border);
-            border-radius: 24px;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        .cinema-viewport {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            background: radial-gradient(circle at center, #1a1a24 0%, #050508 100%);
-            border-radius: 18px;
-            border: 1px solid var(--gold-border);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.9);
-        }
-
-        .video-overlay-content {
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 16px;
-            z-index: 2;
-            padding: 20px;
-        }
-
-        .play-button {
-            width: 80px;
-            height: 80px;
-            background: rgba(197, 160, 89, 0.15);
-            border: 1px solid var(--gold-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--trans-medium);
-            box-shadow: 0 0 30px var(--gold-glow-strong);
-        }
-
-        .play-button svg {
-            width: 30px;
-            height: 30px;
-            fill: var(--gold-light);
-            margin-left: 5px; /* Visual center adjustment for play icon */
-            transition: var(--trans-fast);
-        }
-
-        .play-button:hover {
-            background: var(--gold-primary);
-            transform: scale(1.1);
-        }
-
-        .play-button:hover svg {
-            fill: var(--bg-base);
-        }
-
-        .iframe-container {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            display: none;
-            z-index: 5;
-            background: #000;
-        }
-
-        .iframe-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* ==========================================================================
-           9. منظومة الفيلسوف الذكي (Smart FAB & Particle Canvas)
-           ========================================================================== */
-        .philosopher-system {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            /* Container size enough to hold the expanded SVG and dust */
-            width: 200px; 
-            height: 200px;
-            pointer-events: none; /* Let clicks pass through the container */
-        }
-
-        /* طبقة الغبار الذهبي المضيء (Canvas Layer) */
-        #philosopherDust {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 200px;
-            height: 200px;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        /* هالة النور الترددية */
-        .philosopher-aura {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(197,160,89,0.3) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 2;
-            transition: var(--trans-medium);
-            animation: pulseAura 3s infinite alternate;
-        }
-
-        @keyframes pulseAura {
-            from { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-            to { transform: translate(-50%, -50%) scale(1.5); opacity: 1; filter: blur(4px); }
-        }
-
-        /* الزر المعماري للفيلسوف (صغير بشكل افتراضي ويتضخم عند النقر) */
-        .philosopher-fab {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 65px; /* الحجم الصغير المثالي */
-            height: 65px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #1a1a24 0%, #060608 90%);
-            border: 2px solid var(--gold-primary);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.8), 0 0 20px var(--gold-glow-soft);
-            cursor: pointer;
-            pointer-events: auto; /* Enable clicking on the button */
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--trans-medium);
-            outline: none;
-        }
-
-        .philosopher-fab:hover {
-            border-color: var(--gold-light);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.9), 0 0 30px var(--gold-glow-strong);
-            transform: translate(-50%, -55%) scale(1.05);
-        }
-
-        /* حالة التمدد عند الفتح */
-        .philosopher-fab.active {
-            width: 100px; /* الحجم الكبير عند التفعيل */
-            height: 100px;
-            border-color: #fff;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 50px rgba(229, 185, 100, 0.6);
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .philosopher-svg {
-            width: 42px; /* حجم المتجه الداخلي */
-            height: 42px;
-            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.8));
-            transition: var(--trans-medium);
-        }
-
-        .philosopher-fab.active .philosopher-svg {
-            width: 70px;
-            height: 70px;
-        }
-
-        /* تلميح صغير يظهر عند التمرير */
-        .philosopher-hint {
-            position: absolute;
-            left: 110px; /* يظهر على يمين الزر (بما أن الاتجاه RTL، اليسار يعني الجهة اليمنى في الشاشة) */
-            top: 50%;
-            transform: translateY(-50%) translateX(-10px);
-            background: rgba(10, 10, 15, 0.9);
-            border: 1px solid var(--gold-border);
-            color: var(--gold-light);
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            white-space: nowrap;
-            pointer-events: none;
-            opacity: 0;
-            transition: var(--trans-fast);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .philosopher-fab:hover ~ .philosopher-hint {
-            opacity: 1;
-            transform: translateY(-50%) translateX(0);
-        }
-
-        .philosopher-fab.active ~ .philosopher-hint {
-            display: none;
-        }
-
-        /* نافذة الحوار المباشرة */
-        .chat-modal {
-            position: fixed;
-            bottom: 140px;
-            left: 30px;
-            width: 420px;
-            max-width: 90vw;
-            height: 550px;
-            background: var(--bg-glass-heavy);
-            backdrop-filter: var(--blur-lg);
-            border: 1px solid var(--gold-primary);
-            border-radius: 20px;
-            box-shadow: var(--shadow-lg);
-            display: flex;
-            flex-direction: column;
-            pointer-events: auto;
-            z-index: 999;
-            transform-origin: bottom left;
-            opacity: 0;
-            visibility: hidden;
-            transform: scale(0.9) translateY(20px);
-            transition: var(--trans-medium);
-        }
-
-        .chat-modal.open {
-            opacity: 1;
-            visibility: visible;
-            transform: scale(1) translateY(0);
-        }
-
-        .chat-header {
-            padding: 18px 24px;
-            background: rgba(20, 20, 30, 0.6);
-            border-bottom: 1px solid var(--gold-border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chat-header h4 {
-            font-family: 'Amiri', serif;
-            color: var(--gold-light);
-            font-size: 1.3rem;
-        }
-
-        .btn-close-chat {
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: var(--trans-fast);
-        }
-
-        .btn-close-chat:hover {
-            color: var(--color-error);
-        }
-
-        .chat-body {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .chat-bubble {
-            padding: 14px 18px;
-            border-radius: 16px;
-            max-width: 88%;
-            font-size: 0.95rem;
-            line-height: 1.7;
-            position: relative;
-        }
-
-        .bubble-ai {
-            background: rgba(197, 160, 89, 0.08);
-            border: 1px solid var(--gold-border);
-            color: #e2e8f0;
-            font-family: 'Amiri', serif;
-            font-size: 1.15rem;
-            align-self: flex-start;
-            border-bottom-right-radius: 4px;
-        }
-
-        .bubble-user {
-            background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
-            color: var(--bg-base);
-            font-weight: 600;
-            align-self: flex-end;
-            border-bottom-left-radius: 4px;
-            box-shadow: 0 4px 15px var(--gold-glow-soft);
-        }
-
-        .chat-footer {
-            padding: 16px;
-            border-top: 1px solid var(--dark-border);
-            background: rgba(0, 0, 0, 0.3);
-            display: flex;
-            gap: 10px;
-        }
-
-        .chat-input {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--gold-border);
-            border-radius: 12px;
-            padding: 12px 16px;
-            color: var(--text-primary);
-            font-family: 'Cairo', sans-serif;
-            font-size: 0.95rem;
-            outline: none;
-            transition: var(--trans-fast);
-        }
-
-        .chat-input:focus {
-            border-color: var(--gold-light);
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        .btn-send {
-            background: var(--gold-primary);
-            color: var(--bg-base);
-            border: none;
-            border-radius: 12px;
-            padding: 0 20px;
-            font-family: 'Cairo', sans-serif;
-            font-weight: 800;
-            cursor: pointer;
-            transition: var(--trans-fast);
-        }
-
-        .btn-send:hover {
-            background: var(--gold-light);
-        }
-
-        /* ==========================================================================
-           10. التصميم المتجاوب (Media Queries)
-           ========================================================================== */
-        @media (max-width: 900px) {
-            .metrics-grid {
-                grid-template-columns: 1fr;
-            }
-            .ai-panel-header {
-                flex-direction: column;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .dashboard-header { padding: 16px 20px; }
-            .brand-logo { font-size: 1.5rem; }
-            .exclusive-ad-banner { margin-top: 15px; padding: 10px; }
-            .metric-title { font-size: 1.35rem; }
-            .philosopher-system { bottom: 15px; left: 15px; }
-            .chat-modal { bottom: 120px; left: 10px; width: calc(100vw - 20px); height: 450px; }
-            .cinema-section { padding: 20px; }
-        }
-    </style>
-    <!-- FOUC Theme Preventer -->
-    <script>
-        (function() {
-            try {
-                if (localStorage.getItem('mind_theme_preference') === 'manuscript') {
-                    document.documentElement.setAttribute('data-mode', 'manuscript');
-                }
-            } catch(e) {}
-        })();
-    </script>
+    <!-- Modular Dashboard Suite -->
+    <script src="firebase-auth.js" defer></script>
+    <script src="i18n.js" defer></script>
+    <script src="dashboard.js" defer></script>
+    <script src="sound.js" defer></script>
 
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="shortcut icon" href="favicon.ico">
 </head>
-<body>
+<body class="rtl-layout">
 
-    <!-- الترويسة العلوية للوحة القيادة -->
-    <header class="dashboard-header">
-        <a href="index.html" class="brand-logo">
-    <img src="logo.png" alt="شعار عقل في صندوق" class="nav-brand-logo-img-small">
-            عقل في صندوق
-        </a>
-        <div class="user-widget">
-            <div class="account-badge free" id="userBadge">
-                <span id="userNameDisplay">جاري التحقق...</span>
-                <span class="quota-indicator" id="quotaDisplay" style="display: none;">0/20</span>
+    <!-- =========================================================================
+         1. شريط التصفح العلوي السيادي (Sovereign Floating Navbar)
+         ========================================================================= -->
+    <nav class="sovereign-navbar" id="mainNavbar">
+        <div class="nav-container">
+            
+            <!-- الشعار والهوية السيادية -->
+            <a href="index.html" class="nav-brand">
+                <img src="logo.png" alt="شعار عقل في صندوق" class="nav-brand-logo-img">
+                <div>
+                    <span class="nav-brand-title" data-i18n="brandName">عقل في صندوق</span>
+                    <span class="nav-brand-subtitle" data-i18n="brandTagline">المعبد الفلسفي للوعي والإنتاجية السيادية</span>
+                </div>
+            </a>
+
+            <!-- روابط الملاذ السريعة -->
+            <div class="nav-links-cluster">
+                <a href="#habitsSection" class="nav-link-item active" data-i18n="navHabits">محاريب الجرد</a>
+                <a href="#moodSection" class="nav-link-item" data-i18n="navMood">هندسة المزاج</a>
+                <a href="#aiSection" class="nav-link-item" data-i18n="navAI">المستشار الذكي</a>
+                <a href="vault.html" class="nav-link-item" data-i18n="navVault">الخزينة</a>
+                <a href="meditation.html" class="nav-link-item" data-i18n="navMeditation">الخلوة</a>
+                <a href="pricing.html" class="nav-link-item" data-i18n="navPricing">العضويات</a>
             </div>
-            <button class="btn-logout" id="btnLogout">خروج</button>
-        </div>
-    </header>
 
-    <!-- المساحة الإعلانية الوحيدة والمخصصة بأعلى الصفحة -->
-    <div class="exclusive-ad-banner">
-        <!-- يمكنك تضمين إعلانات Google AdSense هنا أو بانر دعائي خاص -->
+            <!-- كبسولة المصادقة وحالة المستخدم (Auth Navigation Capsule) -->
+            <div class="auth-nav-cluster">
+                <div id="authNavContainer">
+                    <!-- يتم تحديثه تلقائياً بواسطة dashboard.js & firebase-auth.js -->
+                    <button type="button" id="btnOpenLoginModal" class="btn-sovereign-nav">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-inline-end: 6px;"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+                        <span data-i18n="navLoginBtn">تسجيل الدخول / البدء</span>
+                    </button>
+                </div>
+
+                <!-- القائمة المنسدلة للملف الشخصي (Profile Dropdown Menu) -->
+                <div class="profile-dropdown-menu" id="profileDropdown">
+                    <div class="dropdown-user-info">
+                        <h4 class="dropdown-user-name" id="dropdownUserName">السالك السيادي</h4>
+                        <p class="dropdown-user-email" id="dropdownUserEmail">user@mindinbox.com</p>
+                    </div>
+                    <div class="dropdown-items-list">
+                        <!-- زر تبديل اللغة (Toggle AR/EN) -->
+                        <button type="button" class="dropdown-item-btn" id="langToggleBtn">
+                            <span style="display: flex; align-items: center; gap: 8px;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                                <span data-i18n="menuLanguage">تبديل اللغة</span>
+                            </span>
+                            <span class="lang-toggle-badge" id="langToggleLabel">English</span>
+                        </button>
+                        
+                        <!-- الإعدادات -->
+                        <a href="account.html" class="dropdown-item-btn" style="text-decoration: none;">
+                            <span style="display: flex; align-items: center; gap: 8px;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                                <span data-i18n="menuSettings">الإعدادات السيادية</span>
+                            </span>
+                        </a>
+
+                        <!-- تسجيل الخروج -->
+                        <button type="button" class="dropdown-item-btn btn-logout" id="menuLogoutBtn">
+                            <span style="display: flex; align-items: center; gap: 8px;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                                <span data-i18n="menuLogout">تسجيل الخروج</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- =========================================================================
+         2. غلاف لوحة التحكم الأساسية (The Dashboard Shift Shell)
+         ========================================================================= -->
+    <div class="dashboard-shell">
+        <div class="dashboard-container">
+            
+            <!-- ترويسة الملاذ الترحيبية (Stoic Hero Header) -->
+            <header class="dashboard-hero">
+                <div class="hero-meta-bar">
+                    <span data-i18n="heroDateLabel">تاريخ اليوم بالملاذ:</span>
+                    <strong id="sanctuaryDate" style="color: var(--gold-light);">...</strong>
+                </div>
+                <h1 class="dashboard-hero-title" data-i18n="heroTitle">لوحة التحكم السيادية للوعي المفرط</h1>
+                <p class="dashboard-hero-subtitle" data-i18n="heroSubtitle">ملاذك الرقمي لإدارة الذات، ترويض الدوبامين، واستشارة الحكمة السيادية في عصر التشتت.</p>
+            </header>
+
+            <!-- =================================================================
+                 3. شبكة البطاقات التفاعلية الأساسية (3 Core Modular Cards)
+                 ================================================================= -->
+            <main class="dashboard-grid">
+                
+                <!-- البطاقة 1: محاريب الجرد الذاتي -->
+                <section class="glass-card" id="habitsSection">
+                    <div>
+                        <span class="card-badge" data-i18n="card1Badge">الانضباط الصارم</span>
+                        <h2 class="card-title" data-i18n="card1Title">محاريب الجرد الذاتي</h2>
+                        <p class="card-desc" data-i18n="card1Desc">تتبع العادات اليومية الصارمة، جرد الهفوات النفسية، وقياس استقامة المسار بلا مواربة.</p>
+                        
+                        <!-- قائمة عادات تفاعلية مدمجة -->
+                        <div class="habit-list-interactive">
+                            <label class="habit-item">
+                                <input type="checkbox" class="habit-check" data-index="0">
+                                <span class="habit-label" data-i18n="card1Habit1">خلوة الصمت والتأمل (٢٠ دقيقة)</span>
+                            </label>
+                            <label class="habit-item">
+                                <input type="checkbox" class="habit-check" data-index="1">
+                                <span class="habit-label" data-i18n="card1Habit2">صيام الدوبامين عن الهواتف الصباحية</span>
+                            </label>
+                            <label class="habit-item">
+                                <input type="checkbox" class="habit-check" data-index="2">
+                                <span class="habit-label" data-i18n="card1Habit3">تدوين الملاحظات الفلسفية المعمقة</span>
+                            </label>
+                        </div>
+
+                        <!-- شريط قياس الانضباط التفاعلي -->
+                        <div class="habit-progress-wrap">
+                            <div class="habit-progress-header">
+                                <span data-i18n="card1Progress">معدل الانضباط اليومي:</span>
+                                <span id="habitProgressText" style="font-weight: 700;">0%</span>
+                            </div>
+                            <div class="habit-progress-track">
+                                <div class="habit-progress-fill" id="habitProgressBar"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="meditation.html" class="card-action-btn">
+                        <span data-i18n="card1Btn">فتح محراب الجرد الكامل</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                </section>
+
+                <!-- البطاقة 2: هندسة المزاج والسكينة -->
+                <section class="glass-card" id="moodSection">
+                    <div>
+                        <span class="card-badge" data-i18n="card2Badge">الكيمياء النفسية</span>
+                        <h2 class="card-title" data-i18n="card2Title">هندسة المزاج والسكينة</h2>
+                        <p class="card-desc" data-i18n="card2Desc">موالفة التردد الداخلي، تحييد الضجيج الانفعالي، والارتقاء إلى درجات الوقار المعرفي.</p>
+                        
+                        <!-- أزرار الترددات النفسية التفاعلية -->
+                        <div class="mood-selector-cluster">
+                            <button type="button" class="mood-btn active" data-mood="peace" data-i18n="moodPeace">سكينة</button>
+                            <button type="button" class="mood-btn" data-mood="focus" data-i18n="moodFocus">تركيز عميق</button>
+                            <button type="button" class="mood-btn" data-mood="dignity" data-i18n="moodDignity">وقار</button>
+                            <button type="button" class="mood-btn" data-mood="restoration" data-i18n="moodRestoration">استرداد طاقة</button>
+                            <button type="button" class="mood-btn" data-mood="shock" data-i18n="moodShock">صدمة فلسفية</button>
+                        </div>
+
+                        <!-- عارض التردد الرنيني للمزاج -->
+                        <div class="mood-resonance-status">
+                            <div class="mood-resonance-freq" id="moodFrequencyValue">432 Hz</div>
+                            <div class="mood-resonance-label" id="moodStateDisplay">سكينة مطلقة وتفريغ للضجيج</div>
+                        </div>
+                    </div>
+
+                    <a href="mood.html" class="card-action-btn">
+                        <span data-i18n="card2Btn">الدخول إلى محراب المزاج</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                </section>
+
+                <!-- البطاقة 3: المستشار الفلسفي الذكي -->
+                <section class="glass-card" id="aiSection">
+                    <div>
+                        <span class="card-badge" data-i18n="card3Badge">عصب الحكيم</span>
+                        <h2 class="card-title" data-i18n="card3Title">المستشار الفلسفي الذكي</h2>
+                        <p class="card-desc" data-i18n="card3Desc">محاورة الذكاء الاصطناعي السيادي المدرب على نصوص الرواقية والحكمة الخالدة.</p>
+                        
+                        <!-- صندوق حوار الحكيم التفاعلي السريع -->
+                        <div class="sage-dialogue-box">
+                            <p class="sage-reply-text" id="sageResponseText" data-i18n="card3SageDefault">«مستشارك الفلسفي حاضر لتحليل أي معضلة فكرية أو نفسية وصياغة خارطة اتزان معرفي لها.»</p>
+                        </div>
+
+                        <!-- حقل الاستشارة السريعة -->
+                        <div class="sage-input-cluster">
+                            <input type="text" id="sageInput" class="sage-prompt-input" placeholder="اطرح معضلتك الفكرية أو النفسية هنا..." data-i18n-placeholder="card3InputPlaceholder">
+                            <button type="button" id="sageSendBtn" class="btn-sage-ask" data-i18n="card3Send">استشارة</button>
+                        </div>
+                    </div>
+
+                    <a href="vault.html" class="card-action-btn">
+                        <span>خزينة الحكمة والأرشيف</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                </section>
+            </main>
+
+            <!-- =========================================================================
+                 SOVEREIGN MASTER FOOTER (PHASE 10 POLISHED)
+                 ========================================================================= -->
+            <footer class="sovereign-master-footer">
+                <div class="footer-brand-seal">
+                    <img src="logo.png" alt="عقل في صندوق" class="nav-brand-logo-img-small" style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(197, 160, 89, 0.4);">
+                    <span>عقل في صندوق | Mind In Box</span>
+                </div>
+                <p class="footer-copyright">© 2026 عقل في صندوق. جميع الحقوق محفوظة — منصة الوعي والإنتاجية السيادية.</p>
+            </footer>
+
+        </div>
     </div>
 
-    <main class="dashboard-container">
-        
-        <!-- قسم المؤشرات الحيوية للوعي -->
-        <section class="metrics-grid">
+    <!-- =========================================================================
+         4. نافذة تسجيل الدخول المنبثقة الناعمة (Soft Login Modal)
+         تحتوي على زر Google وتستدعي دالة signInWithPopup المحكمة دون كسرها
+         ========================================================================= -->
+    <div class="sovereign-modal-backdrop" id="loginModal">
+        <div class="sovereign-modal">
+            <button type="button" class="modal-close-btn" aria-label="إغلاق">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div class="modal-header-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </div>
+            <h3 class="modal-title" data-i18n="loginModalTitle">بوابة العبور السيادي</h3>
+            <p class="modal-subtitle" data-i18n="loginModalSubtitle">سجل دخولك لتفعيل حفظ تقدمك ومزامنة تجاربك في السحاب بأمان تام.</p>
             
-            <div class="metric-card">
-                <div class="metric-header">
-                    <h2 class="metric-title">نبض الاتزان والمزاج</h2>
-                    <p class="metric-desc">تتبع بياني لاستقرارك النفسي المستخلص من تشريح الانفعالات.</p>
-                </div>
-                <div class="chart-canvas-wrapper">
-                    <canvas id="moodChartCanvas"></canvas>
-                </div>
+            <!-- زر المصادقة عبر Google -->
+            <button type="button" id="btnGoogleModal" class="btn-google-auth-modal">
+                <svg width="20" height="20" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                    <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                    <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                    <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                </svg>
+                <span data-i18n="loginWithGoogle">الدخول بواسطة Google</span>
+            </button>
+
+            <div style="text-align: center; margin-top: 20px; font-size: 0.78rem; color: #7f7c75;" data-i18n="loginSecurityNote">
+                مصادقة مشفرة ومحمية عبر بوابات Google السحابية
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+         5. خطاف التسويق والنمو بعد أول تسجيل دخول (Neuromarketing Onboarding Hook)
+         ========================================================================= -->
+    <div class="sovereign-modal-backdrop" id="onboardingModal">
+        <div class="sovereign-modal modal-onboarding">
+            <button type="button" class="modal-close-btn" aria-label="إغلاق">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <span class="onboarding-badge" data-i18n="onboardBadge">ترقية استثنائية للوعي</span>
+            <h2 class="modal-title" data-i18n="onboardTitle">ارتقِ بوعيك الآن إلى الأفق السيادي</h2>
+            
+            <p class="onboarding-hook-desc" data-i18n="onboardHookText">
+                أهلاً بك في الدائرة الأولى. لقد صُممت هذه المنصة للنخبة الفكرية الباحثة عن ترويض الفوضى وتحقيق الاستقلالية التامة.
+            </p>
+
+            <div class="onboarding-offer-box" data-i18n="onboardOffer">
+                "ارتقِ بوعيك الآن: اشترك بالخطة المجانية (14 يوماً من التجربة المطلقة)، أو احصل مباشرة على خطتك الشهرية لصلاحيات لا محدودة."
             </div>
 
-            <div class="metric-card">
-                <div class="metric-header">
-                    <h2 class="metric-title">ميزان انضباط اليوم</h2>
-                    <p class="metric-desc">نسبة التزامك بما ألزمت به نفسك في ميثاق اليوم.</p>
-                </div>
-                <div class="discipline-progress">
-                    <span style="font-size: 0.95rem; color: var(--text-secondary);">حضورك في ميدان الفعل</span>
-                    <div class="discipline-value" id="disciplineScore">0%</div>
-                </div>
-            </div>
-
-            <div class="metric-card reward-state" id="rewardPanel" style="opacity: 0.5; filter: grayscale(1);">
-                <div>
-                    <span class="reward-badge" id="rewardBadge">قيد السعي والجهد</span>
-                    <h2 class="metric-title" style="color: var(--color-success);">استحقاق الراحة</h2>
-                    <p class="reward-text" id="rewardText">
-                        أتمم 80% من ميثاقك ليحق لك الاستمتاع بوقت فراغك بضمير مرتاح.
-                    </p>
-                </div>
-            </div>
-
-        </section>
-
-        <!-- شبكة أركان الخلوة -->
-        <section class="portals-grid">
-            <a href="meditation.html" class="portal-card">
-                <h3>محراب التفريغ</h3>
-                <p>مساحة آمنة لإلقاء فوضى الخواطر وحرق الشحنات العصبية اللحظية، مع تحليل رواقي لاستخلاص الجوهر.</p>
-            </a>
-
-            <a href="schedule.html" class="portal-card">
-                <h3>ميثاق اليوم</h3>
-                <p>إدارة أولويات الفعل بصرامة. مؤقت تركيز عميق وآلية لسحب القوة من التسويف.</p>
-            </a>
-
-            <a href="mood.html" class="portal-card">
-                <h3>تشريح الانفعالات</h3>
-                <p>تسمية الشعور وتفكيك جذور القلق المجهول لمعرفة مواضع استنزاف طاقتك بدقة.</p>
-            </a>
-
-            <a href="reflection.html" class="portal-card">
-                <h3>جَرد الليلة</h3>
-                <p>مساءلة صريحة للضمير قبل النوم، تقييم صواب الأفعال، وتثبيت عهد قوي لنهار الغد.</p>
-            </a>
-
-            <a href="vault.html" class="portal-card" style="border-color: var(--gold-border); background: rgba(197,160,89,0.05);">
-                <h3 style="color: var(--gold-primary);">خزانة العهد</h3>
-                <p>الملاذ الحصري للمشتركين. يضم أرشيف المرئيات، بوابات الترقية، وإدارة اشتراكك.</p>
-            </a>
-        </section>
-
-        <!-- مستشار الوعي الشامل (متصل بمحرك ai.js المؤسسي) -->
-        <section class="ai-panel">
-            <div class="ai-panel-header">
-                <div class="ai-panel-title">
-                    <h2>مستشار الصندوق (التحليل الشامل)</h2>
-                    <p>يدمج بين مهامك المنجزة، انفعالاتك، وجردك الليلي لتقديم وصية رواقية مخصصة لحالتك الراهنة.</p>
-                </div>
-                <button class="btn-analyze" id="btnAnalyzeMind">
-                    <span>استنطاق المستشار</span>
+            <!-- أزرار التحويل المالي والاشتراك (High-Conversion CTAs) -->
+            <div class="onboarding-cta-cluster">
+                <button type="button" class="btn-cta-gold" id="btnClaimTrial" data-i18n="onboardFreeCTA">
+                    ابدأ تجربتي المطلقة (١٤ يوماً مجاناً)
+                </button>
+                <button type="button" class="btn-cta-ghost" id="btnDirectMonthly" data-i18n="onboardMonthlyCTA">
+                    الاشتراك الشهري السيادي فوراً
                 </button>
             </div>
-            
-            <div class="ai-insight-box" id="aiInsightOutput">
-                اضغط على الزر لجمع خيوط وعيك من سائر الأركان وصياغة رؤية نفسية دقيقة.
-            </div>
-        </section>
 
-        <!-- خلوة الأسبوع المرئية (Responsive Cinema) -->
-        <section class="cinema-section" id="weeklyVaultSection">
-            <div>
-                <h2 style="font-family: 'Amiri', serif; color: var(--gold-primary); font-size: 1.85rem; margin-bottom: 8px;">الخلوة المرئية الأسبوعية</h2>
-                <p style="color: var(--text-secondary); font-size: 0.95rem;">رسالة تحليلية مكثفة تبث دورياً لتفكيك أعطاب النفس المعاصرة.</p>
-            </div>
-
-            <div class="cinema-viewport">
-                
-                <!-- حاوية الفيديو (تعمل عند النقر) -->
-                <div class="iframe-container" id="videoContainer">
-                    <!-- استبدل الرابط أدناه برابط فيديو YouTube الخاص بك -->
-                    <iframe src="https://www.youtube.com/embed/VIDEO_ID?autoplay=1" title="حلقة الأسبوع" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-
-                <div class="video-overlay-content" id="videoOverlay">
-                    <div class="play-button" id="btnPlayVideo">
-                        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                    </div>
-                    <h3 style="font-family: 'Amiri', serif; color: #fff; font-size: 1.6rem; text-shadow: 0 2px 10px rgba(0,0,0,0.8);">وهم السيطرة وفخ المقارنة الرقمية</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.95rem; max-width: 500px;">كيف تفرّق بين مسؤوليتك الحقيقية وبين حمل ما لا تملكه؟ وقفة تسترد بها وضوح البال.</p>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- منظومة الفيلسوف: الغبار المضيء والتفاعل -->
-    <div class="philosopher-system">
-        
-        <!-- طبقة الرذاذ والغبار السحري -->
-        <canvas id="philosopherDust"></canvas>
-        
-        <div class="philosopher-aura" id="philosopherAura"></div>
-
-        <button class="philosopher-fab" id="btnPhilosopher">
-            <svg class="philosopher-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22 88C22 74 34 66 50 66C66 66 78 74 78 88V96H22V88Z" fill="url(#marbleGrad)" stroke="#e5b964" stroke-width="2"/>
-                <path d="M42 58V68H58V58Z" fill="url(#marbleGrad)" stroke="#e5b964" stroke-width="1.5"/>
-                <path d="M35 32C35 18 41 12 50 12C59 12 65 18 65 32C65 44 60 54 58 58H42C40 54 35 44 35 32Z" fill="url(#marbleGrad)" stroke="#e5b964" stroke-width="2"/>
-                <path d="M35 30C35 20 41 14 50 14C59 14 65 20 65 30C65 34 62 36 60 34C58 32 56 36 52 34C48 32 44 36 40 34C38 36 35 34 35 30Z" fill="#181822" stroke="#c5a059" stroke-width="1"/>
-                <path d="M43 53C45 57 55 57 57 53C59 50 56 46 50 46C44 46 41 50 43 53Z" fill="#0f0f14" stroke="#ffffff" stroke-width="1.2"/>
-                <path d="M38 22C42 18 58 18 62 22" stroke="#e5b964" stroke-width="2.5" stroke-linecap="round"/>
-                <defs>
-                    <linearGradient id="marbleGrad" x1="22" y1="12" x2="78" y2="96" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#f0f0f5"/>
-                        <stop offset="0.4" stop-color="#9a9aa8"/>
-                        <stop offset="0.75" stop-color="#323240"/>
-                        <stop offset="1" stop-color="#121218"/>
-                    </linearGradient>
-                </defs>
-            </svg>
-        </button>
-        <span class="philosopher-hint">محاورة الحكيم</span>
-
-        <!-- نافذة المحاورة (Chat Modal) -->
-        <div class="chat-modal" id="chatModal">
-            <div class="chat-header">
-                <h4>محراب الحكيم الرواقي</h4>
-                <button class="btn-close-chat" id="btnCloseChat">&times;</button>
-            </div>
-            <div class="chat-body" id="chatHistory">
-                <div class="chat-bubble bubble-ai" id="aiInitialGreeting">
-                    يتأمل الحكيم حضورك...
-                </div>
-            </div>
-            <div class="chat-footer">
-                <input type="text" class="chat-input" id="chatInput" placeholder="اكتب اضطرابك هنا لتفكيكه...">
-                <button class="btn-send" id="btnSendChat">إرسال</button>
+            <div class="onboarding-guarantee-note" data-i18n="onboardGuarantee">
+                ✓ إلغاء فوري بضغطة زر · بدون شروط مخفية · وصول فوري لكافة الميزات
             </div>
         </div>
-
     </div>
 
-    <!-- ==========================================================================
-         الهندسة البرمجية (JavaScript Architecture)
-         ========================================================================== -->
-    <script>
-        /**
-         * 1. التهيئة السحابية (Firebase Config)
-         */
-        const firebaseConfig = {
-            apiKey: "AIzaSyDGgTDrDJsRvulhzK1p59AbuhJwQYSUufI",
-            authDomain: "mindinbox-50d84.firebaseapp.com",
-            projectId: "mindinbox-50d84"
-        };
-        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-        
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-
-        /**
-         * 2. محرك الرذاذ والغبار المضيء للفيلسوف (Canvas Dust Engine)
-         */
-        const DustEngine = (() => {
-            const canvas = document.getElementById('philosopherDust');
-            const ctx = canvas.getContext('2d', { alpha: true });
-            let width = 200, height = 200;
-            let particles = [];
-            let isActive = false; // يحدد إذا كان الفيلسوف متوسعاً أم لا
-
-            canvas.width = width;
-            canvas.height = height;
-
-            class GlowParticle {
-                constructor() {
-                    this.reset();
-                }
-                reset() {
-                    // الانطلاق من مركز الفيلسوف (100, 100)
-                    const angle = Math.random() * Math.PI * 2;
-                    // نصف القطر ينطلق من حواف الزر الدائري
-                    const radius = isActive ? 50 : 32; 
-                    this.x = 100 + Math.cos(angle) * radius;
-                    this.y = 100 + Math.sin(angle) * radius;
-                    this.size = Math.random() * 2 + 0.5;
-                    this.speedX = Math.cos(angle) * (Math.random() * 0.5 + 0.2);
-                    this.speedY = Math.sin(angle) * (Math.random() * 0.5 + 0.2) - 0.2; // انجذاب خفيف للأعلى
-                    this.life = 1.0;
-                    this.decay = Math.random() * 0.015 + 0.005;
-                }
-                update() {
-                    this.x += this.speedX;
-                    this.y += this.speedY;
-                    this.life -= this.decay;
-                    if (this.life <= 0) this.reset();
-                }
-                draw() {
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(229, 185, 100, ${this.life})`;
-                    ctx.shadowColor = 'rgba(229, 185, 100, 0.8)';
-                    ctx.shadowBlur = isActive ? 10 : 5; // توهج أكبر عند التوسع
-                    ctx.fill();
-                }
-            }
-
-            for(let i = 0; i < 40; i++) particles.push(new GlowParticle());
-
-            function animate() {
-                ctx.clearRect(0, 0, width, height);
-                particles.forEach(p => { p.update(); p.draw(); });
-                requestAnimationFrame(animate);
-            }
-
-            return {
-                start: () => animate(),
-                setExpanded: (state) => { isActive = state; }
-            };
-        })();
-        
-        DustEngine.start();
-
-        /**
-         * 3. المتحكم العام بالواجهة (Dashboard Controller)
-         */
-        const DashboardController = (() => {
-            
-            // عناصر الواجهة
-            const btnLogout = document.getElementById('btnLogout');
-            const userNameDisplay = document.getElementById('userNameDisplay');
-            const userBadge = document.getElementById('userBadge');
-            const quotaDisplay = document.getElementById('quotaDisplay');
-            const btnPlayVideo = document.getElementById('btnPlayVideo');
-            const videoOverlay = document.getElementById('videoOverlay');
-            const videoContainer = document.getElementById('videoContainer');
-            const btnAnalyzeMind = document.getElementById('btnAnalyzeMind');
-            const aiInsightOutput = document.getElementById('aiInsightOutput');
-            const disciplineScore = document.getElementById('disciplineScore');
-            const rewardPanel = document.getElementById('rewardPanel');
-            
-            // تهيئة حالة المستخدم والمحرك
-            auth.onAuthStateChanged(async (user) => {
-                if (!user) {
-                    window.location.replace("index.html");
-                    return;
-                }
-                
-                userNameDisplay.textContent = user.displayName ? user.displayName.split(' ')[0] : 'حسابي';
-                
-                // تهيئة محرك الذكاء (Enterprise ai.js)
-                if (window.AIAdvisor) {
-                    await AIAdvisor.init(user, db);
-                    updateQuotaUI();
-                }
-
-                renderLocalMetrics();
-                fetchCloudMetrics(user);
-            });
-
-            btnLogout.addEventListener('click', () => auth.signOut());
-
-            btnPlayVideo.addEventListener('click', () => {
-                videoOverlay.style.display = 'none';
-                videoContainer.style.display = 'block';
-            });
-
-            function updateQuotaUI() {
-                if (!window.AIAdvisor) return;
-                const status = AIAdvisor.getStatus();
-                if (status.isPremium) {
-                    userBadge.className = 'account-badge premium';
-                    quotaDisplay.style.display = 'none';
-                } else {
-                    userBadge.className = 'account-badge free';
-                    quotaDisplay.style.display = 'inline-block';
-                    quotaDisplay.textContent = `طاقة المستشار: ${status.limit - status.used}/${status.limit}`;
-                }
-            }
-
-            // رسم بياني مبسط للكانفاس (نبض المزاج)
-            function drawMoodChart(scores = [60, 65, 75, 70, 85]) {
-                const canvas = document.getElementById('moodChartCanvas');
-                const ctx = canvas.getContext('2d');
-                canvas.width = canvas.parentElement.clientWidth;
-                canvas.height = 100;
-                
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                const step = canvas.width / (Math.max(scores.length - 1, 1));
-                
-                ctx.beginPath();
-                scores.forEach((val, i) => {
-                    const y = canvas.height - ((val / 100) * (canvas.height - 20) + 10);
-                    const x = i * step;
-                    if (i === 0) ctx.moveTo(x, y);
-                    else ctx.lineTo(x, y);
-                });
-
-                ctx.strokeStyle = '#c5a059';
-                ctx.lineWidth = 3;
-                ctx.shadowColor = 'rgba(197, 160, 89, 0.5)';
-                ctx.shadowBlur = 10;
-                ctx.stroke();
-            }
-
-            function evaluateDiscipline(tasks) {
-                if (!tasks || tasks.length === 0) {
-                    disciplineScore.textContent = "0%";
-                    return;
-                }
-                const done = tasks.filter(t => t.done).length;
-                const percent = Math.round((done / tasks.length) * 100);
-                disciplineScore.textContent = `${percent}%`;
-
-                if (percent >= 80) {
-                    rewardPanel.style.opacity = '1';
-                    rewardPanel.style.filter = 'none';
-                    rewardPanel.style.borderColor = 'var(--color-success)';
-                    document.getElementById('rewardBadge').textContent = 'استحقاق كامل';
-                    document.getElementById('rewardText').textContent = 'لقد وفيت بعهدك اليوم. يحق لك الخلود للراحة والترويح بثقة تامة.';
-                }
-            }
-
-            function renderLocalMetrics() {
-                const tasks = JSON.parse(localStorage.getItem('mind_daily_tasks_v3')) || [];
-                const moods = JSON.parse(localStorage.getItem('mind_mood_logs_v2')) || [];
-                drawMoodChart(moods.length ? moods.map(m => m.score) : undefined);
-                evaluateDiscipline(tasks);
-            }
-
-            function fetchCloudMetrics(user) {
-                // Synchronize logic here for daily_tasks and mood_logs from Firestore
-                // For performance, local storage is primary, cloud is fallback/sync
-            }
-
-            // الاستنطاق الشامل في لوحة القيادة
-            btnAnalyzeMind.addEventListener('click', async () => {
-                if (!window.AIAdvisor) return;
-                
-                btnAnalyzeMind.disabled = true;
-                aiInsightOutput.textContent = "جاري الاتصال السحابي بمحرك الذكاء الرواقي وقراءة طبقات وعيك...";
-                
-                const tasks = JSON.parse(localStorage.getItem('mind_daily_tasks_v3')) || [];
-                const done = tasks.filter(t => t.done).length;
-                
-                const prompt = `مهامي اليوم: أنجزت ${done} من ${tasks.length}. قدم لي وصية فلسفية حازمة تنظم شتاتي وتوجهني للمرحلة القادمة بثبات.`;
-                
-                try {
-                    const response = await AIAdvisor.ask(prompt, "أنت حكيم رواقي مشرف على منصة عقل في صندوق. كلامك مباشر وصارم.");
-                    aiInsightOutput.textContent = response;
-                    updateQuotaUI();
-                } catch (e) {
-                    aiInsightOutput.textContent = "تعذر الاتصال بالمستشار. حافظ على هدوئك وعد لاحقاً.";
-                }
-                
-                btnAnalyzeMind.disabled = false;
-            });
-
-        })();
-
-        /**
-         * 4. متحكم الفيلسوف ونافذة الحوار (Philosopher Engine)
-         */
-        const PhilosopherEngine = (() => {
-            const btnFab = document.getElementById('btnPhilosopher');
-            const aura = document.getElementById('philosopherAura');
-            const modal = document.getElementById('chatModal');
-            const btnClose = document.getElementById('btnCloseChat');
-            const chatInput = document.getElementById('chatInput');
-            const btnSend = document.getElementById('btnSendChat');
-            const history = document.getElementById('chatHistory');
-            const initialMsg = document.getElementById('aiInitialGreeting');
-            
-            let isOpen = false;
-
-            function toggleModal() {
-                isOpen = !isOpen;
-                
-                // تحديث حالة الفيلسوف المرئية (تكبير/تصغير)
-                if (isOpen) {
-                    btnFab.classList.add('active');
-                    aura.style.display = 'none';
-                    modal.classList.add('open');
-                    DustEngine.setExpanded(true);
-                    chatInput.focus();
-                    
-                    if (initialMsg.dataset.fetched !== 'true' && window.AIAdvisor) {
-                        fetchInitialGreeting();
-                    }
-                } else {
-                    btnFab.classList.remove('active');
-                    aura.style.display = 'block';
-                    modal.classList.remove('open');
-                    DustEngine.setExpanded(false);
-                }
-            }
-
-            async function fetchInitialGreeting() {
-                initialMsg.textContent = "يقرأ الحكيم حضورك الآن...";
-                const res = await window.AIAdvisor.ask("المستخدم فتح نافذة المحاورة للتو. رحب به بجملة رواقية قصيرة جداً توقظ انتباهه، بدون إيموجيات.");
-                initialMsg.textContent = res;
-                initialMsg.dataset.fetched = 'true';
-            }
-
-            async function sendMessage() {
-                const text = chatInput.value.trim();
-                if (!text || !window.AIAdvisor) return;
-
-                // User bubble
-                const uBubble = document.createElement('div');
-                uBubble.className = 'chat-bubble bubble-user';
-                uBubble.textContent = text;
-                history.appendChild(uBubble);
-                
-                chatInput.value = '';
-                history.scrollTop = history.scrollHeight;
-
-                // AI Loading bubble
-                const aiBubble = document.createElement('div');
-                aiBubble.className = 'chat-bubble bubble-ai';
-                aiBubble.textContent = "يتأمل الحكيم قولك...";
-                history.appendChild(aiBubble);
-                history.scrollTop = history.scrollHeight;
-
-                // Fetch Response
-                const response = await window.AIAdvisor.ask(text);
-                aiBubble.textContent = response;
-                history.scrollTop = history.scrollHeight;
-                
-                // تحديث مؤشر الحصص في الهيدر إذا لزم الأمر
-                const quotaDisplay = document.getElementById('quotaDisplay');
-                if (quotaDisplay && window.AIAdvisor) {
-                    const status = window.AIAdvisor.getStatus();
-                    if (!status.isPremium) quotaDisplay.textContent = `طاقة المستشار: ${status.limit - status.used}/${status.limit}`;
-                }
-            }
-
-            btnFab.addEventListener('click', toggleModal);
-            btnClose.addEventListener('click', toggleModal);
-            btnSend.addEventListener('click', sendMessage);
-            chatInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
-
-        })();
-
-    </script>
 </body>
 </html>

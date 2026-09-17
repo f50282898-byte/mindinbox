@@ -637,7 +637,10 @@ window.AIAdvisor = {
         return {
             online: AICore.isOnline(),
             tier: AICore.getTier(),
-            quota: 'unlimited'
+            quota: 'unlimited',
+            limit: 20,
+            used: 0,
+            isPremium: true
         };
     },
     typewriter: AICore.typewriter,

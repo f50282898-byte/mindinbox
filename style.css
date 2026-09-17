@@ -2753,3 +2753,13 @@ body {
     font-size: 0.80rem !important;
     margin: 0 !important;
 }
+
+/* Explicit purge of ad banners and legacy injected footers */
+.exclusive-ad-banner, .master-footer {
+    display: none !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    visibility: hidden !important;
+}
