@@ -1,0 +1,177 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ========================================================
+    // HELPER FUNCTIONS — Role & Auth Verification
+    // ========================================================
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function hasRole(role) {
+      return isAuthenticated() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == role;
+    }
+
+    function isPro() {
+      return hasRole('pro') || hasRole('oracle') || hasRole('admin');
+    }
+
+    function isAdmin() {
+      return hasRole('admin');
+    }
+
+    function isValidEmail(email) {
+      return email.matches('.*@.*\\..*');
+    }
+
+    function notTooLong(field, maxLen) {
+      return field.size() <= maxLen;
+    }
+
+    // ========================================================
+    // 1. USERS COLLECTION — Private Profile Data
+    // ========================================================
+    match /users/{userId} {
+      // Read: only the user themselves or admins
+      allow read: if isOwner(userId) || isAdmin();
+
+      // Create: only authenticated users creating their own profile
+      allow create: if isOwner(userId)
+        && request.resource.data.keys().hasAll(['email', 'role', 'createdAt'])
+        && request.resource.data.role == 'free'  // default role is always 'free'
+        && isValidEmail(request.resource.data.email);
+
+      // Update: owner can update specific fields only (not role!)
+      allow update: if isOwner(userId)
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'uid', 'createdAt'])
+        && notTooLong(request.resource.data.displayName, 100);
+
+      // Delete: only admins
+      allow delete: if isAdmin();
+
+      // Sub-collections
+      match /habits/{habitId} {
+        allow read, write: if isOwner(userId);
+        allow delete: if isOwner(userId) || isAdmin();
+      }
+
+      match /sessions/{sessionId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      match /journal/{entryId} {
+        allow read, write: if isOwner(userId);
+        allow delete: if isOwner(userId);
+      }
+    }
+
+    // ========================================================
+    // 2. AI CONSULTATIONS — Rate-Limited & Role-Gated
+    // ========================================================
+    match /ai_consultations/{docId} {
+      allow read: if isOwner(resource.data.userId);
+
+      allow create: if isAuthenticated()
+        && request.resource.data.userId == request.auth.uid
+        && notTooLong(request.resource.data.prompt, 2000);
+
+      allow delete: if isAdmin();
+    }
+
+    // ========================================================
+    // 3. PRO ELITE CHAT — Pro Members Only
+    // ========================================================
+    match /elite_chat/{roomId} {
+      // Only Pro members can see the chat rooms list
+      allow read: if isPro();
+
+      match /messages/{messageId} {
+        // Read: Pro members only
+        allow read: if isPro();
+
+        // Create: Pro members only — validate message structure
+        allow create: if isPro()
+          && request.resource.data.userId == request.auth.uid
+          && request.resource.data.keys().hasAll(['userId', 'text', 'timestamp', 'displayName'])
+          && notTooLong(request.resource.data.text, 1000)
+          && request.resource.data.timestamp == request.time;
+
+        // Update: only the message owner (for edit within 5 minutes)
+        allow update: if isPro()
+          && resource.data.userId == request.auth.uid
+          && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['userId', 'timestamp']);
+
+        // Delete: owner or admin
+        allow delete: if (isPro() && resource.data.userId == request.auth.uid) || isAdmin();
+      }
+    }
+
+    // ========================================================
+    // 4. SUPPORT TICKETS — All Authenticated Users
+    // ========================================================
+    match /support_tickets/{ticketId} {
+      allow read: if isOwner(resource.data.userId) || isAdmin();
+
+      allow create: if isAuthenticated()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.keys().hasAll(['userId', 'subject', 'body', 'status', 'createdAt'])
+        && request.resource.data.status == 'open'
+        && notTooLong(request.resource.data.subject, 200)
+        && notTooLong(request.resource.data.body, 5000);
+
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+
+      match /replies/{replyId} {
+        allow read: if isOwner(get(/databases/$(database)/documents/support_tickets/$(ticketId)).data.userId) || isAdmin();
+        allow create: if isAuthenticated()
+          && (isOwner(get(/databases/$(database)/documents/support_tickets/$(ticketId)).data.userId) || isAdmin());
+        allow update, delete: if isAdmin();
+      }
+    }
+
+    // ========================================================
+    // 5. PAYMENT RECORDS — Admin Read Only
+    // ========================================================
+    match /payments/{paymentId} {
+      allow read: if isOwner(resource.data.userId) || isAdmin();
+      allow create, update, delete: if false; // Only Firebase Functions can write
+    }
+
+    // ========================================================
+    // 6. SUBSCRIPTIONS — Server-Side Only
+    // ========================================================
+    match /subscriptions/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow create, update, delete: if false; // Only Firebase Functions can write
+    }
+
+    // ========================================================
+    // 7. PUBLIC CONTENT — Read Only
+    // ========================================================
+    match /public_content/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ========================================================
+    // 8. SYSTEM LOGS — Admin Only
+    // ========================================================
+    match /system_logs/{logId} {
+      allow read, write: if isAdmin();
+    }
+
+    // ========================================================
+    // DEFAULT DENY ALL — Critical security fallback
+    // ========================================================
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
