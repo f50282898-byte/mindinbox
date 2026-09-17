@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="عقل في صندوق - منصة فلسفية ومعرفية متكاملة لضبط الانفعالات، إدارة المهام، وتحقيق الانضباط الذاتي وفق مبادئ الرواقية.">
-    <meta name="theme-color" content="#07070a">
+    <meta name="description" content="عقل في صندوق - لوحة التحكم السيادية للمعبد المعرفي. ترويض الدوبامين، جرد العادات، وهندسة السكينة واستشارة الحكمة.">
+    <meta name="theme-color" content="#06060a">
     
-    <title>عقل في صندوق | بوابة العبور والملاذ المعرفي</title>
+    <title data-i18n="heroTitle">عقل في صندوق | لوحة التحكم السيادية للوعي المفرط</title>
 
-    <!-- Preconnections for Performance Optimization -->
+    <!-- Preconnections -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://apis.google.com">
     <link rel="preconnect" href="https://www.gstatic.com">
     
-    <!-- Enterprise Typography -->
+    <!-- Typography -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- Monumental Design System — The Void Sanctuary CSS -->
+    <!-- Design System Core -->
     <link rel="stylesheet" href="style.css">
 
     <!-- Firebase Enterprise SDKs -->
@@ -28,1201 +28,283 @@
     <!-- AI Core Engine -->
     <script src="ai.js"></script>
 
-    <!-- Sanctuary Core: Manuscript Mode, Bottom Bar, Panic Button, Security Shield -->
+    <!-- Sanctuary Core Modules -->
     <script src="brand.js" defer></script>
     <script src="core.js" defer></script>
 
-    <style>
-        /* ==========================================================================
-           1. CSS Variables & Design System Tokens (Enterprise Level)
-           ========================================================================== */
-        :root {
-            /* Core Palette */
-            --bg-base: #040406;
-            --bg-surface: #0a0a0f;
-            --bg-surface-elevated: rgba(18, 18, 26, 0.75);
-            
-            /* Gold Accents */
-            --gold-primary: #c5a059;
-            --gold-light: #e5b964;
-            --gold-dark: #8b6d36;
-            --gold-glow: rgba(197, 160, 89, 0.15);
-            --gold-glow-strong: rgba(197, 160, 89, 0.4);
-            --border-gold-subtle: rgba(197, 160, 89, 0.2);
-            --border-gold-active: rgba(229, 185, 100, 0.6);
-            
-            /* Typography Colors */
-            --text-primary: #f8f8fa;
-            --text-secondary: #a1a5b0;
-            --text-tertiary: #6b6f7a;
-            
-            /* Semantic Colors */
-            --color-error: #e74c3c;
-            --color-error-bg: rgba(231, 76, 60, 0.1);
-            --color-success: #2ecc71;
-            
-            /* Shadows & Blurs */
-            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.5);
-            --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.8), 0 0 40px var(--gold-glow);
-            --blur-md: blur(16px);
-            --blur-lg: blur(32px);
-            
-            /* Transitions */
-            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-medium: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            --transition-slow: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-
-        /* ==========================================================================
-           2. CSS Reset & Base Configuration
-           ========================================================================== */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            font-size: 16px;
-        }
-
-        body {
-            background-color: var(--bg-base);
-            color: var(--text-primary);
-            font-family: 'Cairo', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            position: relative;
-        }
-
-        /* Ambient Canvas Background Layer */
-        #ambientCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        /* Background Gradients overlay for depth */
-        .bg-overlay {
-            position: fixed;
-            inset: 0;
-            background: 
-                radial-gradient(circle at 15% 30%, rgba(197, 160, 89, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 85% 70%, rgba(10, 10, 15, 0.8) 0%, transparent 60%);
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        /* ==========================================================================
-           3. Layout Architecture
-           ========================================================================== */
-        .app-wrapper {
-            position: relative;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* Header / Navigation */
-        .site-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 24px 5%;
-            background: linear-gradient(180deg, rgba(4, 4, 6, 0.9) 0%, rgba(4, 4, 6, 0) 100%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-        }
-
-        .brand-identity {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-        }
-
-        .brand-logo-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-        }
-
-        .brand-icon {
-            width: 32px;
-            height: 32px;
-            stroke: var(--gold-light);
-            filter: drop-shadow(0 0 8px rgba(181, 149, 81, 0.6));
-        }
-
-        .brand-name {
-            font-family: 'Amiri', serif;
-            color: var(--text-primary);
-            font-size: 2rem;
-            font-weight: 700;
-            text-shadow: 0 2px 15px rgba(181, 149, 81, 0.4);
-        }
-
-        .system-status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            background: rgba(255, 255, 255, 0.03);
-            padding: 6px 16px;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--color-success);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--color-success);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(46, 204, 113, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
-        }
-
-        /* Main Content Grid */
-        .gateway-main {
-            flex: 1;
-            display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 60px;
-            align-items: center;
-            max-width: 1320px;
-            width: 90%;
-            margin: 0 auto;
-            padding: 40px 0;
-        }
-
-        /* ==========================================================================
-           4. Hero Section (Value Proposition)
-           ========================================================================== */
-        .hero-content {
-            display: flex;
-            flex-direction: column;
-            gap: 28px;
-            padding-right: 20px;
-        }
-
-        .hero-badge {
-            align-self: flex-start;
-            background: rgba(197, 160, 89, 0.1);
-            border: 1px solid var(--border-gold-subtle);
-            color: var(--gold-light);
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .hero-title {
-            font-family: 'Amiri', serif;
-            font-size: 3.8rem;
-            line-height: 1.15;
-            color: var(--text-primary);
-            font-weight: 700;
-        }
-
-        .hero-title span {
-            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-dark) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-description {
-            font-size: 1.15rem;
-            color: var(--text-secondary);
-            line-height: 1.8;
-            max-width: 90%;
-        }
-
-        .feature-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-top: 10px;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            background: rgba(255, 255, 255, 0.02);
-            padding: 16px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            transition: var(--transition-fast);
-        }
-
-        .feature-item:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: var(--border-gold-subtle);
-            transform: translateX(-5px);
-        }
-
-        .feature-icon-wrap {
-            background: var(--gold-glow);
-            padding: 10px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .feature-icon {
-            width: 20px;
-            height: 20px;
-            fill: var(--gold-primary);
-        }
-
-        .feature-text h4 {
-            font-family: 'Amiri', serif;
-            color: var(--gold-light);
-            font-size: 1.1rem;
-            margin-bottom: 4px;
-        }
-
-        .feature-text p {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-
-        /* ==========================================================================
-           5. Authentication Interface (Enterprise Glassmorphism)
-           ========================================================================== */
-        .auth-container {
-            position: relative;
-        }
-
-        /* Decorative elements behind the card */
-        .auth-container::before {
-            content: '';
-            position: absolute;
-            inset: -20px;
-            background: radial-gradient(circle at top right, var(--gold-glow-strong), transparent 60%);
-            border-radius: 40px;
-            filter: var(--blur-lg);
-            z-index: -1;
-            opacity: 0.5;
-        }
-
-        .auth-card {
-            background: var(--bg-surface-elevated);
-            backdrop-filter: var(--blur-md);
-            -webkit-backdrop-filter: var(--blur-md);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            padding: 48px;
-            box-shadow: var(--shadow-lg);
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Inner subtle top border light */
-        .auth-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
-            opacity: 0.5;
-        }
-
-        .auth-header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .auth-header h2 {
-            font-family: 'Amiri', serif;
-            color: var(--text-primary);
-            font-size: 2rem;
-            margin-bottom: 8px;
-        }
-
-        .auth-header p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        /* Tab Navigation */
-        .auth-tabs {
-            display: flex;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 14px;
-            padding: 6px;
-            margin-bottom: 32px;
-            position: relative;
-        }
-
-        .auth-tab-btn {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            font-family: 'Cairo', sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
-            padding: 12px 0;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: var(--transition-medium);
-            position: relative;
-            z-index: 2;
-        }
-
-        .auth-tab-btn.active {
-            color: var(--bg-base);
-            font-weight: 700;
-        }
-
-        .tab-indicator {
-            position: absolute;
-            top: 6px;
-            bottom: 6px;
-            width: calc(50% - 6px);
-            background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
-            border-radius: 10px;
-            transition: var(--transition-medium);
-            z-index: 1;
-            box-shadow: 0 4px 15px var(--gold-glow-strong);
-        }
-
-        /* State management for sliding indicator (RTL layout) */
-        .auth-tabs[data-active="login"] .tab-indicator { right: 6px; }
-        .auth-tabs[data-active="register"] .tab-indicator { right: calc(50%); }
-
-        /* Form Elements */
-        .form-group {
-            position: relative;
-            margin-bottom: 24px;
-        }
-
-        /* Collapsible name field for registration */
-        #registerFields {
-            overflow: hidden;
-            transition: max-height var(--transition-medium), opacity var(--transition-medium);
-            max-height: 0;
-            opacity: 0;
-        }
-        
-        #registerFields.expanded {
-            max-height: 100px; /* enough to show the input */
-            opacity: 1;
-            margin-bottom: 24px;
-        }
-
-        .form-input {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 16px 18px;
-            color: var(--text-primary);
-            font-family: 'Cairo', sans-serif;
-            font-size: 1rem;
-            outline: none;
-            transition: var(--transition-fast);
-        }
-
-        .form-input::placeholder {
-            color: transparent; /* Handled by floating label */
-        }
-
-        .form-label {
-            position: absolute;
-            top: 50%;
-            right: 18px;
-            transform: translateY(-50%);
-            color: var(--text-tertiary);
-            font-size: 1rem;
-            pointer-events: none;
-            transition: var(--transition-fast);
-            background: transparent;
-            padding: 0 4px;
-        }
-
-        /* Floating Label Logic */
-        .form-input:focus,
-        .form-input:not(:placeholder-shown) {
-            border-color: var(--gold-primary);
-            background: rgba(0, 0, 0, 0.6);
-            box-shadow: inset 0 0 0 1px var(--border-gold-subtle);
-        }
-
-        .form-input:focus ~ .form-label,
-        .form-input:not(:placeholder-shown) ~ .form-label {
-            top: 0;
-            font-size: 0.8rem;
-            color: var(--gold-light);
-            background: var(--bg-surface-elevated);
-        }
-
-        /* Feedback Message Area */
-        .form-feedback {
-            min-height: 24px;
-            margin-bottom: 20px;
-            font-size: 0.85rem;
-            text-align: center;
-            color: var(--color-error);
-            font-weight: 600;
-            opacity: 0;
-            transition: opacity var(--transition-fast);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .form-feedback.show {
-            opacity: 1;
-        }
-
-        .form-feedback.success {
-            color: var(--color-success);
-        }
-
-        /* Primary Action Button */
-        .btn-primary {
-            width: 100%;
-            background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
-            color: var(--bg-base);
-            border: none;
-            padding: 16px;
-            border-radius: 12px;
-            font-family: 'Cairo', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 800;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: var(--transition-fast);
-            box-shadow: 0 8px 20px rgba(197, 160, 89, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .btn-primary:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 25px rgba(197, 160, 89, 0.4);
-        }
-
-        .btn-primary:active:not(:disabled) {
-            transform: translateY(1px);
-        }
-
-        .btn-primary:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            filter: grayscale(0.5);
-        }
-
-        /* Loading Spinner inside Button */
-        .spinner {
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(0, 0, 0, 0.2);
-            border-top-color: #000;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            display: none;
-        }
-
-        .btn-primary.loading .spinner {
-            display: block;
-        }
-        .btn-primary.loading .btn-text {
-            display: none;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Divider */
-        .divider {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            color: var(--text-tertiary);
-            font-size: 0.85rem;
-            margin: 28px 0;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .divider::before { margin-left: 16px; }
-        .divider::after { margin-right: 16px; }
-
-        /* Social Auth Button */
-        .btn-social {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-primary);
-            padding: 14px;
-            border-radius: 12px;
-            font-family: 'Cairo', sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition-fast);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-        }
-
-        .btn-social:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: var(--border-gold-subtle);
-        }
-
-        .btn-social svg {
-            width: 22px;
-            height: 22px;
-        }
-
-        /* ==========================================================================
-           6. Footer
-           ========================================================================== */
-        .site-footer {
-            text-align: center;
-            padding: 30px;
-            color: var(--text-tertiary);
-            font-size: 0.85rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
-            background: rgba(4, 4, 6, 0.8);
-            backdrop-filter: blur(10px);
-            position: relative;
-            z-index: 10;
-        }
-
-        /* ==========================================================================
-           7. Responsive Design (Media Queries)
-           ========================================================================== */
-        @media (max-width: 1100px) {
-            .gateway-main {
-                gap: 40px;
-                grid-template-columns: 1fr 1fr;
-            }
-            .hero-title {
-                font-size: 3.2rem;
-            }
-        }
-
-        @media (max-width: 850px) {
-            .gateway-main {
-                grid-template-columns: 1fr;
-                gap: 50px;
-                padding: 30px 0;
-            }
-            .hero-content {
-                text-align: center;
-                align-items: center;
-                padding-right: 0;
-            }
-            .hero-description {
-                max-width: 100%;
-            }
-            .feature-item {
-                text-align: right;
-            }
-            .auth-card {
-                padding: 32px 24px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .site-header {
-                padding: 20px;
-            }
-            .hero-title {
-                font-size: 2.6rem;
-            }
-            .brand-name {
-                font-size: 1.5rem;
-            }
-        }
-    </style>
-    <!-- FOUC Theme Preventer -->
-    <script>
-        (function() {
-            try {
-                if (localStorage.getItem('mind_theme_preference') === 'manuscript') {
-                    document.documentElement.setAttribute('data-mode', 'manuscript');
-                }
-            } catch(e) {}
-        })();
-    </script>
+    <!-- Modular Dashboard Suite -->
+    <script src="firebase-auth.js" defer></script>
+    <script src="i18n.js" defer></script>
+    <script src="dashboard.js" defer></script>
 </head>
-<body>
+<body class="rtl-layout">
 
-    <!-- Ambient Background Animation Layer -->
-    <canvas id="ambientCanvas"></canvas>
-    <div class="bg-overlay"></div>
-
-    <div class="app-wrapper">
-        <!-- Application Header -->
-        <header class="site-header">
-            <a href="#" class="brand-identity">
-                <!-- Inline SVG Logo for zero HTTP request delay -->
-                <a href="#" class="brand-logo-container" id="brandLogo">
-            <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
-            </svg>
-            <div class="brand-name">عقل في صندوق</div>
-        </a>    </a>
-            <div class="system-status">
-                <span class="status-dot"></span>
-                النظام مستقر وآمن
-            </div>
-        </header>
-
-        <!-- Main Gateway Area -->
-        <main class="gateway-main hero-stoic-bg">
+    <!-- =========================================================================
+         1. شريط التصفح العلوي السيادي (Sovereign Floating Navbar)
+         ========================================================================= -->
+    <nav class="sovereign-navbar" id="mainNavbar">
+        <div class="nav-container">
             
-            <!-- Left Side (RTL): Value Proposition -->
-            <section class="hero-content">
-                <div class="hero-badge">الإصدار المؤسسي 4.0</div>
-                <h1 class="hero-title">هندسة الوعي <span>وانضباط الفكر</span> في مكان واحد.</h1>
-                <p class="hero-description">
-                    بوابة عبور حصرية نحو بيئة معرفية ونفسية مصممة بأعلى المعايير الهندسية. هنا يتم تفكيك الفوضى الرقمية وإعادة بناء الانضباط الذاتي عبر تحليل ذكي وموجه.
-                </p>
-                
-                <div class="feature-list">
-                    <div class="feature-item">
-                        <div class="feature-icon-wrap">
-                            <svg class="feature-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <div class="feature-text">
-                            <h4>تشفير وحماية مطلقة</h4>
-                            <p>بياناتك الفلسفية وجرودك اليومية مشفرة بالكامل في خزائن سحابية معزولة.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="feature-item">
-                        <div class="feature-icon-wrap">
-                            <svg class="feature-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
-                                <path d="M12 6v6l4 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                            </svg>
-                        </div>
-                        <div class="feature-text">
-                            <h4>مزامنة لحظية</h4>
-                            <p>تكامل فوري بين ميثاقك اليومي، محراب التفريغ، وتحليلات المستشار الذكي.</p>
-                        </div>
-                    </div>
-
-                    <div class="feature-item">
-                        <div class="feature-icon-wrap">
-                            <svg class="feature-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <polyline points="3.27 6.96 12 12.01 20.73 6.96" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <line x1="12" y1="22.08" x2="12" y2="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <div class="feature-text">
-                            <h4>عقل اصطناعي مركزي</h4>
-                            <p>محرك تحليل رواقي يقرأ ما بين السطور ويوجهك نحو الفعل دون استنزاف.</p>
-                        </div>
-                    </div>
+            <!-- الشعار والهوية السيادية -->
+            <a href="index.html" class="nav-brand">
+                <div class="nav-brand-seal">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
                 </div>
-            </section>
+                <div>
+                    <span class="nav-brand-title" data-i18n="brandName">عقل في صندوق</span>
+                    <span class="nav-brand-subtitle" data-i18n="brandTagline">المعبد الفلسفي للوعي والإنتاجية السيادية</span>
+                </div>
+            </a>
 
-            <!-- Right Side (RTL): Authentication Interface -->
-            <section class="auth-container">
-                <div class="auth-card">
-                    
-                    <div class="auth-header">
-                        <h2>بوابة العبور</h2>
-                        <p>أثبت هويتك للوصول إلى خلوتك المعرفية</p>
-                    </div>
+            <!-- روابط الملاذ السريعة -->
+            <div class="nav-links-cluster">
+                <a href="#habitsSection" class="nav-link-item active" data-i18n="navHabits">محاريب الجرد</a>
+                <a href="#moodSection" class="nav-link-item" data-i18n="navMood">هندسة المزاج</a>
+                <a href="#aiSection" class="nav-link-item" data-i18n="navAI">المستشار الذكي</a>
+                <a href="vault.html" class="nav-link-item" data-i18n="navVault">الخزينة</a>
+                <a href="meditation.html" class="nav-link-item" data-i18n="navMeditation">الخلوة</a>
+                <a href="pricing.html" class="nav-link-item" data-i18n="navPricing">العضويات</a>
+            </div>
 
-                    <!-- Interactive Tab System -->
-                    <div class="auth-tabs" id="authTabs" data-active="login">
-                        <div class="tab-indicator"></div>
-                        <button type="button" class="auth-tab-btn active" data-target="login">تسجيل الدخول</button>
-                        <button type="button" class="auth-tab-btn" data-target="register">إنشاء حساب</button>
-                    </div>
-
-                    <!-- Unified Form Engine -->
-                    <form id="authEngineForm" novalidate>
-                        
-                        <!-- Dynamic Field: Full Name (Only for Registration) -->
-                        <div id="registerFields">
-                            <div class="form-group">
-                                <input type="text" class="form-input" id="inputName" placeholder="الاسم أو اللقب">
-                                <label for="inputName" class="form-label">الاسم الكريم أو اللقب</label>
-                            </div>
-                        </div>
-
-                        <!-- Core Fields -->
-                        <div class="form-group">
-                            <input type="email" class="form-input" id="inputEmail" placeholder="البريد الإلكتروني" required autocomplete="email">
-                            <label for="inputEmail" class="form-label">البريد الإلكتروني</label>
-                        </div>
-
-                        <div class="form-group">
-                            <input type="password" class="form-input" id="inputPassword" placeholder="كلمة المرور" required autocomplete="current-password">
-                            <label for="inputPassword" class="form-label">كلمة المرور المشفرة</label>
-                        </div>
-
-                        <!-- Feedback Area -->
-                        <div class="form-feedback" id="formFeedback">
-                            <!-- Injected dynamically via JS -->
-                        </div>
-
-                        <button type="submit" class="btn-primary" id="btnSubmit">
-                            <span class="btn-text">بدء الاتصال السحابي</span>
-                            <div class="spinner"></div>
-                        </button>
-                    </form>
-
-                    <div class="divider">أو الدخول الآمن عبر</div>
-
-                    <!-- OAuth Google Button -->
-                    <button type="button" class="btn-social" id="btnGoogleAuth">
-                        <svg viewBox="0 0 24 24">
-                            <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.8 14.8 1 12 1 7.4 1 3.5 3.6 1.6 7.4l3.7 2.9C6.2 7.1 8.9 5 12 5z"/>
-                            <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/>
-                            <path fill="#FBBC05" d="M5.3 14.7c-.2-.7-.4-1.5-.4-2.7s.2-2 .4-2.7L1.6 6.4C.6 8.4 0 10.6 0 13s.6 4.6 1.6 6.6l3.7-2.9z"/>
-                            <path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.1 0-5.8-2.1-6.7-5.3L1.6 15c1.9 3.8 5.8 8 10.4 8z"/>
-                        </svg>
-                        مزامنة بصمة Google
+            <!-- كبسولة المصادقة وحالة المستخدم (Auth Navigation Capsule) -->
+            <div class="auth-nav-cluster">
+                <div id="authNavContainer">
+                    <!-- يتم تحديثه تلقائياً بواسطة dashboard.js & firebase-auth.js -->
+                    <button type="button" id="btnOpenLoginModal" class="btn-sovereign-nav">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-inline-end: 6px;"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+                        <span data-i18n="navLoginBtn">تسجيل الدخول / البدء</span>
                     </button>
                 </div>
-            </section>
-        </main>
 
-        <footer class="site-footer">
-            جميع حقوق الهندسة المعرفية محفوظة &copy; 2026 - عقل في صندوق
-        </footer>
+                <!-- القائمة المنسدلة للملف الشخصي (Profile Dropdown Menu) -->
+                <div class="profile-dropdown-menu" id="profileDropdown">
+                    <div class="dropdown-user-info">
+                        <h4 class="dropdown-user-name" id="dropdownUserName">السالك السيادي</h4>
+                        <p class="dropdown-user-email" id="dropdownUserEmail">user@mindinbox.com</p>
+                    </div>
+                    <div class="dropdown-items-list">
+                        <!-- زر تبديل اللغة (Toggle AR/EN) -->
+                        <button type="button" class="dropdown-item-btn" id="langToggleBtn">
+                            <span style="display: flex; align-items: center; gap: 8px;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                                <span data-i18n="menuLanguage">تبديل اللغة</span>
+                            </span>
+                            <span class="lang-toggle-badge" id="langToggleLabel">English</span>
+                        </button>
+                        
+                        <!-- الإعدادات -->
+                        <a href="account.html" class="dropdown-item-btn" style="text-decoration: none;">
+                            <span style="display: flex; align-items: center; gap: 8px;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                                <span data-i18n="menuSettings">الإعدادات السيادية</span>
+                            </span>
+                        </a>
+
+                        <!-- تسجيل الخروج -->
+                        <button type="button" class="dropdown-item-btn btn-logout" id="menuLogoutBtn">
+                            <span style="display: flex; align-items: center; gap: 8px;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                                <span data-i18n="menuLogout">تسجيل الخروج</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- =========================================================================
+         2. غلاف لوحة التحكم الأساسية (The Dashboard Shift Shell)
+         ========================================================================= -->
+    <div class="dashboard-shell">
+        <div class="dashboard-container">
+            
+            <!-- ترويسة الملاذ الترحيبية (Stoic Hero Header) -->
+            <header class="dashboard-hero">
+                <div class="hero-meta-bar">
+                    <span data-i18n="heroDateLabel">تاريخ اليوم بالملاذ:</span>
+                    <strong id="sanctuaryDate" style="color: var(--gold-light);">...</strong>
+                </div>
+                <h1 class="dashboard-hero-title" data-i18n="heroTitle">لوحة التحكم السيادية للوعي المفرط</h1>
+                <p class="dashboard-hero-subtitle" data-i18n="heroSubtitle">ملاذك الرقمي لإدارة الذات، ترويض الدوبامين، واستشارة الحكمة السيادية في عصر التشتت.</p>
+            </header>
+
+            <!-- =================================================================
+                 3. شبكة البطاقات التفاعلية الأساسية (3 Core Modular Cards)
+                 ================================================================= -->
+            <main class="dashboard-grid">
+                
+                <!-- البطاقة 1: محاريب الجرد الذاتي -->
+                <section class="glass-card" id="habitsSection">
+                    <div>
+                        <span class="card-badge" data-i18n="card1Badge">الانضباط الصارم</span>
+                        <h2 class="card-title" data-i18n="card1Title">محاريب الجرد الذاتي</h2>
+                        <p class="card-desc" data-i18n="card1Desc">تتبع العادات اليومية الصارمة، جرد الهفوات النفسية، وقياس استقامة المسار بلا مواربة.</p>
+                        
+                        <!-- قائمة عادات تفاعلية مدمجة -->
+                        <div class="habit-list-interactive">
+                            <label class="habit-item">
+                                <input type="checkbox" class="habit-check" data-index="0">
+                                <span class="habit-label" data-i18n="card1Habit1">خلوة الصمت والتأمل (٢٠ دقيقة)</span>
+                            </label>
+                            <label class="habit-item">
+                                <input type="checkbox" class="habit-check" data-index="1">
+                                <span class="habit-label" data-i18n="card1Habit2">صيام الدوبامين عن الهواتف الصباحية</span>
+                            </label>
+                            <label class="habit-item">
+                                <input type="checkbox" class="habit-check" data-index="2">
+                                <span class="habit-label" data-i18n="card1Habit3">تدوين الملاحظات الفلسفية المعمقة</span>
+                            </label>
+                        </div>
+
+                        <!-- شريط قياس الانضباط التفاعلي -->
+                        <div class="habit-progress-wrap">
+                            <div class="habit-progress-header">
+                                <span data-i18n="card1Progress">معدل الانضباط اليومي:</span>
+                                <span id="habitProgressText" style="font-weight: 700;">0%</span>
+                            </div>
+                            <div class="habit-progress-track">
+                                <div class="habit-progress-fill" id="habitProgressBar"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="meditation.html" class="card-action-btn">
+                        <span data-i18n="card1Btn">فتح محراب الجرد الكامل</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                </section>
+
+                <!-- البطاقة 2: هندسة المزاج والسكينة -->
+                <section class="glass-card" id="moodSection">
+                    <div>
+                        <span class="card-badge" data-i18n="card2Badge">الكيمياء النفسية</span>
+                        <h2 class="card-title" data-i18n="card2Title">هندسة المزاج والسكينة</h2>
+                        <p class="card-desc" data-i18n="card2Desc">موالفة التردد الداخلي، تحييد الضجيج الانفعالي، والارتقاء إلى درجات الوقار المعرفي.</p>
+                        
+                        <!-- أزرار الترددات النفسية التفاعلية -->
+                        <div class="mood-selector-cluster">
+                            <button type="button" class="mood-btn active" data-mood="peace" data-i18n="moodPeace">سكينة</button>
+                            <button type="button" class="mood-btn" data-mood="focus" data-i18n="moodFocus">تركيز عميق</button>
+                            <button type="button" class="mood-btn" data-mood="dignity" data-i18n="moodDignity">وقار</button>
+                            <button type="button" class="mood-btn" data-mood="restoration" data-i18n="moodRestoration">استرداد طاقة</button>
+                            <button type="button" class="mood-btn" data-mood="shock" data-i18n="moodShock">صدمة فلسفية</button>
+                        </div>
+
+                        <!-- عارض التردد الرنيني للمزاج -->
+                        <div class="mood-resonance-status">
+                            <div class="mood-resonance-freq" id="moodFrequencyValue">432 Hz</div>
+                            <div class="mood-resonance-label" id="moodStateDisplay">سكينة مطلقة وتفريغ للضجيج</div>
+                        </div>
+                    </div>
+
+                    <a href="mood.html" class="card-action-btn">
+                        <span data-i18n="card2Btn">الدخول إلى محراب المزاج</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                </section>
+
+                <!-- البطاقة 3: المستشار الفلسفي الذكي -->
+                <section class="glass-card" id="aiSection">
+                    <div>
+                        <span class="card-badge" data-i18n="card3Badge">عصب الحكيم</span>
+                        <h2 class="card-title" data-i18n="card3Title">المستشار الفلسفي الذكي</h2>
+                        <p class="card-desc" data-i18n="card3Desc">محاورة الذكاء الاصطناعي السيادي المدرب على نصوص الرواقية والحكمة الخالدة.</p>
+                        
+                        <!-- صندوق حوار الحكيم التفاعلي السريع -->
+                        <div class="sage-dialogue-box">
+                            <p class="sage-reply-text" id="sageResponseText" data-i18n="card3SageDefault">«ما يقلقك ليس الأمور بذاتها، بل نظرتك إليها. تخلص من الحكم المسبق تسترد سيادتك.»</p>
+                        </div>
+
+                        <!-- حقل الاستشارة السريعة -->
+                        <div class="sage-input-cluster">
+                            <input type="text" id="sageInput" class="sage-prompt-input" placeholder="اطرح معضلتك الفكرية أو النفسية هنا..." data-i18n-placeholder="card3InputPlaceholder">
+                            <button type="button" id="sageSendBtn" class="btn-sage-ask" data-i18n="card3Send">استشارة</button>
+                        </div>
+                    </div>
+
+                    <a href="vault.html" class="card-action-btn">
+                        <span>خزينة الحكمة والأرشيف</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                </section>
+
+            </main>
+
+        </div>
     </div>
 
-    <!-- ==========================================================================
-         8. Enterprise Logic & Application Engine
-         ========================================================================== -->
-    <script>
-        /**
-         * ----------------------------------------------------------------------
-         * MODULE 1: Firebase Initialization & Config
-         * ----------------------------------------------------------------------
-         * Note: Security rules in Firestore must prevent unauthorized access.
-         */
-        const firebaseConfig = {
-            apiKey: "AIzaSyDGgTDrDJsRvulhzK1p59AbuhJwQYSUufI",
-            authDomain: "mindinbox-50d84.firebaseapp.com",
-            projectId: "mindinbox-50d84",
-            storageBucket: "mindinbox-50d84.firebasestorage.app",
-            messagingSenderId: "1087016266441",
-            appId: "1:1087016266441:web:6d5242057c39e744ee3b18"
-        };
-        
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
-        
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-
-        /**
-         * ----------------------------------------------------------------------
-         * MODULE 2: Advanced Canvas Animation (Nebula & Golden Dust)
-         * ----------------------------------------------------------------------
-         * Provides a lightweight, high-performance ambient background.
-         */
-        const canvasEngine = (() => {
-            const canvas = document.getElementById('ambientCanvas');
-            const ctx = canvas.getContext('2d', { alpha: false }); // Optimize performance
-            let width, height;
-            let particles = [];
-            const PARTICLE_COUNT = 80;
-
-            function resize() {
-                width = canvas.width = window.innerWidth;
-                height = canvas.height = window.innerHeight;
-            }
-
-            class DustParticle {
-                constructor() {
-                    this.x = Math.random() * width;
-                    this.y = Math.random() * height;
-                    this.size = Math.random() * 2 + 0.5;
-                    this.speedX = (Math.random() - 0.5) * 0.3;
-                    this.speedY = (Math.random() - 0.5) * 0.3 - 0.1; // Slight upward drift
-                    this.opacity = Math.random() * 0.5 + 0.1;
-                    this.glow = Math.random() * 5 + 2;
-                }
-                
-                update() {
-                    this.x += this.speedX;
-                    this.y += this.speedY;
-                    
-                    // Wrap around screen
-                    if (this.x > width) this.x = 0;
-                    if (this.x < 0) this.x = width;
-                    if (this.y > height) this.y = 0;
-                    if (this.y < 0) this.y = height;
-                }
-                
-                draw() {
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(229, 185, 100, ${this.opacity})`;
-                    ctx.shadowColor = '#e5b964';
-                    ctx.shadowBlur = this.glow;
-                    ctx.fill();
-                    ctx.shadowBlur = 0; // Reset for performance
-                }
-            }
-
-            function init() {
-                window.addEventListener('resize', resize);
-                resize();
-                for (let i = 0; i < PARTICLE_COUNT; i++) {
-                    particles.push(new DustParticle());
-                }
-                animate();
-            }
-
-            function animate() {
-                // Dark background with slight trail effect
-                ctx.fillStyle = '#040406';
-                ctx.fillRect(0, 0, width, height);
-                
-                particles.forEach(p => {
-                    p.update();
-                    p.draw();
-                });
-                
-                requestAnimationFrame(animate);
-            }
-
-            return { start: init };
-        })();
-        
-        // Boot Canvas Engine
-        canvasEngine.start();
-
-        /**
-         * ----------------------------------------------------------------------
-         * MODULE 3: Authentication UI & Logic Engine
-         * ----------------------------------------------------------------------
-         */
-        const AuthController = (() => {
-            // DOM Elements
-            const tabsContainer = document.getElementById('authTabs');
-            const tabBtns = document.querySelectorAll('.auth-tab-btn');
-            const registerFields = document.getElementById('registerFields');
-            const form = document.getElementById('authEngineForm');
-            const inputName = document.getElementById('inputName');
-            const inputEmail = document.getElementById('inputEmail');
-            const inputPassword = document.getElementById('inputPassword');
-            const feedbackArea = document.getElementById('formFeedback');
-            const btnSubmit = document.getElementById('btnSubmit');
-            const btnText = btnSubmit.querySelector('.btn-text');
-            const btnGoogle = document.getElementById('btnGoogleAuth');
+    <!-- =========================================================================
+         4. نافذة تسجيل الدخول المنبثقة الناعمة (Soft Login Modal)
+         تحتوي على زر Google وتستدعي دالة signInWithPopup المحكمة دون كسرها
+         ========================================================================= -->
+    <div class="sovereign-modal-backdrop" id="loginModal">
+        <div class="sovereign-modal">
+            <button type="button" class="modal-close-btn" aria-label="إغلاق">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div class="modal-header-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </div>
+            <h3 class="modal-title" data-i18n="loginModalTitle">بوابة العبور السيادي</h3>
+            <p class="modal-subtitle" data-i18n="loginModalSubtitle">سجل دخولك لتفعيل حفظ تقدمك ومزامنة تجاربك في السحاب بأمان تام.</p>
             
-            // State
-            let currentMode = 'login'; // 'login' or 'register'
+            <!-- زر المصادقة عبر Google -->
+            <button type="button" id="btnGoogleModal" class="btn-google-auth-modal">
+                <svg width="20" height="20" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                    <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                    <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                    <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                </svg>
+                <span data-i18n="loginWithGoogle">الدخول بواسطة Google</span>
+            </button>
 
-            // Icons for feedback
-            const iconError = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`;
+            <div style="text-align: center; margin-top: 20px; font-size: 0.78rem; color: #7f7c75;" data-i18n="loginSecurityNote">
+                مصادقة مشفرة ومحمية عبر بوابات Google السحابية
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+         5. خطاف التسويق والنمو بعد أول تسجيل دخول (Neuromarketing Onboarding Hook)
+         ========================================================================= -->
+    <div class="sovereign-modal-backdrop" id="onboardingModal">
+        <div class="sovereign-modal modal-onboarding">
+            <button type="button" class="modal-close-btn" aria-label="إغلاق">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <span class="onboarding-badge" data-i18n="onboardBadge">ترقية استثنائية للوعي</span>
+            <h2 class="modal-title" data-i18n="onboardTitle">ارتقِ بوعيك الآن إلى الأفق السيادي</h2>
             
-            /**
-             * Switch UI between Login and Register modes
-             */
-            function switchTab(mode) {
-                if (currentMode === mode) return;
-                currentMode = mode;
-                
-                // Update UI state
-                tabsContainer.setAttribute('data-active', mode);
-                tabBtns.forEach(btn => btn.classList.remove('active'));
-                document.querySelector(`.auth-tab-btn[data-target="${mode}"]`).classList.add('active');
-                
-                // Toggle extra fields
-                if (mode === 'register') {
-                    registerFields.classList.add('expanded');
-                    inputName.setAttribute('required', 'true');
-                    btnText.textContent = "تأسيس الميثاق الجديد";
-                } else {
-                    registerFields.classList.remove('expanded');
-                    inputName.removeAttribute('required');
-                    btnText.textContent = "بدء الاتصال السحابي";
-                }
-                
-                // Reset form and feedback
-                clearFeedback();
-                form.reset();
-            }
+            <p class="onboarding-hook-desc" data-i18n="onboardHookText">
+                أهلاً بك في الدائرة الأولى. لقد صُممت هذه المنصة للنخبة الفكرية الباحثة عن ترويض الفوضى وتحقيق الاستقلالية التامة.
+            </p>
 
-            function showFeedback(message, type = 'error') {
-                feedbackArea.innerHTML = type === 'error' ? `${iconError} ${message}` : message;
-                feedbackArea.className = `form-feedback show ${type}`;
-            }
+            <div class="onboarding-offer-box" data-i18n="onboardOffer">
+                "ارتقِ بوعيك الآن: اشترك بالخطة المجانية (14 يوماً من التجربة المطلقة)، أو احصل مباشرة على خطتك الشهرية لصلاحيات لا محدودة."
+            </div>
 
-            function clearFeedback() {
-                feedbackArea.classList.remove('show');
-                feedbackArea.innerHTML = '';
-            }
+            <!-- أزرار التحويل المالي والاشتراك (High-Conversion CTAs) -->
+            <div class="onboarding-cta-cluster">
+                <button type="button" class="btn-cta-gold" id="btnClaimTrial" data-i18n="onboardFreeCTA">
+                    ابدأ تجربتي المطلقة (١٤ يوماً مجاناً)
+                </button>
+                <button type="button" class="btn-cta-ghost" id="btnDirectMonthly" data-i18n="onboardMonthlyCTA">
+                    الاشتراك الشهري السيادي فوراً
+                </button>
+            </div>
 
-            function setLoading(isLoading) {
-                if (isLoading) {
-                    btnSubmit.classList.add('loading');
-                    btnSubmit.disabled = true;
-                    btnGoogle.disabled = true;
-                } else {
-                    btnSubmit.classList.remove('loading');
-                    btnSubmit.disabled = false;
-                    btnGoogle.disabled = false;
-                }
-            }
+            <div class="onboarding-guarantee-note" data-i18n="onboardGuarantee">
+                ✓ إلغاء فوري بضغطة زر · بدون شروط مخفية · وصول فوري لكافة الميزات
+            </div>
+        </div>
+    </div>
 
-            /**
-             * Translates Auth error codes into diagnostic Arabic with exact solutions
-             */
-            function translateError(error) {
-                const currentDomain = window.location.hostname;
-                switch(error.code) {
-                    case 'auth/unauthorized-domain':
-                        return `النطاق الحالي (${currentDomain}) غير مصرح به في إعدادات Google Cloud / Firebase. يرجى الدخول إلى لوحة التحكم وإضافة "${currentDomain}" ضمن قائمة النطاقات المعتمدة (Authorized Domains).`;
-                    case 'auth/operation-not-allowed':
-                        return "تسجيل الدخول بواسطة Google غير مفعّل في لوحة تحكم المزود. يرجى تفعيله في قائمة Authentication -> Providers.";
-                    case 'auth/popup-blocked':
-                        return "قام المتصفح بحجب النافذة المنبثقة. تم تحويلك تلقائياً لصفحة الدخول المباشر...";
-                    case 'auth/popup-closed-by-user':
-                        return "تم إغلاق نافذة المصادقة قبل اكتمال التسجيل مع Google.";
-                    case 'auth/cancelled-popup-request':
-                        return "تم إلغاء الطلب لتكرار النقر، انتظر لحظة ثم حاول مجدداً.";
-                    case 'auth/account-exists-with-different-credential':
-                        return "يوجد حساب مسجل مسبقاً بهذا البريد الإلكتروني. يرجى تسجيل الدخول بكلمة المرور أولاً لربط الحسابين.";
-                    case 'auth/user-not-found':
-                        return "لم نجد عهداً مرتبطاً بهذا البريد. هل ترغب في إنشاء حساب؟";
-                    case 'auth/wrong-password':
-                        return "مفتاح التشفير (كلمة المرور) غير متطابق.";
-                    case 'auth/email-already-in-use':
-                        return "هذا البريد مسجل مسبقاً في الخزانة. قم بتسجيل الدخول.";
-                    case 'auth/weak-password':
-                        return "مفتاح التشفير ضعيف جداً. استخدم 6 رموز على الأقل.";
-                    case 'auth/invalid-email':
-                        return "صيغة البريد الإلكتروني غير مقبولة هندسياً.";
-                    case 'auth/network-request-failed':
-                        return "خلل في شبكة الاتصال؛ تأكد من اتصالك بالإنترنت أو إعدادات جدار الحماية (Firewall/Cloudflare).";
-                    default:
-                        return `تعذر استكمال تسجيل الدخول (${error.message || error.code}).`;
-                }
-            }
-
-            /**
-             * Safe User Provisioning Helper in Database
-             */
-            async function provisionUserRecord(user) {
-                if (!user) return;
-                try {
-                    const userRef = db.collection('users').doc(user.uid);
-                    const doc = await userRef.get();
-                    if (!doc.exists) {
-                        await userRef.set({
-                            email: user.email,
-                            displayName: user.displayName || "سالك جديد",
-                            photoURL: user.photoURL || "",
-                            isPremium: false,
-                            aiUsageCount: 0,
-                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                            trialStartedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                            authProvider: user.providerData?.[0]?.providerId || "google",
-                            systemVersion: "4.5.0"
-                        });
-                    } else {
-                        await userRef.update({ 
-                            lastLoginAt: firebase.firestore.FieldValue.serverTimestamp() 
-                        });
-                    }
-                } catch (e) {
-                    console.warn("[Auth Provisioning Error]:", e);
-                }
-            }
-
-            /**
-             * Core Authentication Handler
-             */
-            async function handleFormSubmit(e) {
-                e.preventDefault();
-                clearFeedback();
-                
-                const email = inputEmail.value.trim();
-                const pass = inputPassword.value.trim();
-                const name = inputName.value.trim();
-
-                // Validation
-                if (!email || !pass || (currentMode === 'register' && !name)) {
-                    showFeedback("يرجى تعبئة كافة الحقول المطلوبة لضمان سلامة العبور.");
-                    return;
-                }
-
-                setLoading(true);
-
-                try {
-                    if (currentMode === 'register') {
-                        // 1. Create User
-                        const cred = await auth.createUserWithEmailAndPassword(email, pass);
-                        
-                        // 2. Update Profile Name
-                        await cred.user.updateProfile({ displayName: name });
-                        
-                        // 3. Provision Core Database Infrastructure
-                        await provisionUserRecord(cred.user);
-                        
-                    } else {
-                        // Login User
-                        await auth.signInWithEmailAndPassword(email, pass);
-                    }
-                    
-                    // On success, Firebase onAuthStateChanged listener handles redirection
-                } catch (error) {
-                    setLoading(false);
-                    console.error("[Auth Error]:", error);
-                    showFeedback(translateError(error));
-                }
-            }
-
-            /**
-             * Resilient Google OAuth Handler (Popup + Smart Redirect Fallback)
-             */
-            async function handleGoogleAuth() {
-                clearFeedback();
-                setLoading(true);
-                
-                const provider = new firebase.auth.GoogleAuthProvider();
-                provider.addScope('profile');
-                provider.addScope('email');
-                provider.setCustomParameters({ prompt: 'select_account' });
-
-                // Detect mobile browsers or restricted webviews where popups are blocked
-                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-                if (isMobile) {
-                    console.info("[Google Auth] استخدام مسار التحويل المباشر (Redirect Flow) للأجهزة الذكية.");
-                    try {
-                        await auth.signInWithRedirect(provider);
-                        return;
-                    } catch (redirectErr) {
-                        setLoading(false);
-                        console.error("[Google Redirect Init Error]:", redirectErr);
-                        showFeedback(translateError(redirectErr));
-                        return;
-                    }
-                }
-                
-                // On Desktop: Try popup first, with automatic redirect fallback if blocked by Cloudflare/Browser
-                try {
-                    const res = await auth.signInWithPopup(provider);
-                    await provisionUserRecord(res.user);
-                    // Redirection handled by onAuthStateChanged observer
-                } catch (error) {
-                    console.warn("[Google Auth Popup Attempt]:", error.code, error.message);
-
-                    // If popup blocked, closed unexpectedly, or COOP/Cloudflare header interference, fallback to Redirect
-                    if (error.code === 'auth/popup-blocked' || 
-                        error.code === 'auth/cancelled-popup-request' ||
-                        error.code === 'auth/internal-error') {
-                        
-                        console.info("[Google Auth] تحويل تلقائي إلى مسار signInWithRedirect لتجاوز حجب النوافذ المنبثقة...");
-                        showFeedback("جارٍ نقلك إلى صفحة مصادقة Google الآمنة...");
-                        try {
-                            await auth.signInWithRedirect(provider);
-                            return;
-                        } catch (fallbackErr) {
-                            setLoading(false);
-                            showFeedback(translateError(fallbackErr));
-                        }
-                    } else {
-                        setLoading(false);
-                        if (error.code !== 'auth/popup-closed-by-user') {
-                            showFeedback(translateError(error));
-                        }
-                    }
-                }
-            }
-
-            // Check for redirect result on page boot (Critical for Cloudflare & Mobile auth flows)
-            auth.getRedirectResult().then(async (result) => {
-                if (result && result.user) {
-                    setLoading(true);
-                    console.info("[Google Auth Redirect Return]: تم استلام المصادقة بنجاح للمستخدم:", result.user.email);
-                    await provisionUserRecord(result.user);
-                    window.location.replace("dashboard.html");
-                }
-            }).catch((error) => {
-                console.error("[Google Auth Redirect Result Error]:", error);
-                showFeedback(translateError(error));
-            });
-
-            // Event Listeners
-            tabBtns.forEach(btn => {
-                btn.addEventListener('click', (e) => switchTab(e.target.dataset.target));
-            });
-            form.addEventListener('submit', handleFormSubmit);
-            btnGoogle.addEventListener('click', handleGoogleAuth);
-            
-            return {
-                init: () => console.info("[Auth Engine]: Resilient Google & Enterprise Auth Ready.")
-            };
-        })();
-
-        // Boot Auth UI Engine
-        AuthController.init();
-
-        /**
-         * ----------------------------------------------------------------------
-         * MODULE 4: Global State Observer (Gatekeeper)
-         * ----------------------------------------------------------------------
-         */
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                // If token is valid, route immediately to dashboard
-                window.location.replace("dashboard.html");
-            }
-        });
-
-    </script>
 </body>
 </html>
