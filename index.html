@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -42,12 +42,29 @@
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?v=3">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=3">
     <link rel="shortcut icon" href="favicon.ico?v=3">
+    <style>
+        html, body {
+            background-color: transparent !important;
+            background-image: none !important;
+        }
+        .fallback-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #080808;
+            z-index: -3;
+            pointer-events: none;
+        }
+    </style>
 </head>
-<body class="rtl-layout" style="background-color:#080808;">
+<body class="rtl-layout">
 
     <!-- ═══════════════════════════════════════════════════════════
          DYNAMIC VIDEO BACKGROUND — DASHBOARD
          ═══════════════════════════════════════════════════════════ -->
+    <div class="fallback-bg"></div>
     <video
         id="dashboardBgVideo"
         autoplay loop muted playsinline
