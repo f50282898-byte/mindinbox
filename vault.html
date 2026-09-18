@@ -924,10 +924,26 @@
             } catch(e) {}
         })();
     </script>
+</head>
+<body>
+    </script>
+</head>
+<body>
+    <!-- BACKGROUND VIDEO -->
+    <div class="fallback-bg" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background: #080808; z-index: -3;"></div>
+    
+    <!-- Visual Readability Overlay -->
+    <div aria-hidden="true" style="
+        position:fixed;
+        top:0; left:0;
+        width:100%; height:100%;
+        background:radial-gradient(circle, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.9) 100%);
+        z-index:-1;
+        pointer-events:none;
+    "></div>
 
-    
-    
-    
+    <header class="sanctuary-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212,175,55,0.15);">
+        <a href="index.html" class="nav-back-btn" style="color: #D4AF37; text-decoration: none; font-family: 'Amiri', serif;">العودة</a>
         <div class="brand-title">خزانة العهد</div>
         <div class="quota-indicator" id="quotaDisplay">جاري الاتصال...</div>
     </header>
