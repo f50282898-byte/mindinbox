@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ==============================================================================
  * MIND IN A BOX — MULTI-LANGUAGE ARCHITECTURE (i18n)
  * Bi-directional support: Arabic (RTL) & English (LTR)
@@ -12,12 +12,12 @@ const translations = {
         brandTagline: "المعبد الفلسفي للوعي والإنتاجية السيادية",
         
         // Navbar
-        navHabits: "محاريب الجرد",
-        navMood: "هندسة المزاج",
-        navAI: "المستشار الذكي",
-        navVault: "الخزينة",
-        navMeditation: "الخلوة",
-        navPricing: "العضويات",
+        navHabits: "ميزان الأعمال واليقظة",
+        navMood: "سكينة الروح وضبط الانفعال",
+        navAI: "مجلس الحكماء والذكاء السيادي",
+        navVault: "خزانة العهد",
+        navSanctuary of Solitude: "محراب العزلة",
+        navPricing: "عهود السيادة",
         navLoginBtn: "تسجيل الدخول / البدء",
         navTrialBadge: "١٤ يوماً تجربة مطلقة",
         
@@ -32,9 +32,9 @@ const translations = {
         heroSubtitle: "ملاذك الرقمي لإدارة الذات، ترويض الدوبامين، واستشارة الحكمة السيادية.",
         heroDateLabel: "تاريخ اليوم بالملاذ:",
         
-        // Card 1: محاريب الجرد
+        // Card 1: ميزان الأعمال واليقظة
         card1Badge: "الانضباط الصارم",
-        card1Title: "محاريب الجرد الذاتي",
+        card1Title: "ميزان الأعمال واليقظة الذاتي",
         card1Desc: "تتبع العادات اليومية الصارمة، جرد الهفوات النفسية، وقياس استقامة المسار بلا مواربة.",
         card1Habit1: "خلوة الصمت والتأمل (٢٠ دقيقة)",
         card1Habit2: "صيام الدوبامين عن الهواتف الصباحية",
@@ -42,9 +42,9 @@ const translations = {
         card1Progress: "معدل الانضباط اليومي:",
         card1Btn: "فتح محراب الجرد الكامل",
 
-        // Card 2: هندسة المزاج
+        // Card 2: سكينة الروح وضبط الانفعال
         card2Badge: "الكيمياء النفسية",
-        card2Title: "هندسة المزاج والسكينة",
+        card2Title: "سكينة الروح وضبط الانفعال والسكينة",
         card2Desc: "موالفة التردد الداخلي، تحييد الضجيج الانفعالي، والارتقاء إلى درجات الوقار المعرفي.",
         moodPeace: "سكينة",
         moodFocus: "تركيز عميق",
@@ -54,7 +54,7 @@ const translations = {
         card2Frequency: "التردد الطيفي الحالي:",
         card2Btn: "الدخول إلى محراب المزاج",
 
-        // Card 3: المستشار الذكي
+        // Card 3: مجلس الحكماء والذكاء السيادي
         card3Badge: "عصب الحكيم",
         card3Title: "المستشار الفلسفي الذكي",
         card3Desc: "محاورة الذكاء الاصطناعي السيادي المدرب على نصوص الرواقية والحكمة الخالدة.",
@@ -86,9 +86,9 @@ const translations = {
         navHabits: "Habit Sanctuary",
         navMood: "Mood Alchemy",
         navAI: "Sovereign Sage",
-        navVault: "The Vault",
-        navMeditation: "Retreat",
-        navPricing: "Memberships",
+        navVault: "The Covenant Vault",
+        navSanctuary of Solitude: "Retreat",
+        navPricing: "Covenants of Sovereignty",
         navLoginBtn: "Sign In / Begin",
         navTrialBadge: "14-Day Free Trial",
         
@@ -103,17 +103,17 @@ const translations = {
         heroSubtitle: "Your digital sanctuary for self-mastery, dopamine fasting, and eternal wisdom.",
         heroDateLabel: "Sanctuary Solar Date:",
         
-        // Card 1: محاريب الجرد
+        // Card 1: ميزان الأعمال واليقظة
         card1Badge: "Iron Discipline",
         card1Title: "Self-Audit & Habit Sanctuaries",
         card1Desc: "Track uncompromised daily rituals, audit psychological blindspots, and measure inner trajectory.",
-        card1Habit1: "Silence & Deep Meditation (20 mins)",
+        card1Habit1: "Silence & Deep Sanctuary of Solitude (20 mins)",
         card1Habit2: "Morning Dopamine Fast (Zero Screens)",
         card1Habit3: "Profound Philosophical Journaling",
         card1Progress: "Daily Alignment Rate:",
         card1Btn: "Open Full Audit Sanctuary",
 
-        // Card 2: هندسة المزاج
+        // Card 2: سكينة الروح وضبط الانفعال
         card2Badge: "Psychological Alchemy",
         card2Title: "Mood & Serenity Engineering",
         card2Desc: "Tune your internal resonance, neutralize emotional noise, and ascend to cognitive dignity.",
@@ -125,7 +125,7 @@ const translations = {
         card2Frequency: "Current Spectral Resonance:",
         card2Btn: "Enter Mood Chamber",
 
-        // Card 3: المستشار الذكي
+        // Card 3: مجلس الحكماء والذكاء السيادي
         card3Badge: "The Sovereign Sage",
         card3Title: "The Philosophical AI Mentor",
         card3Desc: "Dialogue with an AI master steeped in Stoicism, ancient philosophy, and timeless clarity.",

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ====================================================================
  * MIND IN BOX — ELITE PRO CHAT ENGINE
  * Firebase Realtime Database powered, Pro-members only
@@ -191,10 +191,7 @@ const EliteChat = (() => {
         if (!area) return;
 
         // Listen to messages in real-time (last 50 messages, ordered by time)
-        const msgsRef = db.collection('elite_chat')
-            .doc(roomId)
-            .collection('messages')
-            .orderBy('timestamp', 'asc')
+        const msgsRef = db.collection('pro_council_chat').where('roomId', '==', roomId).orderBy('timestamp', 'asc')
             .limitToLast(50);
 
         messagesListener = msgsRef.onSnapshot((snapshot) => {
@@ -263,10 +260,9 @@ const EliteChat = (() => {
         input.style.height = 'auto';
 
         try {
-            await db.collection('elite_chat')
-                .doc(currentRoom)
-                .collection('messages')
+            await db.collection('pro_council_chat')
                 .add({
+                    roomId: currentRoom,
                     userId: currentUser.uid,
                     displayName: currentUser.displayName || 'السالك',
                     photoURL: currentUser.photoURL || '',

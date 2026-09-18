@@ -1,4 +1,4 @@
-rules_version = '2';
+﻿rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
@@ -84,32 +84,17 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
-    // ========================================================
+        // ========================================================
     // 3. PRO ELITE CHAT — Pro Members Only
     // ========================================================
-    match /elite_chat/{roomId} {
-      // Only Pro members can see the chat rooms list
+    match /pro_council_chat/{messageId} {
       allow read: if isPro();
-
-      match /messages/{messageId} {
-        // Read: Pro members only
-        allow read: if isPro();
-
-        // Create: Pro members only — validate message structure
-        allow create: if isPro()
-          && request.resource.data.userId == request.auth.uid
-          && request.resource.data.keys().hasAll(['userId', 'text', 'timestamp', 'displayName'])
-          && notTooLong(request.resource.data.text, 1000)
-          && request.resource.data.timestamp == request.time;
-
-        // Update: only the message owner (for edit within 5 minutes)
-        allow update: if isPro()
-          && resource.data.userId == request.auth.uid
-          && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['userId', 'timestamp']);
-
-        // Delete: owner or admin
-        allow delete: if (isPro() && resource.data.userId == request.auth.uid) || isAdmin();
-      }
+      allow create: if isPro()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.keys().hasAll(['userId', 'text', 'timestamp', 'displayName'])
+        && notTooLong(request.resource.data.text, 1000);
+      allow update: if isPro() && resource.data.userId == request.auth.uid;
+      allow delete: if (isPro() && resource.data.userId == request.auth.uid) || isAdmin();
     }
 
     // ========================================================

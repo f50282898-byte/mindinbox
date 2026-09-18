@@ -464,3 +464,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.MindDashboard = MindDashboard;
 
+
+
+    // Tab Switching Logic
+    const navLinks = document.querySelectorAll('.nav-link-item');
+    const sections = ['habitsSection', 'moodSection', 'aiSection'];
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const targetHref = link.getAttribute('href');
+            if (targetHref && targetHref.startsWith('#')) {
+                const targetId = targetHref.substring(1);
+                if (sections.includes(targetId)) {
+                    e.preventDefault();
+                    // Update active class on links
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    
+                    // Show target section, hide others
+                    sections.forEach(secId => {
+                        const sec = document.getElementById(secId);
+                        if (sec) {
+                            if (secId === targetId) {
+                                sec.style.display = 'flex';
+                            } else {
+                                sec.style.display = 'none';
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    });
