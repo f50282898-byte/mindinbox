@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>عقل في صندوق | كشف النقطة العمياء</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { background: #080808; color: var(--text-primary); font-family: var(--font-primary); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        .bs-container { max-width: 800px; margin: 50px auto; width: 90%; }
+        .bs-header { text-align: center; margin-bottom: 40px; }
+        .bs-title { font-family: var(--font-serif); font-size: 2.8rem; color: var(--gold-light); margin: 0; letter-spacing: 1px; }
+        .bs-desc { color: var(--text-tertiary); margin-top: 10px; font-size: 1.1rem; }
+        
+        .bs-form { display: flex; flex-direction: column; gap: 20px; }
+        .bs-label { font-family: var(--font-serif); font-size: 1.2rem; color: var(--gold-primary); }
+        textarea.luxury-input { min-height: 120px; resize: none; font-size: 1.1rem; }
+        
+        .result-box { margin-top: 30px; display: none; border-top: 1px dashed rgba(212,175,55,0.3); padding-top: 30px; animation: fadeIn 1s; }
+        .prob-circle { width: 120px; height: 120px; border-radius: 50%; border: 2px solid #e74c3c; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-family: var(--font-serif); color: #e74c3c; margin: 0 auto 20px; box-shadow: 0 0 30px rgba(231,76,60,0.2); }
+        .bs-insight { text-align: justify; font-size: 1.1rem; line-height: 1.8; color: var(--text-secondary); background: rgba(0,0,0,0.4); padding: 20px; border-left: 3px solid #e74c3c; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .pro-gate { position: fixed; inset: 0; background: rgba(8,8,8,0.95); z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(10px); display: none; }
+    </style>
+</head>
+<body>
+    <nav class="navbar" style="position: static; padding: 20px; border-bottom: 1px solid rgba(212,175,55,0.1);">
+        <a href="index.html" style="color: var(--gold-primary); text-decoration: none; font-family: var(--font-serif); display: flex; align-items: center; gap: 10px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            العودة للصومعة
+        </a>
+    </nav>
+
+    <div class="pro-gate" id="proGate">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        <h2 style="font-family: var(--font-serif); color: var(--gold-light); font-size: 2.5rem; margin-top: 20px;">كشف النقطة العمياء (Pro)</h2>
+        <p style="color: var(--text-tertiary); max-width: 400px; text-align: center; margin-top: 10px;">نظام التشخيص الفلسفي العميق متاح فقط لأصحاب عهود السيادة.</p>
+        <button class="luxury-btn" style="margin-top: 30px;" onclick="window.location.href='pricing.html'">الارتقاء الآن</button>
+    </div>
+
+    <div class="bs-container luxury-container" id="mainApp" style="opacity: 0;">
+        <div class="bs-header">
+            <h1 class="bs-title">كشف النقطة العمياء</h1>
+            <p class="bs-desc">أدخل تفاصيل قرارك القادم أو ديناميكية علاقتك، وسيقوم النظام باستخراج الثغرات النفسية المخفية في لاوعيك.</p>
+        </div>
+        
+        <div class="bs-form">
+            <div>
+                <label class="bs-label">وصف الحالة الموضوعي</label>
+                <textarea class="luxury-input" id="bsDesc" placeholder="مثال: أنا مقبل على شراكة مع صديق قديم، لكننا نختلف دائماً في الأمور المالية الصغيرة..."></textarea>
+            </div>
+            <div>
+                <label class="bs-label">المخاوف الخفية (كن صادقاً)</label>
+                <textarea class="luxury-input" id="bsFears" placeholder="أخشى أن أظهر بمظهر الطماع إذا طالبت بحقوقي..."></textarea>
+            </div>
+            <button class="luxury-btn" id="btnAnalyze" style="background: rgba(212,175,55,0.1);">تشخيص الوعي</button>
+        </div>
+
+        <div class="result-box" id="resultBox">
+            <h3 style="text-align: center; color: var(--gold-primary); font-family: var(--font-serif); margin-bottom: 20px;">الاحتمالية التشخيصية</h3>
+            <div class="prob-circle" id="probScore">85%</div>
+            <div class="bs-insight" id="probText">
+                <strong>التشخيص العابر:</strong> احتمال الفشل يصل إلى 85% بسبب الخضوع السلبي (Passive-Aggression) المتراكم.<br><br>
+                <strong>المسار التصحيحي:</strong> توقف عن استخدام "الصداقة" كغطاء للهروب من المواجهة. المواجهة المبكرة والمباشرة الآن ستنقذ الصداقة والشراكة معاً.
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="core.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            firebase.auth().onAuthStateChanged(async (user) => {
+                if (user) {
+                    try {
+                        const doc = await db.collection('users').doc(user.uid).get();
+                        if (doc.exists && ['pro', 'oracle', 'admin'].includes(doc.data().role)) {
+                            document.getElementById('mainApp').style.opacity = '1';
+                        } else {
+                            document.getElementById('proGate').style.display = 'flex';
+                        }
+                    } catch(e) { document.getElementById('proGate').style.display = 'flex'; }
+                } else {
+                    document.getElementById('proGate').style.display = 'flex';
+                }
+            });
+
+            const btnAnalyze = document.getElementById('btnAnalyze');
+            btnAnalyze.addEventListener('click', async () => {
+                const desc = document.getElementById('bsDesc').value.trim();
+                const fears = document.getElementById('bsFears').value.trim();
+                if(!desc || !fears) {
+                    alert('يجب ملء الحقول بصدق لاستخراج النقطة العمياء.');
+                    return;
+                }
+
+                btnAnalyze.textContent = 'جاري تفكيك اللاوعي...';
+                btnAnalyze.disabled = true;
+
+                // Mocking backend API delay
+                setTimeout(async () => {
+                    const rBox = document.getElementById('resultBox');
+                    rBox.style.display = 'block';
+                    btnAnalyze.textContent = 'إعادة التشخيص';
+                    btnAnalyze.disabled = false;
+
+                    const user = firebase.auth().currentUser;
+                    if(user) {
+                        try {
+                            await db.collection('blindspot_analysis').add({
+                                userId: user.uid,
+                                description: desc,
+                                fears: fears,
+                                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                            });
+                        } catch(e) {}
+                    }
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>

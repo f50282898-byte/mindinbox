@@ -496,3 +496,15 @@ window.MindDashboard = MindDashboard;
             }
         });
     });
+
+    firebase.auth().onAuthStateChanged(async (user) => {
+        if(user) {
+            try {
+                const doc = await db.collection('users').doc(user.uid).get();
+                if (doc.exists && ['pro', 'oracle', 'admin'].includes(doc.data().role)) {
+                    const proAudio = document.getElementById('proStoicAudio');
+                    if(proAudio) proAudio.style.display = 'block';
+                }
+            } catch(e) {}
+        }
+    });

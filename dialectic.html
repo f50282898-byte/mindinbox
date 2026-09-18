@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>عقل في صندوق | مجلس العقول</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { background: #080808; color: var(--text-primary); font-family: var(--font-primary); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        .dia-container { flex: 1; max-width: 900px; margin: 40px auto; width: 90%; display: flex; flex-direction: column; }
+        .dia-header { text-align: center; margin-bottom: 40px; }
+        .dia-title { font-family: var(--font-serif); font-size: 2.8rem; color: var(--gold-light); margin: 0; letter-spacing: 1px; }
+        
+        .philosophers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .phi-card { background: rgba(18,18,18,0.8); border: 1px solid rgba(212,175,55,0.2); border-radius: 4px; padding: 20px; text-align: center; cursor: pointer; transition: 0.4s; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .phi-card:hover { transform: translateY(-5px); border-color: var(--gold-primary); box-shadow: 0 15px 30px rgba(212,175,55,0.1); }
+        .phi-card.active { background: rgba(212,175,55,0.1); border-color: var(--gold-primary); }
+        .phi-name { font-family: var(--font-serif); font-size: 1.5rem; color: var(--gold-primary); margin: 15px 0 5px; }
+        .phi-title { color: var(--text-tertiary); font-size: 0.9rem; }
+        .phi-icon { font-size: 3rem; }
+
+        .chat-area { display: none; flex-direction: column; flex: 1; background: rgba(10,10,10,0.9); border: 1px solid rgba(212,175,55,0.15); border-radius: 4px; padding: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.8); }
+        .chat-messages { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; min-height: 300px; max-height: 400px; }
+        .msg { padding: 15px 20px; border-radius: 4px; max-width: 85%; font-family: var(--font-serif); font-size: 1.1rem; line-height: 1.6; }
+        .msg.user { background: rgba(255,255,255,0.05); color: #fff; align-self: flex-start; border-right: 2px solid var(--text-tertiary); }
+        .msg.phi { background: rgba(212,175,55,0.05); color: var(--gold-light); align-self: flex-end; border-left: 2px solid var(--gold-primary); text-align: left; direction: ltr; }
+        .msg.phi[dir="rtl"] { text-align: right; direction: rtl; border-left: none; border-right: 2px solid var(--gold-primary); }
+        
+        .chat-inputs { display: flex; gap: 10px; }
+        
+        .pro-gate { position: fixed; inset: 0; background: rgba(8,8,8,0.95); z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(10px); display: none; }
+    </style>
+</head>
+<body>
+    <nav class="navbar" style="position: static; padding: 20px; border-bottom: 1px solid rgba(212,175,55,0.1);">
+        <a href="index.html" style="color: var(--gold-primary); text-decoration: none; font-family: var(--font-serif); display: flex; align-items: center; gap: 10px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            العودة للصومعة
+        </a>
+    </nav>
+
+    <div class="pro-gate" id="proGate">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        <h2 style="font-family: var(--font-serif); color: var(--gold-light); font-size: 2.5rem; margin-top: 20px;">مجلس العقول (Pro)</h2>
+        <p style="color: var(--text-tertiary); max-width: 400px; text-align: center; margin-top: 10px;">محاكاة العقول العظيمة ومحاورتها متاح لأعضاء النخبة فقط.</p>
+        <button class="luxury-btn" style="margin-top: 30px;" onclick="window.location.href='pricing.html'">الارتقاء الآن</button>
+    </div>
+
+    <div class="dia-container" id="mainApp" style="opacity: 0;">
+        <div class="dia-header">
+            <h1 class="dia-title">مجلس العقول</h1>
+            <p style="color: var(--text-tertiary); margin-top: 10px; font-size: 1.1rem;">اختر حكيمك، واطرح سؤالك.</p>
+        </div>
+        
+        <div class="philosophers-grid">
+            <div class="phi-card" data-id="marcus">
+                <div class="phi-icon">🏛️</div>
+                <div class="phi-name">ماركوس أوريليوس</div>
+                <div class="phi-title">الإمبراطور الرواقي</div>
+            </div>
+            <div class="phi-card" data-id="nietzsche">
+                <div class="phi-icon">⚡</div>
+                <div class="phi-name">فريدريك نيتشه</div>
+                <div class="phi-title">مطرقة الفلسفة</div>
+            </div>
+            <div class="phi-card" data-id="ibnsina">
+                <div class="phi-icon">📜</div>
+                <div class="phi-name">ابن سينا</div>
+                <div class="phi-title">الشيخ الرئيس</div>
+            </div>
+        </div>
+
+        <div class="chat-area" id="chatArea">
+            <h3 id="currentPhiName" style="color: var(--gold-primary); font-family: var(--font-serif); text-align: center; border-bottom: 1px dashed rgba(212,175,55,0.3); padding-bottom: 15px; margin-bottom: 20px;"></h3>
+            <div class="chat-messages" id="chatMsgs"></div>
+            <div class="chat-inputs">
+                <input type="text" class="luxury-input" id="diaInput" placeholder="اكتب معضلتك هنا...">
+                <button class="luxury-btn" id="diaSend">استشر</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="core.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            firebase.auth().onAuthStateChanged(async (user) => {
+                if (user) {
+                    try {
+                        const doc = await db.collection('users').doc(user.uid).get();
+                        if (doc.exists && ['pro', 'oracle', 'admin'].includes(doc.data().role)) {
+                            document.getElementById('mainApp').style.opacity = '1';
+                        } else {
+                            document.getElementById('proGate').style.display = 'flex';
+                        }
+                    } catch(e) { document.getElementById('proGate').style.display = 'flex'; }
+                } else {
+                    document.getElementById('proGate').style.display = 'flex';
+                }
+            });
+
+            const cards = document.querySelectorAll('.phi-card');
+            const chatArea = document.getElementById('chatArea');
+            const phiNameLabel = document.getElementById('currentPhiName');
+            const msgs = document.getElementById('chatMsgs');
+            let currentPhi = '';
+
+            const intros = {
+                marcus: "«ما يعيق العمل يصبح عملاً. ما يقف في الطريق يصبح هو الطريق. تحدث.»",
+                nietzsche: "«من لديه سبب ليعيش، يمكنه أن يتحمل أي طريقة للعيش. ما هو سببك؟»",
+                ibnsina: "«العقل البشري قوة إلهية. اطرح مسألتك لنجردها من الأعراض ونصل للجوهر.»"
+            };
+
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    cards.forEach(c => c.classList.remove('active'));
+                    card.classList.add('active');
+                    currentPhi = card.getAttribute('data-id');
+                    phiNameLabel.textContent = card.querySelector('.phi-name').textContent;
+                    chatArea.style.display = 'flex';
+                    msgs.innerHTML = '';
+                    addMsg(intros[currentPhi], false);
+                });
+            });
+
+            function addMsg(text, isUser) {
+                const div = document.createElement('div');
+                div.className = 'msg ' + (isUser ? 'user' : 'phi');
+                if(!isUser) div.setAttribute('dir', 'rtl');
+                div.textContent = text;
+                msgs.appendChild(div);
+                msgs.scrollTop = msgs.scrollHeight;
+            }
+
+            const sendBtn = document.getElementById('diaSend');
+            const input = document.getElementById('diaInput');
+            sendBtn.addEventListener('click', () => {
+                const text = input.value.trim();
+                if(!text) return;
+                input.value = '';
+                addMsg(text, true);
+                
+                sendBtn.disabled = true;
+                setTimeout(() => {
+                    addMsg("«سأحلل ذلك في ضوء فلسفتي عما قريب. (API Hook Ready)»", false);
+                    sendBtn.disabled = false;
+                }, 1000);
+            });
+            input.addEventListener('keydown', (e) => { if(e.key === 'Enter') sendBtn.click(); });
+        });
+    </script>
+</body>
+</html>

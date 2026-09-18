@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>عقل في صندوق | محامي الشيطان السقراطي</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { background: #040404; color: var(--text-primary); font-family: var(--font-primary); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        .devil-container { flex: 1; max-width: 800px; margin: 40px auto; width: 90%; display: flex; flex-direction: column; }
+        .devil-header { text-align: center; margin-bottom: 30px; border-bottom: 1px solid rgba(231,76,60,0.3); padding-bottom: 20px; }
+        .devil-title { font-family: var(--font-serif); font-size: 2.8rem; color: #e74c3c; margin: 0; text-shadow: 0 0 20px rgba(231,76,60,0.4); }
+        .devil-desc { color: var(--text-tertiary); margin-top: 10px; font-size: 1.1rem; }
+        
+        .chat-box { flex: 1; background: rgba(10,10,10,0.9); border: 1px solid rgba(231,76,60,0.2); box-shadow: 0 10px 40px rgba(0,0,0,0.9); border-radius: 4px; display: flex; flex-direction: column; padding: 20px; overflow-y: auto; gap: 15px; margin-bottom: 20px; max-height: 50vh; }
+        .msg { padding: 15px 20px; border-radius: 4px; max-width: 85%; font-family: var(--font-serif); font-size: 1.1rem; line-height: 1.6; }
+        .msg.user { background: rgba(255,255,255,0.05); color: #fff; align-self: flex-start; border-right: 2px solid var(--text-tertiary); }
+        .msg.devil { background: rgba(231,76,60,0.05); color: #e74c3c; align-self: flex-end; border-left: 2px solid #e74c3c; text-align: left; direction: ltr; }
+        .msg.devil[dir="rtl"] { text-align: right; direction: rtl; border-left: none; border-right: 2px solid #e74c3c; }
+
+        .input-area { display: flex; gap: 10px; }
+        .devil-input { flex: 1; background: rgba(0,0,0,0.5); border: 1px solid rgba(231,76,60,0.3); color: #fff; padding: 15px; font-family: var(--font-primary); font-size: 1.1rem; border-radius: 2px; transition: 0.3s; }
+        .devil-input:focus { outline: none; border-color: #e74c3c; box-shadow: 0 0 15px rgba(231,76,60,0.2); }
+        .devil-btn { background: transparent; border: 1px solid #e74c3c; color: #e74c3c; padding: 0 30px; font-family: var(--font-serif); font-size: 1.2rem; cursor: pointer; border-radius: 2px; transition: 0.3s; text-transform: uppercase; }
+        .devil-btn:hover { background: rgba(231,76,60,0.1); box-shadow: 0 0 15px rgba(231,76,60,0.3); }
+        
+        .pro-gate { position: fixed; inset: 0; background: rgba(4,4,4,0.95); z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(10px); display: none; }
+    </style>
+</head>
+<body>
+    <nav class="navbar" style="position: static; padding: 20px; border-bottom: 1px solid rgba(231,76,60,0.2);">
+        <a href="index.html" style="color: #e74c3c; text-decoration: none; font-family: var(--font-serif); display: flex; align-items: center; gap: 10px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            العودة للصومعة
+        </a>
+    </nav>
+
+    <div class="pro-gate" id="proGate">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#e74c3c" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        <h2 style="font-family: var(--font-serif); color: #e74c3c; font-size: 2.5rem; margin-top: 20px;">غرفة التحقيق الفلسفي (Pro)</h2>
+        <p style="color: var(--text-tertiary); max-width: 400px; text-align: center; margin-top: 10px;">هذا المستوى من تفكيك المعتقدات وتحدي الذات متاح فقط لأعضاء النخبة.</p>
+        <button class="luxury-btn" style="margin-top: 30px; border-color: #e74c3c; color: #e74c3c;" onclick="window.location.href='pricing.html'">الارتقاء الآن</button>
+    </div>
+
+    <div class="devil-container" id="mainApp" style="opacity: 0;">
+        <div class="devil-header">
+            <h1 class="devil-title">محامي الشيطان السقراطي</h1>
+            <p class="devil-desc">اطرح معتقدك أو معضلتك، واستعد لهجوم منطقي شرس يفكك هشاشة حججك.</p>
+        </div>
+        
+        <div class="chat-box" id="chatBox">
+            <div class="msg devil" dir="rtl">«أنا هنا لأختبر صلابة ما تعتقد أنه حقيقة. اطرح ادعاءك... إن كنت تجرؤ.»</div>
+        </div>
+
+        <div class="input-area">
+            <input type="text" class="devil-input" id="devilInput" placeholder="أعتقد أنني فشلت لأن الظروف ضدي...">
+            <button class="devil-btn" id="devilSend">تحدَّ</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="core.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            firebase.auth().onAuthStateChanged(async (user) => {
+                if (user) {
+                    try {
+                        const doc = await db.collection('users').doc(user.uid).get();
+                        if (doc.exists && ['pro', 'oracle', 'admin'].includes(doc.data().role)) {
+                            document.getElementById('mainApp').style.opacity = '1';
+                        } else {
+                            document.getElementById('proGate').style.display = 'flex';
+                        }
+                    } catch(e) { document.getElementById('proGate').style.display = 'flex'; }
+                } else {
+                    document.getElementById('proGate').style.display = 'flex';
+                }
+            });
+
+            const sendBtn = document.getElementById('devilSend');
+            const input = document.getElementById('devilInput');
+            const chatBox = document.getElementById('chatBox');
+
+            const devilResponses = [
+                "هل تفترض حقاً أن هذه هي الحقيقة الكاملة؟ ألا ترى كيف تقوم بتبرير كسلك الذهني وراء هذه العبارة؟",
+                "إذا كان هذا ادعاؤك، فما هو دليلك الموضوعي؟ أم أنك تعتمد حصرياً على مشاعرك الهشة؟",
+                "لنفترض أنك محق. ألا يعني ذلك أنك مجرد ضحية مسلوبة الإرادة؟ هل هذا ما تريد أن تكونه؟",
+                "تفكيك بسيط لمنطقك يظهر أنك تعتمد على مغالطة 'السبب الزائف'. هلّا أعدت صياغة الحجة بعيداً عن الغرور الذاتي؟"
+            ];
+
+            async function addMsg(text, isUser) {
+                const div = document.createElement('div');
+                div.className = 'msg ' + (isUser ? 'user' : 'devil');
+                if(!isUser) div.setAttribute('dir', 'rtl');
+                div.textContent = text;
+                chatBox.appendChild(div);
+                chatBox.scrollTop = chatBox.scrollHeight;
+
+                if(isUser) {
+                    const user = firebase.auth().currentUser;
+                    if(user) {
+                        try {
+                            await db.collection('socratic_sessions').add({
+                                userId: user.uid,
+                                text: text,
+                                role: 'user',
+                                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                            });
+                        } catch(e) {}
+                    }
+                }
+            }
+
+            sendBtn.addEventListener('click', () => {
+                const text = input.value.trim();
+                if(!text) return;
+                input.value = '';
+                addMsg(text, true);
+                
+                sendBtn.disabled = true;
+                setTimeout(() => {
+                    const reply = devilResponses[Math.floor(Math.random() * devilResponses.length)];
+                    addMsg("«" + reply + "»", false);
+                    sendBtn.disabled = false;
+                }, 1500);
+            });
+            input.addEventListener('keydown', (e) => { if(e.key === 'Enter') sendBtn.click(); });
+        });
+    </script>
+</body>
+</html>

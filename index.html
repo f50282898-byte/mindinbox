@@ -119,6 +119,15 @@
                 <a href="chat.html" class="nav-link-item" style="color:#e5b964;">◉ محراب النخبة</a>
                 <a href="pricing.html" class="nav-link-item" data-i18n="navPricing">العضويات</a>
             </div>
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-top: 15px; padding-top: 15px; border-top: 1px dashed rgba(212,175,55,0.2);">
+                        <a href="journal.html" class="nav-link-item" style="color: var(--text-secondary); text-decoration: none;">مخطوطة العقل</a>
+                        <a href="devil.html" class="nav-link-item" style="color: var(--text-secondary); text-decoration: none;">محامي الشيطان</a>
+                        <a href="blindspot.html" class="nav-link-item" style="color: var(--text-secondary); text-decoration: none;">النقطة العمياء</a>
+                        <a href="dialectic.html" class="nav-link-item" style="color: var(--text-secondary); text-decoration: none;">مجلس العقول</a>
+                    </div>
+                    <button class="luxury-btn" style="border-color: #e74c3c; color: #e74c3c; font-size: 0.8rem; padding: 6px 12px;" onclick="document.getElementById('stoicEmergencyModal').style.display='flex'">
+                        طوارئ ذهنية
+                    </button>
 
             <!-- كبسولة المصادقة وحالة المستخدم (Auth Navigation Capsule) -->
             <div class="auth-nav-cluster">
@@ -375,5 +384,29 @@
         </div>
     </div>
 
+    <!-- Stoic Emergency Modal -->
+    <div class="sovereign-modal-backdrop" id="stoicEmergencyModal" style="display: none; z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(20px);">
+        <div class="luxury-container" style="max-width: 600px; position: relative; border-color: #e74c3c; box-shadow: 0 15px 50px rgba(231,76,60,0.2);">
+            <button type="button" class="modal-close-btn" onclick="document.getElementById('stoicEmergencyModal').style.display='none'" style="position: absolute; top: 15px; right: 15px; background: transparent; border: none; color: var(--text-tertiary); cursor: pointer;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <h2 style="font-family: var(--font-serif); color: #e74c3c; font-size: 2rem; margin-bottom: 20px; text-align: center;">بروتوكول الطوارئ الرواقي</h2>
+            <div style="font-family: var(--font-serif); color: var(--text-secondary); font-size: 1.2rem; line-height: 1.8; text-align: justify; margin-bottom: 30px;">
+                «أنت تملك السلطة على عقلك، وليس على الأحداث الخارجية. أدرك هذه الحقيقة، وستجد القوة.»<br>
+                — ماركوس أوريليوس<br><br>
+                تنفس ببطء. الانفعال الذي تشعر به الآن ليس حقيقة موضوعية، بل استجابة كيميائية عابرة. افصل ذاتك الحقيقية عن هذا الحدث.
+            </div>
+            
+            <div id="proStoicAudio" style="display: none; border-top: 1px dashed rgba(212,175,55,0.3); padding-top: 20px;">
+                <h4 style="color: var(--gold-primary); text-align: center; font-family: var(--font-serif); margin-bottom: 15px;">التوجيه الصوتي السيادي (Pro)</h4>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 15px;">
+                    <button class="luxury-btn" style="border-radius: 50%; padding: 15px; display: flex; align-items: center; justify-content: center;" onclick="alert('Playing Premium Guided Grounding Session...')">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </button>
+                    <span style="color: var(--text-tertiary);">جلسة الاستعادة العميقة (432Hz)</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
