@@ -25,6 +25,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- AI Core Engine -->
     <script src="ai.js"></script>
 
@@ -257,28 +258,37 @@
                 </section>
 
                 <!-- البطاقة 3: المستشار الفلسفي الذكي -->
-                <section class="glass-card" id="aiSection">
+                                <section class="glass-card" id="aiSection">
                     <div>
-                        <span class="card-badge" data-i18n="card3Badge">عصب الحكيم</span>
-                        <h2 class="card-title" data-i18n="card3Title">المستشار الفلسفي الذكي</h2>
-                        <p class="card-desc" data-i18n="card3Desc">محاورة الذكاء الاصطناعي السيادي المدرب على نصوص الرواقية والحكمة الخالدة.</p>
+                        <span class="card-badge">الذكاء السيادي</span>
+                        <h2 class="card-title">المستشار الفلسفي</h2>
+                        <p class="card-desc">استشر عقول الحكماء. تدرج في مستويات الوعي والتحليل المعرفي.</p>
+
+                        <!-- Tier Selector -->
+                        <div class="ai-tier-selector" style="display: flex; gap: 8px; margin-bottom: 15px; border-bottom: 1px solid var(--gold-border); padding-bottom: 10px; flex-wrap: wrap;">
+                            <button class="ai-tier-btn active" data-tier="standard" style="background: rgba(212,175,55,0.1); color: var(--gold-primary); border: 1px solid var(--gold-border); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-family:'Cairo',sans-serif; font-size:0.85rem;">القياسي (حكم)</button>
+                            <button class="ai-tier-btn" data-tier="analytical" style="background: transparent; color: var(--text-secondary); border: 1px solid transparent; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-family:'Cairo',sans-serif; font-size:0.85rem;">التحليلي (LLM)</button>
+                            <button class="ai-tier-btn" data-tier="sovereign" style="background: transparent; color: var(--text-secondary); border: 1px solid transparent; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-family:'Cairo',sans-serif; font-size:0.85rem;">السيادي (Pro)</button>
+                        </div>
                         
-                        <!-- صندوق حوار الحكيم التفاعلي السريع -->
-                        <div class="sage-dialogue-box">
-                            <p class="sage-reply-text" id="sageResponseText" data-i18n="card3SageDefault">«مستشارك الفلسفي حاضر لتحليل أي معضلة فكرية أو نفسية وصياغة خارطة اتزان معرفي لها.»</p>
+                        <!-- Dialog box -->
+                        <div class="sage-dialogue-box" style="min-height: 120px; max-height: 300px; overflow-y: auto;">
+                            <p class="sage-reply-text" id="sageResponseText">«تحدث بما يثقل عقلك، أو اطرح معضلتك، وسأنظر فيها بعين الحكمة والمنطق.»</p>
                         </div>
 
-                        <!-- حقل الاستشارة السريعة -->
-                        <div class="sage-input-cluster">
-                            <input type="text" id="sageInput" class="sage-prompt-input" placeholder="اطرح معضلتك الفكرية أو النفسية هنا..." data-i18n-placeholder="card3InputPlaceholder">
-                            <button type="button" id="sageSendBtn" class="btn-sage-ask" data-i18n="card3Send">استشارة</button>
+                        <!-- Input Area -->
+                        <div class="sage-input-cluster" style="flex-direction: column; gap: 10px;">
+                            <div style="display: flex; gap: 10px; width: 100%;">
+                                <input type="text" id="sageInput" class="sage-prompt-input" placeholder="اكتب سؤالك أو فكرتك هنا...">
+                                <button type="button" id="sageSendBtn" class="btn-sage-ask">استشارة</button>
+                            </div>
+                            <!-- Develop Ideas Pro Feature -->
+                            <button type="button" id="btnDevelopIdeas" class="btn-sage-ask" style="background: rgba(212,175,55,0.1); border: 1px dashed var(--gold-primary); width: 100%; display: flex; justify-content: center; gap: 8px;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                                طور أفكارك (حصري للبرو)
+                            </button>
                         </div>
                     </div>
-
-                    <a href="vault.html" class="card-action-btn">
-                        <span>خزينة الحكمة والأرشيف</span>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                    </a>
                 </section>
             </main>
 

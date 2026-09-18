@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ==============================================================================
  * MIND IN A BOX — SOVEREIGN DASHBOARD INTERACTIVE ENGINE
  * Manages: Navbar Auth Capsule, Profile Dropdown, Modals, 
@@ -118,9 +118,25 @@ const MindDashboard = (() => {
     /**
      * تحديث حالة شريط التصفح العلوي (Logged Out Button vs Logged In Avatar)
      */
-    function updateNavbarAuth(user) {
+    async function updateNavbarAuth(user) {
         if (!authNavContainer) authNavContainer = document.getElementById('authNavContainer');
         if (!authNavContainer) return;
+
+        const pricingLink = document.querySelector('a[href="pricing.html"]');
+        if (pricingLink) {
+            if (user) {
+                try {
+                    const doc = await firebase.firestore().collection('users').doc(user.uid).get();
+                    const role = doc.exists ? doc.data().role : 'free';
+                    window.isProMember = ['pro', 'oracle', 'admin'].includes(role);
+                    pricingLink.textContent = window.isProMember ? 'العضويات' : 'ترقية (Upgrade)';
+                } catch (e) {
+                    pricingLink.textContent = 'ترقية (Upgrade)';
+                }
+            } else {
+                pricingLink.textContent = 'ترقية (Upgrade)';
+            }
+        }
 
         if (user) {
             const avatarUrl = user.photoURL || '';
@@ -321,8 +337,67 @@ const MindDashboard = (() => {
     /**
      * وحدة "المستشار الذكي" - تفاعل فوري مع الحكيم
      */
+        let currentAITier = 'standard';
+    
     function initSageAdvisor() {
         if (!sageSendBtn || !sageInput) return;
+
+        const tierBtns = document.querySelectorAll('.ai-tier-btn');
+        tierBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetTier = btn.getAttribute('data-tier');
+                
+                if (targetTier === 'sovereign' && !window.isProMember) {
+                    _showToast('الوضع السيادي حصري لأعضاء النخبة (Pro). قم بالترقية الآن.', 'error');
+                    return;
+                }
+                
+                currentAITier = targetTier;
+                tierBtns.forEach(b => {
+                    b.style.background = 'transparent';
+                    b.style.border = '1px solid transparent';
+                    b.style.color = 'var(--text-secondary)';
+                });
+                
+                btn.style.background = 'rgba(212,175,55,0.1)';
+                btn.style.border = '1px solid var(--gold-border)';
+                btn.style.color = 'var(--gold-primary)';
+                
+                if (sageResponseText) {
+                    sageResponseText.textContent = '«تم تفعيل وضع ' + btn.textContent + '. أنا مصغٍ إليك.»';
+                }
+            });
+        });
+
+        const btnDevelopIdeas = document.getElementById('btnDevelopIdeas');
+        if (btnDevelopIdeas) {
+            btnDevelopIdeas.addEventListener('click', async () => {
+                if (!window.isProMember) {
+                    _showToast('تطوير الأفكار ميزة حصرية لأعضاء النخبة (Pro).', 'error');
+                    return;
+                }
+                const query = sageInput.value.trim();
+                if (!query) {
+                    _showToast('اكتب فكرتك المبدئية في صندوق النص أولاً.', 'info');
+                    return;
+                }
+                
+                sageSendBtn.disabled = true;
+                btnDevelopIdeas.disabled = true;
+                sageResponseText.innerHTML = '<span class="sage-thinking">جاري هندسة وتفكيك فكرتك فلسفياً...</span>';
+                
+                try {
+                    // Logic to call actual AI endpoint. Since this is frontend, we mock the delay for Sovereign.
+                    const response = await window.SageCore?.query(query + " [DEVELOP_IDEA]") || "«الأفكار العظيمة لا تولد مكتملة، بل تُنحت بالصبر. فكرتك هذه هي البذرة: " + query + ". لنفككها إلى أبعادها الأنطولوجية...»";
+                    sageResponseText.innerHTML = response.replace(/\n/g, '<br>');
+                } catch (e) {
+                    sageResponseText.textContent = "«توقف برهة وتنفس بعمق؛ الحكيم حاضر دائماً في سكونك.»";
+                } finally {
+                    sageSendBtn.disabled = false;
+                    btnDevelopIdeas.disabled = false;
+                }
+            });
+        }
 
         const handleSageConsult = async () => {
             const query = sageInput.value.trim();
@@ -330,32 +405,33 @@ const MindDashboard = (() => {
 
             sageSendBtn.disabled = true;
             if (sageResponseText) {
-                const waitText = window.MindI18n ? window.MindI18n.t('card3Waiting') : 'ينظر الحكيم في الأزل...';
-                sageResponseText.innerHTML = `<span class="sage-thinking">${waitText}</span>`;
+                sageResponseText.innerHTML = '<span class="sage-thinking">ينظر الحكيم في الأزل...</span>';
             }
 
             try {
-                // إذا كان محرك ai.js متصلاً
-                if (window.SageCore && window.SageCore.query) {
-                    const reply = await window.SageCore.query(query);
-                    if (sageResponseText) sageResponseText.textContent = reply;
-                } else {
-                    // استجابة رواقية فلسفية فورية مدمجة
+                if (currentAITier === 'standard') {
                     setTimeout(() => {
-                                                const stoicReplies = [
-                            "«تحليل المعضلة: قم بفصل ما يقع تحت إرادتك المباشرة عما هو خارج عن دائرة تأثيرك، وركّز طاقتك الذهنية على الخيار الأول فقط.»",
-                            "«السيادة الفكرية تبدأ عندما ترفض الانجرار العاطفي اللحظي، وتنظر للأمر من منظور زمني ممتد لعشر سنوات قادمة.»",
-                            "«المشاعر الحالية هي إشارات بيولوجية وليست حقائق مطلقة؛ راقبها بحياد معرفي واتخذ قرارك بناءً على مبادئك الثابتة.»",
-                            "«أعد صياغة التحدي: ليس كعائق يحاصرك، بل كحقل تدريب لصقل إرادتك ووضوحك العقلي.»"
+                        const stoicReplies = [
+                            "«تحليل المعضلة: قم بفصل ما يقع تحت إرادتك المباشرة عما هو خارج عن دائرة تأثيرك.»",
+                            "«السيادة الفكرية تبدأ عندما ترفض الانجرار العاطفي اللحظي.»",
+                            "«المشاعر الحالية هي إشارات بيولوجية وليست حقائق مطلقة.»",
+                            "«أعد صياغة التحدي: ليس كعائق يحاصرك، بل كحقل تدريب لصقل إرادتك.»"
                         ];
-                        const randomReply = stoicReplies[Math.floor(Math.random() * stoicReplies.length)];
-                        if (sageResponseText) sageResponseText.textContent = randomReply;
+                        if (sageResponseText) sageResponseText.textContent = stoicReplies[Math.floor(Math.random() * stoicReplies.length)];
+                        sageSendBtn.disabled = false;
                     }, 800);
+                } else if (currentAITier === 'analytical' || currentAITier === 'sovereign') {
+                    if (window.SageCore && window.SageCore.query) {
+                        const reply = await window.SageCore.query(query);
+                        if (sageResponseText) sageResponseText.innerHTML = reply.replace(/\n/g, '<br>');
+                    } else {
+                        throw new Error('AI Core missing');
+                    }
                 }
             } catch (err) {
-                if (sageResponseText) sageResponseText.textContent = "«توقف برهة وتنفس بعمق؛ الحكيم حاضر دائماً في سكونك.»";
+                if (sageResponseText) sageResponseText.textContent = "«تعذر الاتصال بمحرك الذكاء. تأكد من الربط.»";
             } finally {
-                sageSendBtn.disabled = false;
+                if (currentAITier !== 'standard') sageSendBtn.disabled = false;
                 sageInput.value = '';
             }
         };
@@ -364,9 +440,7 @@ const MindDashboard = (() => {
         sageInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') handleSageConsult();
         });
-    }
-
-    function initDateDisplay() {
+    }function initDateDisplay() {
         const dateEl = document.getElementById('sanctuaryDate');
         if (!dateEl) return;
         const now = new Date();

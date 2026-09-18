@@ -1,9 +1,14 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عقل في صندوق | Mind In Box</title>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="core.js" defer></script>
+    <script src="firebase-auth.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
@@ -271,22 +276,69 @@
             }
         });
 
-        // Initialize Mock Data (Would be connected to Firebase Auth)
-        function initAccount() {
-            renderRadar();
-            
-            const isPremium = localStorage.getItem('sys_premium') === 'true';
-            if (isPremium) {
-                document.getElementById('planStatus').textContent = "السالك (التزام نشط)";
-                document.getElementById('renewalDate').textContent = "يتجدد العهد تلقائياً الشهر القادم.";
-                document.getElementById('btnUpgrade').style.display = 'none';
-                document.getElementById('btnCancel').style.display = 'block';
-                document.getElementById('covenantDate').textContent = new Date().toLocaleDateString('ar-EG');
-            }
-        }
+                document.addEventListener('DOMContentLoaded', () => {
+            const btnSave = document.getElementById('saveProfileBtn');
+            if(btnSave) {
+                btnSave.addEventListener('click', async () => {
+                    const name = document.getElementById('displayName').value.trim();
+                    const title = document.getElementById('profileTitle').value.trim();
+                    const target = document.getElementById('dailyTarget').value.trim();
 
-        document.addEventListener('DOMContentLoaded', initAccount);
-    </script>
+                    const user = firebase.auth().currentUser;
+                    if(!user) {
+                        alert("يرجى تسجيل الدخول أولاً.");
+                        return;
+                    }
+
+                    btnSave.textContent = 'جاري الحفظ...';
+                    btnSave.disabled = true;
+
+                    try {
+                        await user.updateProfile({ displayName: name });
+                        await firebase.firestore().collection('users').doc(user.uid).set({
+                            displayName: name,
+                            title: title,
+                            dailyTarget: target,
+                            lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                        }, { merge: true });
+                        
+                        const toast = document.createElement('div');
+                        toast.textContent = 'تم التحديث وحفظ المعطيات السيادية بنجاح.';
+                        toast.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(212,175,55,0.1);border:1px solid #D4AF37;color:#D4AF37;padding:10px 20px;border-radius:8px;z-index:9999;font-family:Cairo,sans-serif;';
+                        document.body.appendChild(toast);
+                        setTimeout(()=>toast.remove(), 4000);
+                    } catch(e) {
+                        console.error(e);
+                        alert("حدث خطأ أثناء حفظ المعطيات.");
+                    } finally {
+                        btnSave.textContent = 'حفظ المعطيات السيادية';
+                        btnSave.disabled = false;
+                    }
+                });
+            }
+
+            firebase.auth().onAuthStateChanged(async (user) => {
+                if (user) {
+                    if (document.getElementById('displayName')) document.getElementById('displayName').value = user.displayName || '';
+                    if (document.getElementById('userEmailDisplay')) document.getElementById('userEmailDisplay').textContent = user.email || '';
+                    try {
+                        const doc = await firebase.firestore().collection('users').doc(user.uid).get();
+                        if (doc.exists) {
+                            const data = doc.data();
+                            if(data.title && document.getElementById('profileTitle')) document.getElementById('profileTitle').value = data.title;
+                            if(data.dailyTarget && document.getElementById('dailyTarget')) document.getElementById('dailyTarget').value = data.dailyTarget;
+                            
+                            if (data.role && ['pro', 'oracle', 'admin'].includes(data.role)) {
+                                if (document.getElementById('currentPlanBadge')) {
+                                    document.getElementById('currentPlanBadge').textContent = 'النخبة (Pro)';
+                                    document.getElementById('currentPlanBadge').style.color = '#D4AF37';
+                                }
+                            }
+                        }
+                    } catch(e) {}
+                }
+            });
+        });</script>
 </body>
 </html>
 

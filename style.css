@@ -21,15 +21,15 @@
     --bg-glass-heavy:     rgba(5, 5, 10, 0.94);
 
     /* === Antique Copper-Gold Accents === */
-    --gold-primary:       #c5a059;
-    --gold-light:         #e5b964;
-    --gold-dark:          #8b6d36;
-    --gold-copper:        #b59551;
-    --gold-glow-soft:     rgba(197, 160, 89, 0.10);
-    --gold-glow-medium:   rgba(197, 160, 89, 0.22);
-    --gold-glow-strong:   rgba(197, 160, 89, 0.42);
-    --gold-border:        rgba(181, 149, 81, 0.20);
-    --gold-border-active: rgba(229, 185, 100, 0.55);
+    --gold-primary:       #D4AF37;
+    --gold-light:         #F3E5AB;
+    --gold-dark:          #AA8C2C;
+    --gold-copper:        #D4AF37;
+    --gold-glow-soft:     rgba(212, 175, 55, 0.10);
+    --gold-glow-medium:   rgba(212, 175, 55, 0.22);
+    --gold-glow-strong:   rgba(212, 175, 55, 0.42);
+    --gold-border:        #D4AF37;
+    --gold-border-active: rgba(212, 175, 55, 0.70);
 
     /* === Typography Colors — WCAG AA Compliant === */
     --text-primary:   #f0ede7;     /* contrast 14.5:1 on bg-base */

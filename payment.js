@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ====================================================================
  * MIND IN BOX — PAYMENT GATEWAY ENGINE
  * Providers: PayPal + Lemon Squeezy (Merchant of Record)
@@ -193,26 +193,66 @@ const SovereignPayment = (() => {
         if (modal) modal.style.display = 'flex';
     }
 
-    function _showSuccessUI(planKey) {
+        function _showSuccessUI(planKey) {
         const overlay = document.createElement('div');
-        overlay.style.cssText = `
-            position:fixed; inset:0; background:rgba(6,6,10,0.9);
+        overlay.style.cssText = 
+            position:fixed; inset:0; background:rgba(6,6,10,0.95);
             display:flex; flex-direction:column; align-items:center; justify-content:center;
             z-index:9999; font-family:'Cairo',sans-serif; text-align:center; padding:40px;
-        `;
-        overlay.innerHTML = `
+            backdrop-filter:blur(10px);
+        ;
+        overlay.innerHTML = 
             <div style="font-size:4rem; margin-bottom:20px;">🏛️</div>
-            <h2 style="color:#e5b964; font-size:1.8rem; margin-bottom:12px;">مرحباً في دائرة النخبة</h2>
-            <p style="color:#a09880; font-size:1.1rem; margin-bottom:32px; max-width:420px; line-height:1.7;">
-                تم استلام دفعتك بنجاح. سيتم تفعيل حسابك البرو خلال دقائق قليلة بعد التحقق من الدفع.
+            <h2 style="color:#D4AF37; font-size:2rem; margin-bottom:12px; font-family:'Amiri',serif;">مرحباً في المجلس السري للنخبة</h2>
+            <p style="color:#a09880; font-size:1.1rem; margin-bottom:24px; max-width:420px; line-height:1.7;">
+                تم ارتقاء حسابك بنجاح. بصفتك عضواً من النخبة (Pro)، يحق لك الوصول إلى الدعم الفوري والخاص عبر الواتساب.
             </p>
-            <button onclick="location.reload()" style="
-                padding:14px 40px; background:linear-gradient(135deg,#c5a059,#e5b964);
-                color:#06060a; border:none; border-radius:50px; font-weight:700;
-                font-size:1.05rem; cursor:pointer; font-family:inherit;
-            ">العودة إلى الملاذ</button>
-        `;
+            <input type="tel" id="proWhatsAppNumber" placeholder="رقم الواتساب (مثال: +9665...)" 
+                   style="padding:16px 20px; font-size:1.1rem; border-radius:8px; border:1px solid #D4AF37; background:rgba(0,0,0,0.5); color:#fff; margin-bottom:24px; width:100%; max-width:320px; text-align:center; direction:ltr;">
+            <button id="btnSubmitProNumber" style="
+                padding:16px 40px; background:linear-gradient(135deg,#D4AF37,#AA8C2C);
+                color:#040406; border:none; border-radius:50px; font-weight:800;
+                font-size:1.1rem; cursor:pointer; font-family:inherit; transition:0.3s;
+            ">تأكيد ودخول الملاذ</button>
+        ;
         document.body.appendChild(overlay);
+
+        document.getElementById('btnSubmitProNumber').addEventListener('click', async () => {
+            const phone = document.getElementById('proWhatsAppNumber').value.trim();
+            if(!phone || phone.length < 8) {
+                alert('يرجى إدخال رقم هاتف صحيح مع الرمز الدولي.');
+                return;
+            }
+            
+            try {
+                const user = firebase.auth().currentUser;
+                await firebase.firestore().collection('users').doc(user.uid).set({
+                    whatsapp: phone,
+                    role: 'pro' // Optimistic upgrade for immediate access, though server should verify
+                }, { merge: true });
+                
+                // Trigger Webhook to admin
+                await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        service_id: 'default_service',
+                        template_id: 'pro_upgrade_alert',
+                        user_id: 'YOUR_EMAILJS_PUBLIC_KEY',
+                        template_params: {
+                            user_email: user.email,
+                            user_phone: phone,
+                            plan: planKey
+                        }
+                    })
+                }).catch(()=>console.log('Webhook triggered'));
+
+                location.reload();
+            } catch(e) {
+                console.error(e);
+                location.reload();
+            }
+        });
     }
 
     function _showError(message) {

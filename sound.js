@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ==============================================================================
  * MIND IN A BOX — SOVEREIGN HARMONIC SOUND ENGINE (Web Audio API)
  * Zero Dependencies · Pure Mathematical Synthesis · Studio Grade Resonance
@@ -29,36 +29,53 @@ const SovereignAudio = (() => {
      * 1. النغمة الترددية النقية (Harmonic Frequency Pulse)
      * تدعم ترددات السكينة والوقار: 432Hz و 528Hz وغيرها
      */
-    function playTone(frequency, duration = 1.8, type = 'sine', gainLevel = 0.18) {
+        let currentOsc = null;
+    let currentGain = null;
+
+    function playTone(frequency, duration = 1.8, type = 'sine', gainLevel = 0.18, loopInfinite = false) {
         if (isMuted) return;
         const ctx = getAudioContext();
         if (!ctx) return;
 
         try {
+            // Stop existing infinite loop if there is one
+            if (currentOsc && currentGain) {
+                const now = ctx.currentTime;
+                currentGain.gain.cancelScheduledValues(now);
+                currentGain.gain.setValueAtTime(currentGain.gain.value, now);
+                currentGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
+                currentOsc.stop(now + 0.6);
+                currentOsc = null;
+                currentGain = null;
+            }
+
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
             const filter = ctx.createBiquadFilter();
 
-            // إعداد التردد ونوع الموجة
             osc.type = type;
             osc.frequency.setValueAtTime(frequency, ctx.currentTime);
 
-            // فلتر لتهدئة النغمة وجعلها مخملية
             filter.type = 'lowpass';
             filter.frequency.setValueAtTime(Math.min(frequency * 3, 3000), ctx.currentTime);
 
-            // منحنى الدخول والخروج التدريجي (Envelope)
             const now = ctx.currentTime;
             gain.gain.setValueAtTime(0.0001, now);
-            gain.gain.exponentialRampToValueAtTime(gainLevel, now + 0.12);
-            gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
+            gain.gain.exponentialRampToValueAtTime(gainLevel, now + 0.5);
+            
             osc.connect(filter);
             filter.connect(gain);
             gain.connect(ctx.destination);
-
             osc.start(now);
-            osc.stop(now + duration + 0.05);
+
+            if (!loopInfinite) {
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+                osc.stop(now + duration + 0.05);
+            } else {
+                // Keep reference for stopping later
+                currentOsc = osc;
+                currentGain = gain;
+            }
         } catch (e) {
             console.warn('[SovereignAudio]: يتعذر تشغيل التردد:', e);
         }
@@ -167,11 +184,12 @@ const SovereignAudio = (() => {
     }
 
     function _playMoodSound(mood) {
-        if (mood === 'peace')       playTone(432,   2.0, 'sine',     0.20);
-        else if (mood === 'dignity')     playTone(528,   2.0, 'sine',     0.20);
-        else if (mood === 'focus')       playTone(280,   1.5, 'sine',     0.16);
-        else if (mood === 'restoration') playTone(136.1, 2.2, 'sine',     0.22);
-        else if (mood === 'shock')       playTone(880,   0.8, 'sawtooth', 0.08);
+        const INF = true;
+        if (mood === 'peace')       playTone(432, 2.0, 'sine', 0.20, INF);
+        else if (mood === 'dignity')     playTone(528, 2.0, 'sine', 0.20, INF);
+        else if (mood === 'focus')       playTone(280, 1.5, 'sine', 0.16, INF);
+        else if (mood === 'restoration') playTone(136.1, 2.2, 'sine', 0.22, INF);
+        else if (mood === 'shock')       playTone(880, 0.8, 'sawtooth', 0.08, INF);
         else playClick();
     }
 
